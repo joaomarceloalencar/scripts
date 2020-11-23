@@ -1,5 +1,5 @@
 
-# Compiladores 
+# Programação de Scripts 
 
 Material Disciplina de Programação de Scripts
 
