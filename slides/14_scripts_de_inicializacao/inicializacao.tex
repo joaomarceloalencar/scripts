@@ -1,0 +1,80 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Scripts de Inicialização}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+% http://blog.terminal.com/using-daemon-to-daemonize-your-programs/
+% https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux
+
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O Comando \textit{daemon}}
+      Garante o reinício de um \textit{script} mesmo em caso de falha. 
+      \begin{minted}{bash}
+      $ sudo apt-get install daemon
+      $ daemon -r /home/jmhal/teste.sh
+      $ ps -ef | grep teste
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Usando o SysVinit}
+      É o sistema clássico, ainda suportado na maioria das distribuições.
+      \begin{minted}{bash}
+      $ sudo cp test /etc/init.d/
+      
+      $ sudo /etc/init.d/test start
+      $ sudo /etc/init.d/test status
+      $ ps -ef | grep test | grep -v grep 
+      $ sudo /etc/init.d/test stop
+
+      $ sudo service --status-all
+      $ sudo update-rc.d test defaults
+      $ sudo update-rc.d -f test remove
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Usando o Upstart}
+      Foi usado pelo Ubuntu no 12.04 até o 14.04.
+      \begin{minted}{bash}
+      $ sudo cp test.conf /etc/init/
+      $ sudo init-checkconf /etc/init/test.conf
+      File /etc/init/test.conf: syntax ok
+      $ service test start
+      $ service test stop
+      \end{minted}
+      Não deve funcionar na versão mais recente do Ubuntu.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Usando o SystemD}
+      Além do Ubuntu, várias outras distribuição estão adotando
+      \scriptsize
+      \begin{minted}{bash}
+      $ sudo cp disk-space-check.service /etc/systemd/system/
+      $ sudo chmod 744 disk-space-check.sh
+      $ sudo chmod 664 /etc/systemd/system/disk-space-check.service
+      $ sudo systemctl daemon-reload
+      $ sudo systemctl enable disk-space-check.service
+      $ sudo systemctl status disk-space-check.service 
+      \end{minted}
+\end{frame}
+
+
+   \begin{frame}
+      \frametitle{Exercício}
+      No seu computador pessoal, crie um serviço de inicialização.
+   \end{frame}
+
+\end{document}

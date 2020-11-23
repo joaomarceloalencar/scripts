@@ -1,0 +1,329 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+\setbeamertemplate{footline}[frame number]
+
+\title{Dialog e Derivados}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução}
+      \begin{itemize}
+         \item \textit{Dialog} é um programa usado para desenhar interfaces amigáveis para o usuário. 
+	 \item Ele é um comando como qualquer outro, podendo ser invocado diretamente no terminal ou inserido em \textit{scripts}.
+	 \item Existem alguns derivados que criam telas em servidores X e ambientes como Gnome e KDE.
+	 \item \textit{sudo apt install dialog}
+	 \item Elementos
+	 \begin{itemize}
+	    \item Botões.
+	    \item Janelas.
+	    \item Menu.
+	    \item Entradas para texto.
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Meu Primeiro Exemplo em Dialog}
+      \begin{minted}{bash}
+$ dialog --msgbox "Programação de Scripts" 5 40
+      \end{minted}
+      \begin{itemize}
+         \item Desenhamos uma caixa de mensagens (\textit{msgbox}).
+	 \item O tamanho dela é 5 por 40.
+	 \item São linhas e colunas, nada de \textit{pixels}.
+      \end{itemize}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{As 15 Caixas Mágicas}
+      \scriptsize
+      \begin{table}
+         \begin{tabular}{c|c}
+         \textbf{Tipo} & \textbf{Ação} \\
+	 \hline
+	 calendar & Calendário \\
+         \hline 
+ 	 checklist & Lista de opções \\
+         \hline 
+ 	 fselect & Escolha de arquivo \\
+         \hline 
+ 	 gauge & Barra de progresso \\
+         \hline 
+ 	 infobox & Mensagem \\
+         \hline 
+ 	 inputbox & Entrada de Texto \\
+         \hline 
+ 	 menu & Menu de opções \\
+         \hline 
+ 	 msgbox & Mensagem com botão \\
+         \hline 
+ 	 passwordbox & Digita uma senha \\
+         \hline 
+ 	 radiolist & Lista de opções \\
+         \hline 
+ 	 tailbox & Saída do comando \textit{tail -f} \\
+         \hline 
+ 	 tailboxbg & Saída no \textit{background} \\
+         \hline 
+ 	 textbox & Conteúdo de um arquivo \\
+         \hline 
+ 	 timebox & Escolhe um horário \\
+         \hline 
+ 	 yesno & Pergunta Sim/Não \\
+         \hline 
+       \end{tabular}
+      \end{table}
+   \end{frame}
+
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplos de Comandos}
+      \scriptsize
+      \begin{minted}{bash}
+$ dialog --title "Escolha a data" --calendar "" 0 0 21 12 1999
+      
+$ dialog --title "Escolha onde instalar" --fselect /usr/share/vim 0 0 
+
+$ dialog --title "Instalação dos Pacotes" \ 
+--gauge "\nInstalando vim-6.0a.tgz..." 8 40 60
+
+$ dialog --title "Aguarde" --infobox "\nFinalizando em 5 segundos..." 0 0 
+
+$ dialog --title "Confirmação" --passwordbox "Confirme a senha:" 0 0 
+
+$ dialog --title "Perfil" --menu "Escolha o perfil de instalação:" \ 
+0 0 0 mínima "Instala o mínimo" completa "Instala tudo" \ 
+customizada "Você escolhe"
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplos de Comandos}
+      \scriptsize
+      \begin{minted}{bash}
+$ dialog --title "Parabéns" --msgbox \ 
+"Instalação finalizada com sucesso." 6 40
+      
+$ dialog --title "Pergunta" --radiolist "Há quanto tempo você usa o Vi?" \
+0 0 0 iniciante "até um ano" on experiente \
+"mais de um ano" off guru "mais de três anos" off 
+
+$ tail -f /var/log/syslog > out & dialog \
+--title "Monitorando mensagens do Sistema" --tailbox out 0 0 
+
+$ dialog --title "Visualizando Arquivo" \
+--textbox "/usr/share/vim/vim74/indent.vim" 0 0  
+
+$ dialog --title "Ajuste o Relógio" \ 
+--timebox "\nDica: use as setas e o TAB." 0 0 23 59 30 
+
+$ dialog --title "AVISO" --yesno \
+"\nO Vi foi instalado e configurado. Executá-lo?" 0 0 
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Agora, como recuperar a entrada?}
+      \begin{itemize}
+         \item A linha de comando é sempre longa, com várias opções.
+	 \item O texto é redimensionado na caixa de maneira automática.
+	 \item O \textbf{código de retorno} permite saber se o usuário escolheu \textbf{Sim/Não, Ok/Cancelar}.
+	 \item A \textbf{saída de erro, STDERR,} permite recuperar os textos e itens escolhidos.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Parâmetros Obrigatórios da Linha de Comando}
+      \begin{minted}{bash}
+$ dialog --tipo-da-caixa '<texto>' <altura> <largura> 
+      \end{minted}
+      \begin{itemize}
+         \item texto: palavra ou frase que aparece no ínicio da caixa.
+	 \item altura: número de linhas da caixa.
+	 \item largura: número de colunas da caixa.
+      \end{itemize}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Como reconhecer respostas SIM ou NÃO}
+      \begin{minted}{bash}
+$ dialog --yesno "sim ou não?" 0 0 
+      \end{minted}
+      Como saber o que foi escolhido?
+      \begin{minted}{bash}
+$ dialog --yesno "sim ou não?" 0 0; echo Retorno: $?; 
+      \end{minted}
+      \begin{block}{Memorizando}
+      SIM=0, NÃO=1
+      \end{block}
+      \begin{minted}{bash}
+$ dialog --yesno "Quer ver as horas?" 0 0 \
+&& echo "Agora são: $(date)"; 
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplo Sim/Não}
+      \scriptsize
+      \begin{minted}{bash}
+#!/bin/sh
+# lsj.sh -- o script do "ls joiado"
+# Este script faz parte do http://aurelio.net/shell/dialog
+
+# Zerando as opções
+cor= ; ocultos= ; subdir= ; detalhes=
+
+# Obtendo as configurações que o usuário deseja
+dialog --yesno 'Usar cores?'               0 0 && cor='--color=yes'
+dialog --yesno 'Mostrar arquivos ocultos?' 0 0 &&  ocultos='-a'
+dialog --yesno 'Incluir sub-diretórios?'   0 0 &&   subdir='-R'
+dialog --yesno 'Mostrar visão detalhada?'  0 0 && detalhes='-l'
+
+# Mostrando os arquivos
+ls $cor $ocultos $subdir $detalhes      
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Como obter o texto que o usuário digitou?}
+      \begin{minted}{bash}
+$ dialog --inputbox "Digite seu nome:" 0 0 
+      \end{minted}
+      Como guardar o que foi usado em uma variável? \\
+      \begin{itemize}
+         \item Redirecionar a saída de erros (stderr) para um arquivo e depois ler o conteúdo do mesmo.
+	 \item Redirecionar a saída de erros (stderr) para a saída padrão (stdout).
+	 \item Usar a opção $--stdout$ do dialog.
+      \end{itemize}
+      \begin{minted}{bash}
+$ nome=$(dialog --stdout --inputbox \
+"Digite seu nome:" 0 0)
+$ echo $nome
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Como obter o item de um menu?}
+      \begin{minted}{bash}
+$ dialog --menu "Opções:" 0 0 0 1 um 2 dois 3 três
+      \end{minted}
+      Como guardar a opção em uma variável? \\
+      \begin{minted}{bash}
+$ opcao=$(dialog --stdout --menu "Opções:" \ 
+0 0 0 1 um 2 dois 3 três)
+$ echo $opcao
+$ opcao=$(dialog --radiolist "As cores: " 0 0 0 \
+   amarelo "a cor do sol" OFF \
+   verde "a cor da grama" ON \
+   azul "a cor do céu" OFF)
+$ echo $opcao
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Como obter múltiplos itens de uma lista?}
+      \begin{minted}{bash}
+estilos=$( dialog --stdout \
+	--checklist 'Você gosta de:' 0 0 0 \
+	rock  '' ON  \
+	samba '' OFF \
+	metal '' ON  \
+	jazz  '' OFF \
+	pop   '' ON  \
+	mpb   '' OFF )
+echo "Você escolheu: $estilos"      
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Como obter múltiplos itens de uma lista?}
+      \begin{minted}{bash}
+estilos=$( dialog --stdout \
+	--separate-output \
+	--checklist 'Você gosta de:' 0 0 0 \
+	rock  '' ON  \
+	samba '' OFF \
+	metal '' ON  \
+	jazz  '' OFF \
+	pop   '' ON  \
+	mpb   '' OFF )
+
+echo "$estilos" | while read LINHA
+do
+ 	echo "--- $LINHA"
+done      
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Botão Cancelar/Esc/Help}
+      \footnotesize
+      \begin{minted}{bash}
+case $? in
+	  0) echo O usuário apertou o botão OK (ou o Yes) ;;
+	  1) echo O usuário apertou o botão CANCELAR (ou o No) ;;
+	  2) echo O usuário apertou o botão HELP ;;
+	255) echo O usuário apertou a tecla ESC ;;
+	  *) echo Retorno desconhecido;;
+esac
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      Podemos fazer uma agenda de nomes/e-mails com \textit{dialog}?
+      \scriptsize
+      \begin{enumerate}
+         \item Exibir menu com opções: Adicionar, Remover, Exibir Usuário, Exibir Todos e Sair.
+	 \item Adicionar
+	 \begin{enumerate}
+            \scriptsize
+	    \item Exibir diálogo para receber nome.
+	    \item Exibir diálogo para receber e-mail.
+	    \item Adicionar no arquivo.
+	 \end{enumerate}
+	 \item Remover
+	 \begin{enumerate}
+            \scriptsize
+	    \item Exibir diálogo para receber e-mail.
+	    \item Remover todos os nomes com o mesmo e-mail.
+	 \end{enumerate}
+	 \item Exibir Usuário
+	 \begin{enumerate}
+            \scriptsize
+	    \item Exibir diálogo para receber e-mail.
+	    \item Exibir o nome e o e-mail, caso contrário afirmar que usuário não existe.
+	 \end{enumerate}
+	 \item Exibir Todos
+	 \begin{enumerate}
+            \scriptsize
+	    \item Exibir todos os e-mails cadastrados.
+	 \end{enumerate}
+	 \item Sair
+      \end{enumerate}
+      \normalsize
+      Após executar as opções 2, 3, 4 ou 5, deve retornar ao menu principal.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades}
+      Coloque o arquivo \textit{compactador.sh} na pasta \textit{atividades/atividade11}. O objetivo do \textit{script} é definir telas para as seguintes ações:
+      \begin{enumerate}
+         \item Apresentar uma tela requisitando o \textbf{caminho de um diretório}.
+	 \item Formar uma \textbf{lista com os nomes dos arquivos} (sem subdiretórios) do diretório citado. O usuário deve escolher um ou mais arquivos.
+	 \item Exibir duas \textbf{opções de compactação}: gzip ou b2zip.
+	 \item Questionar o \textbf{nome do arquivo compactado} a ser criado.
+	 \item Criar o arquivo compactado com os arquivos selecionados do diretório e exibir uma tela de sucesso com o \textbf{nome final do arquivo}.
+      \end{enumerate}
+   \end{frame}
+
+\end{document}

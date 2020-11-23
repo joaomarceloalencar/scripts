@@ -1,0 +1,144 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Variáveis e Vetores}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{O \textit{Subshell}}
+      \begin{itemize}
+         \item Cada execução de um \textit{script} inicia um novo processo \textit{shell} que vai interpretar as instruções nele contidas. 
+         \item As variáveis definidas no \textit{shell} pai não são copiadas automaticamente para o \textit{shell} filho. 
+         \item Para copiar as variáveis, precisamos usar o comando \textbf{export}. 
+         \begin{itemize}
+            \item Qualquer variável não exportada é ignorada pelos \textit{subshells}.
+	    \item O \textit{subshell} acessa uma \textbf{cópia} das variáveis.
+	    \item Um \textit{subshell} pode exportar uma variável para seus \textit{subshells}.
+         \end{itemize}
+         \item Uma maneira de retornar um valor de um \textit{subshell} é atribuir o retorno a uma variável.
+	 \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{O Comando \textit{source}}
+      \begin{itemize}
+         \item Através do \textit{source}, você pode executar os comandos de um arquivo no próprio \textit{shell} atual. 
+         \item Dessa forma, suas variáveis são atualizadas.
+         \item Os arquivos \textit{.profile} ou \textit{.bashrc} são invocados com \textit{source} toda vez que você faz \textit{login}.  
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Principais Variáveis do Sistema}
+      \begin{table}
+         \begin{tabular}{c|c}
+         HOME  & Caminho do seu diretório\\
+         \hline
+         PATH  & Caminhos que guardam programas\\
+         \hline 
+         PWD  & Diretório corrente\\
+         \hline
+         LOGNAME & Seu nome de usuário \\
+         \hline 
+         PS1  & Caracteres do \textit{prompt} primário\\
+         \hline 
+         IFS  & Separador padrão\\
+         \hline 
+         TERM  & Tipo de terminal \\
+         \hline 
+	 PROMPT\_COMMAND & Executado ao final de cada comando \\
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      \begin{itemize}
+         \item Vamos criar uma variável no arquivo \textit{.bashrc} chamada \textbf{LOGIN\_DATE}. Ela deve armazenar a data que fazemos \textit{login} no sistema.
+	 \item Vamos criar um diretório \textbf{bin} na sua pasta de usuário. Dentro dele, um \textit{script} chamado \textit{showLoginDate} (sem a extensão .sh) deve exibir na tela o conteúdo da variável \textbf{LOGIN\_DATE}. Esse diretório deve ser inserido na variável \textbf{PATH}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Usando as \{ \} para Controlar Variáveis}
+      \begin{itemize}
+         \item \$\{!variavel\}: indireção.
+	 \item \$\{!padrao$*$\}: nome de variáveis de acordo com o padrão.
+	 \item \$\{variavel:-default\}: valor \textit{default}.
+	 \item \$\{variavel:=default\}: atualiza a variável com valor \textit{default}.
+         \item \$\{variavel\slash de\slash para\} substitui uma ocorrência do padrão.
+         \item \$\{variavel\slash\slash de\slash para\} substitui todas as ocorrências.
+      \end{itemize}
+   \end{frame}
+ 
+   \begin{frame}
+      \frametitle{Usando as \{ \} para Gerar \textit{Strings}}
+      \begin{itemize}
+         \item \{lista\}
+	 \item \{inicio..fim\}
+	 \item prefixo\{lista\} ou prefixo\{inicio..fim\}
+	 \item \{lista\}sufixo ou \{inicio..fim\}sufixo
+	 \item prefixo\{lista\}sufixo ou prefixo\{inicio..fim\}sufixo
+	 \item \{inicio..fim..incr\}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Vetores ou \textit{Arrays}}
+      \begin{itemize}
+         \item vet=(elemento0 elemento1 elemento2 ... elementoN)
+	 \item vet[n]=valor
+	 \item declare -a vet (sem alterar caso exista)
+	 \item declare -A vet (vetor associativo)
+	 \item read -a vetor
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Acessando Vetores}
+      \begin{itemize}
+         \item \$\{vet[0]\}
+         \item \$\{!vet[@]\}
+	 \item \$\{\#vet[@]\}
+	 \item \$\{vet[@]:0:2\}
+      \end{itemize}
+   \end{frame}
+   
+   \begin{frame}
+      \frametitle{Exemplo}
+      \begin{itemize}
+         \item Façamos um \textit{script} chamado \textit{contadorVetor.sh} 
+	 \item O usuário deve informar, sem utilizar parâmetros, um número por vez.
+	 \item O número deve ser armazenado em um vetor. 
+	 \item Quando o usuário informar o caractere \textit{q} o \textit{script} deve informar quantos números foram inseridos no vetor e terminar. Devemos usar vetores!
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade}
+      Faça um \textit{script} chamado \textit{contaPalavras.sh} na pasta \textit{atividades/atividades08} que pergunte ao usuário o nome de um arquivo de texto e para cada palavra do arquivo diga quantas vezes ela aparece no texto. \\
+      \begin{minted}{bash}
+      $ cat arquivo.txt
+      a casa que vivo é boa.
+      boa casa é.
+      $ ./contaPalavras.sh
+      Informe o arquivo: arquivo.txt
+      casa: 2
+      boa:  2
+      é:    2
+      a:    1
+      que:  1
+      vivo: 1
+      \end{minted}
+\end{frame}
+
+\end{document}

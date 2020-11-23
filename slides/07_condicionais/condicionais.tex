@@ -1,0 +1,308 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Condicionais}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Estruturas de Controle}
+      Enquanto outras linguagens testam \textbf{condições}, o \textit{Shell} testa o código de retorno do comando que o segue. \\
+      \begin{itemize}
+         \item O código de retorno está associado à variável \$?
+	 \item Sucesso (verdadeiro) equivale à 0.
+	 \item Erro (falso) equivale à 1.
+      \end{itemize}
+      No caso de um $|$, é retornado uma vetor PIPESTATUS, cada posição equivale ao código de retorno do comando na posição equivalente do \textit{pipe}.
+      \begin{itemize}
+         \item \$\{PIPESTATUS[0]\} é o código de retorno do primeiro comando.
+	 \item \$\{PIPESTATUS[*]\} exibe todo o vetor.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{A estrutura if\slash then\slash else}
+      \begin{minted}{bash}
+      if <comando>
+      then
+         <comando1>
+	 <comando2>
+	 <...>
+      else
+         <comando3>
+	 <comando4>
+	 <...>
+      fi
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      Como seria um \textit{script} chamado \textbf{numeroOuNao.sh} que recebe um parâmetro e afirma se o mesmo é um número ou não.
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{test}}
+      Como fazer para analisar condições? $a > b , a = b$, etc?
+      \begin{minted}{bash}
+      $ test <expressao>
+      \end{minted}
+      Sendo \textbf{expressao} a condição a ser testada. \\
+      Ao usar o \textbf{test} é bom colocar as variáveis entre aspas. Há diferença entre comparar a string vazia e uma variável não existente.
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      Como seria um \textit{script} chamado \textit{param.sh} que verifica se o usuário passou parâmetros ou não. Caso não tenha passado parâmetros, deve imprimir apenas o nome do \textit{script}. Caso tenha passado parâmetros, deve imprimir todos.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Testando Arquivos}
+      \begin{table}
+         \begin{tabular}{l|l}
+	 \hline
+         -r arquivo & Permissão de Leitura \\
+         \hline 
+         -w arquivo & Permissão de Escrita \\
+         \hline 
+         -x arquivo & Permissão de Gravação \\
+         \hline 
+         -f arquivo & Arquivo Regular \\
+         \hline 
+         -d arquivo & Diretório \\
+         \hline 
+         -s arquivo & Tamanho maior que zero \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+ 
+   \begin{frame}
+      \frametitle{Testando Cadeia de Caracteres}
+      \begin{table}
+         \begin{tabular}{l|l}
+	 \hline
+         -z cad1 & Se o tamanho é zero \\
+         \hline 
+         -n cad1 & Se o tamanho é diferente de zero \\
+         \hline 
+         cad1 $=$ cad2 & Se são idênticas \\
+         \hline 
+	 cad1 & Se é não nula \\
+	 \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Testando Números}
+      \begin{table}
+         \begin{tabular}{l|l}
+	 \hline
+         int1 -eq int2 & Igualdade \\
+         \hline 
+         int1 -ne int2 & Desigualdade \\
+         \hline 
+         int1 -gt int2 & Maior \\
+         \hline 
+         int1 -ge int2 & Maior ou igual \\
+         \hline 
+         int1 -lt int2 & Menor que \\
+         \hline 
+         int1 -le int2 & Menor ou igual \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Simplificando a escrita do \textit{test}}
+      No lugar de: 
+      \begin{minted}{bash}
+      $ test <expressao>
+      \end{minted}
+      Podemos escrever:
+      \begin{minted}{bash}
+      $ [ <expressao> ]
+      \end{minted}
+      Importante notar que há um espaço entre os colchetes e a expressão. \\
+      Se houver um sinal de ! antes da expressão, ela está negada. Mas lembre, tudo separado por \textbf{espaços}!!! \\
+      O \textbf{e} lógico pode ser criado usando \textbf{-a} para separar as expressões. \\
+      O \textbf{ou} lógico pode ser criado usando \textbf{-o} para separar as expressões. \\
+      Você pode usar parênteses, mas eles devem ser precedidos da barra invertida para o shell não interpretá-los: \\
+      \begin{minted}{bash}
+     \( $a = $b -o $c = $d \) -a \( $a -gt $d \)
+     \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Usando o \&\& e o $||$}
+      Executar o segundo comando apenas se o primeiro for sucesso: 
+      \begin{minted}{bash}
+      comando1 && comando2
+      \end{minted}
+      Executar o primeiro comando, e caso este falhe, executar o segundo: 
+      \begin{minted}{bash}
+      comando1 || comando2
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      Vamos definir dois comandos:
+      \begin{itemize}
+         \item Caso um diretório chamado \textbf{novoDir} não exista, deve ser criado.
+	 \item Mover todos os arquivos \textit{.txt} para um diretório chamados \textbf{textos} e em seguida compacte o diretório.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Testando Padrões}
+      Você pode testar se uma cadeia casa com um padrão usando:
+      \begin{minted}{bash}
+      [[ expressão ]]
+      \end{minted}
+      Sendo que expressão obecede: \\ 
+      \begin{table}
+         \begin{tabular}{l|l}
+	 \hline
+         cadeia == padrão & Casamento \\
+         \hline 
+         cadeia != padrão & Incompatibilidade \\
+         \hline 
+         cadeia1 $<$ cadeia2 & Ordem alfabética \\
+         \hline 
+         cadeia1 $>$ cadeia2 & Ordem alfabética \\
+         \hline 
+         expr1 \&\& expr2 & Lógica \\
+         \hline 
+         expr1 $||$ expr2 & Lógica \\
+         \hline 
+         \end{tabular}
+      \end{table}
+\end{frame}
+   
+   \begin{frame}[fragile]
+      \frametitle{Expressões Regulares}
+      Além de padrões simples, podemos casar expressões regulares: \\
+      \begin{minted}{bash}
+      [[ $cadeia =~ expressaoregular ]]
+      \end{minted}
+      Se a expressão regular usar parêntenses, o vetor BASH\_REMATCH armazena as subcadeias que casaram com cada subexpressão. \\
+      \begin{itemize}
+         \item \$\{BASH\_REMATCH[0]\} é cadeira inteira
+	 \item \$\{BASH\_REMATCH[1]\} é a subcadeia que casou com a subexpressão no primeiro parênteses.
+      \end{itemize}
+      No caso das expressões, os parênteses não precisam ser escritos precedidos por barras.
+      \begin{minted}{bash}
+      $ num=100
+      $ [[ $num =~ ([0-9])[0-9][0-9] ]]
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      Escrever um comando que preencha o vetor com os octetos de um endereço IP. \\
+      Por exemplo, para o IP 200.19.190.1: \\
+      \$\{BASH\_REMATCH[1]\} = 200 \\
+      \$\{BASH\_REMATCH[2]\} = 19 \\
+      \$\{BASH\_REMATCH[3]\} = 190 \\ 
+      \$\{BASH\_REMATCH[4]\} = 1 \\
+   \end{frame}
+   
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{case}}
+      \scriptsize
+      \begin{minted}{bash}
+      case <valor> in
+         padr1)
+            <comando1>
+	    <comando2>
+	    <...>
+	    ;;
+         padr2)
+            <comando1>
+	    <comando2>
+	    <...>
+	    ;;
+	 ...
+	 padrN)
+            <comando1>
+	    <comando2>
+	    <...>
+	    ;;
+         *)
+	    <comando1>
+	    <comando2>
+	    <...>
+      esac 
+      \end{minted}
+      Os padrões só usam um conjunto básico de meta-caracteres, não são expressões regulares completas.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade - Parte I}
+      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{isfile.sh} que receba um parâmetro e verifique se é o nome de um arquivo ou diretório e informe se você tem permissão de escrita e leitura. \\
+      Por exemplo: 
+      \begin{minted}{bash}
+      $ ./testFile.sh /etc/hosts 
+      É um arquivo. 
+      Tem permissão de leitura. 
+      Não tem permissão de escrita. 
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade - Parte II}
+      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}.
+      Por exemplo: 
+      \begin{minted}{bash}
+      $ ./maiorDe3.sh 4 6 5 
+      6
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade - Parte III}
+      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3Verificado.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}. Esse \textit{script} tem que reclamar caso um dos parâmetros não seja número.
+      Por exemplo: 
+      \begin{minted}{bash}
+      $ ./maiorDe3Verificado.sh 4 6 5
+      6
+      $ ./maiorDe3Verificado.sh casa 10 11
+      Opa!!! casa não é número.
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade - Parte IV}
+      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{infoDir.sh} que receba como um parâmetro um caminho. Se for um diretório, deve informar o tamanho do mesmo e quantos arquivos ou subdiretórios possui. Caso contrário, deve exibir uma mensagem reclamando.
+      \begin{minted}{bash}
+ $ ./inforDir.sh /etc
+ O diretório /etc ocupa 1035 kilobytes e tem 45 itens.
+ $ ./inforDir.sh /etc/passwd
+ /etc/passwd não é um diretório!!!
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade - Parte V}
+      De volta ao diretório \textit{atividades/atividade05}, escreva um \textit{script} chamado \textbf{servico.sh}. Esse script deve receber um parâmetro.
+      \begin{itemize}
+         \item Se o parâmetro for \textit{start}, deve imprimir \textquotedblleft Iniciando Serviço\textquotedblright.
+         \item Se o parâmetro for \textit{stop}, deve imprimir \textquotedblleft Parando Serviço\textquotedblright.
+         \item Se o parâmetro for \textit{restart}, deve imprimir \textquotedblleft Reiniciando Serviço\textquotedblright.
+         \item Se o parâmetro for qualquer outra coisa,  deve imprimir \textquotedblleft Uso: servico.sh (start$|$stop$|$restart) \textquotedblright.
+ 
+      \end{itemize}
+   \end{frame}
+
+\end{document}

@@ -1,0 +1,114 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Leitura e Escrita}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Comando \textit{tput}}
+      Permite controlar características da do texto que vai ser impresso e a posição do cursor. \\
+      \begin{itemize}
+         \item Uso básico: \textbf{tput cup} (\textit{cup} significa \textit{cursor position})
+	 \item \textbf{tput cup lin col}: colocar o curso na linha \textit{lin} e coluna \textit{col}
+      \end{itemize}
+      Só dá para perceber mesmo efeito dentro de \textit{scripts}.
+   \end{frame}
+
+   \begin{frame}[fragile]
+   \begin{minted}{bash}
+   #!/bin/bash
+   echo "Escrita Normal."
+   tput setaf 4
+
+   tput bold
+   echo "Negrito."
+
+   tput smso
+   echo "Reverso."
+
+   tput smul
+   echo "Sublinhado."
+
+   linhas=`tput lines`
+   colunas=`tput cols`
+   echo "Linhas: $linhas, Colunas: $colunas"
+
+   tput cup `expr $linhas / 2` `expr $colunas / 2`
+   echo "Centro."
+   \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exercício em Sala}
+      Vamos escrever um script chamado \textit{formataTexto.sh} que recebe quatro parâmetros: 
+      \begin{enumerate} 	     
+         \item \textbf{Primeiro Parâmetro}: um das três opções \textit{sublinhado, negrito ou reverso}. 
+         \item \textbf{Segundo Parâmetro}: um número que representa a cor de acordo com o comando \textit{tput}. 
+         \item \textbf{Terceiro Parâmetro}: Dois números separados por vírgula. 
+         \item \textbf{Quarto Parâmetro}: Um texto a ser impresso. 
+      \end{enumerate}
+      Por exemplo: 
+      \begin{minted}{bash}
+$ ./formataTexto.sh negrito 1 20,20 "Scripts"
+      \end{minted}
+      Imprime o texto na posição 20,20, na cor vermelha e em negrito.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Comando \textit{read}}
+      \begin{minted}{bash}
+      $ read [var1] [var2] [var3] ... 
+      \end{minted}
+      Onde \textit{var1, var2, var3} são variáveis separadas por um ou mais espaços em branco ou TAB e os valores informados também deveram conter um ou mais espaços entre si. 
+      \begin{minted}{bash}
+      $ read -p "Informe seu nome:" nome 
+      \end{minted}
+      O parâmetro $-p$ permite adicionar uma frase antes da leitura.
+\end{frame}
+
+   \begin{frame}[fragile]
+   \begin{minted}{bash}
+   $ cat numeros.txt 
+   1 2 3
+   4 5 6
+   7 8 9
+   $ cat numeros.txt | while read a b c
+   > do d=$(($a + $b + $c)); echo $d; done;
+   6
+   15
+   24
+   \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Comando \textit{printf}}
+      \begin{minted}{bash}	   
+      $ printf formato [argumento ...] 
+      \end{minted}
+      \begin{itemize}
+         \item formato: é uma cadeira de caracteres que contém três tipos de objetos: caracteres simples, caracteres de formato e sequências de escape.
+	 \item é a cadeia a ser impressa
+      \end{itemize}
+      Cada um dos caracteres utilizados para especificação de formato é precedido pelo caractere \% e logo a seguir vem a especificação de formato.
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade}
+      Coloque o \textit{script} resultante em \textit{atividades/atividades08}. \\
+      Observe o arquivo \textit{/home/compartilhado/calculadora.sh}. Altere o programa para atender os seguintes critérios:
+      \begin{enumerate}
+         \item Garantir que todas as operações aritméticas básicas (adição, multiplicação, subtração e divisão) estejam funcionando para os inteiros.
+	 \item Garantir que todas as operações aritméticas básicas funcionem para números de ponto flutuante (use o ponto . para separar a parte inteira da parte decimal). 
+      \end{enumerate}
+   \end{frame}
+
+\end{document}

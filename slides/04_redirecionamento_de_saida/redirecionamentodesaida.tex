@@ -1,0 +1,114 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Redirecionamento de Saída}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Incorporando Resultados de Comandos}
+   Utilizando crases ou \$() podemos incorporar o resultado de um comando na execução de outro. \\
+   \begin{minted}{bash}
+   $ echo "O nome da máquina é $(hostname)" 
+   $ echo "O nome da máquina é `hostname`" 
+   \end{minted}
+   Um novo processo \textit{shell} é criado, executa o comando e retorna o resultado.
+\end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte I}
+%      Usando os comandos \textbf{echo} e \textbf{date}, imprima a seguinte frase: \\
+%      \textit{Hoje é dia 30, do mês 08 do ano de 2016.} \\
+%      sem digitar números na \textit{string} passada ao \textbf{echo}.
+%   \end{frame}
+   
+   \begin{frame}
+      \frametitle{Redirecionamento de Saída}
+      \begin{table}
+         \begin{tabular}{ c | l }
+         $>$ & Redireciona a saída de um comando para um arquivo. \\
+         \hline 
+         $>>$ & Anexa saída a um arquivo. \\
+         \hline 
+         2$>$ & Redireciona erros gerados para um arquivo. \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Redirecionamento de Entrada}
+      \begin{table}
+         \begin{tabular}{ c | l }
+         $<$ & Fornece entrada a um comando a partir de um arquivo. \\
+         \hline 
+         $<<$ & Permite inserção de múltiplas linhas. \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+  \begin{frame}
+      \frametitle{Redirecionamentos Especiais}
+      \begin{table}
+         \begin{tabular}{ c | l }
+         $|$ & Permite redirecionar a saída de um comando para outro. \\
+         \hline 
+         tee & Salva a saída em um arquivo mas também exibe na tela. \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Qual o efeito dos seguintes comandos?}
+      \begin{minted}{bash}
+ls | wc -l 
+ls > ~/saida.log 2> ~/error.log 
+ls Nuncavi > ~/saida.log 2> ~/error.log
+echo Nome do Sistema: uname  
+echo Nome do Sistema: `uname`
+tail -n 50 /home/compartilhando/auth.log | head -n 25  
+       \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade}
+      Crie o diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/auth.log} para o diretório criado. Crie um arquivo chamado \textit{auth\_analise.txt} com os seguintes comandos, um por linha:
+      \begin{enumerate}
+         \item Um comando que analise o arquivo \textit{auth.log} e informe quantas vezes tentaram fazer \textit{login} como um usuário inválido.
+	 \item Um comando que salve em um arquivo chamado \textit{malditos.txt} todas as tentativas de \textit{login} como usuários inválidos.
+	 \item Vasculhe o arquivo até encontrar um usuário que também seja aluno. Depois escreva o comando que conte quantas vezes ele ou ela fez o \textit{login} com sucesso. Pode usar seu usuário. 
+      \end{enumerate}
+      Abra o arquivo \textit{auth.log} em um editor de texto e estude seu formato antes de tentar definir os comandos.
+   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Enviado E-mail no Bash}
+%      Para enviar: \\
+%      \$ mail -s "Assunto" [endereço] [mensagem] \\
+%      Para ler todos: \\
+%      \$ mail $--$read
+%   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte III}
+%      Utilizando o redirecionamento de entrada ($<<$), faça o seguinte:
+
+%      \begin{itemize}
+%        \item Envie um e-mail do servidor para seu e-mail. Lembre que pode cair no SPAM.
+%	 \item Responda o e-mail e veja a resposta no terminal.
+%	 \item Cada colega seu no servidor também tem um e-mail @scripts.joao.marcelo.nom.br. Envie um e-mail para um colega.
+%      \end{itemize}
+%   \end{frame}
+
+\end{document}
+

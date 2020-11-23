@@ -1,0 +1,227 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Expressões Regulares}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{O que é uma Expressão Regular?}
+      \begin{itemize}
+         \item Uma \textbf{Expressão Regular} (ER) é uma construção que utiliza pequenas ferramentas para obter uma determinada sequência de caracteres de um texto. 
+         \item \textbf{Expressões Regulares} são escritas em uma linguagem formal que pode ser interpretada por um processador de expressões. 
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Para quem servem Expressões Regulares?}
+      \begin{itemize}
+         \item Procura e substituição de textos em editores e linguagens de programação.
+         \item Validação de formatos de texto.
+         \item Realce de sintaxe.
+         \item Filtragem de informação. 
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Operações Básicas}
+      \begin{block}{Alternância}
+      Uma barra vertical ($|$) separa alternativas. A expressão 'casa$|$Casa' pode aceitar tanto a cadeia 'casa' quanto 'Casa'.
+      \end{block}
+      
+      \begin{block}{Agrupamento}
+      Parênteses () são usados para definir escopo e procedência. A expressão '(c$|$C)asa' é equivalente à anterior.
+      \end{block}
+      
+      \begin{block}{Quantificação}
+      Um quantificador após um \textit{token} ou agrupamento especifica a quantidade de vezes que o elemento precedente pode ocorrer. \\
+      ? indica zero ou uma ocorrência. \\
+      * indica zero ou mais ocorrências. \\
+      + indica uma ou mais ocorrências. \\
+      Chamamos ?,*,+ de metacaracteres.
+      \end{block}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Metacaracteres}
+      \begin{itemize}
+         \item Âncoras
+	 \item Representantes
+	 \item Quantificadores
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Âncoras}
+      \begin{table}
+         \begin{tabular}{ c | l }
+         \textbf{ER} & \textbf{Função}  \\
+         \hline 
+         \^{} & Pesquisar texto no início das linhas \\
+         \hline
+         \$ & Pesquisar texto no fim das linhas  \\
+         \hline
+         \textbackslash b & Pesquissar no início ou fim das palavras  \\
+         \hline
+         \textbackslash B & Negação de \textbackslash b  \\
+         \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{grep - Pesquisa arquivos por conteúdo}
+   \begin{minted}{bash}
+$ grep [-opções] [expressão] [arquivo1] [arquivo2] ...
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         \textbf{-E} & \textbf{Ativa suporte estendido à expressões regulares} \\ 
+	 \hline
+	 -a & Força a tratar o arquivo como texto \\
+	 \hline
+         -c & Apenas informar quantas linhas contém a expressão \\
+         \hline 
+         -i & Não diferenciar maiúsculas e minúsculas \\
+         \hline
+         -l & Apenas informar qual dos arquivos contém a expressão \\
+         \hline
+         -v & Busca reversa \\
+         \hline
+         -n & Exibe o número da linha \\
+         \hline
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Representantes}
+      \begin{table}
+         \begin{tabular}{ c | l | l}
+         \textbf{ER} & \textbf{Função}  \\
+         \hline 
+         . & Ponto & Qualquer caractere uma vez \\
+         \hline
+         [] & Lista & Qualquer dos caracteres  \\
+         \hline
+         [\^{}] & Lista negada & Nenhum dos caracteres da lista  \\
+         \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+  \begin{frame}
+      \frametitle{Quantificadores}
+      \begin{table}
+         \begin{tabular}{ c | l | l}
+         \textbf{ER} & \textbf{Função}  \\
+         \hline 
+         ? & Opcional & Torna a entidade anterior opcional \\
+         \hline
+         * & Asterisco & Zero ou mais ocorrência  \\
+         \hline
+         + & Mais & Uma ou mais ocorrências  \\
+         \hline
+         \{\} & Chaves & Quantidade exata  \\
+         \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{Classes POSIX}
+      \begin{table}
+         \begin{tabular}{ c | l | l}
+         [:alnum:] & Alfanuméricos & [A-Za-z0-9]   \\
+         \hline 
+         [:alpha:] & Alfabéticos & [A-Za-z] \\
+         \hline
+	 [:blank:] & Espaços  & [ \textbackslash t] \\
+         \hline 
+         [:cntrl:] & Controle & [\textbackslash x00-\textbackslash x1F\textbackslash x7F] \\
+         \hline
+	 [:digit:] & Dígitos &  [0-9] \\
+         \hline 
+         [:graph:] & Visíveis & [\textbackslash x21-\textbackslash x7E] \\
+         \hline
+	 [:lower:] & Minúsculas & [a-z] \\
+         \hline 
+         [:print:] & Visíveis e Espaços & [\textbackslash x21-\textbackslash x7E]  \\
+         \hline
+         [:punct:] & Pontuação & [....]  \\
+         \hline 
+         [:space:] & Espaços, mais nova linhas & [ \textbackslash t \textbackslash r \textbackslash n \textbackslash v \textbackslash f] \\
+         \hline
+	 [:upper:] & Maiúsculas & [A-Z] \\
+         \hline 
+         [:xdigit:] & Hexadecimais & [A-Fa-f0-9] \\
+         \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Grupos}
+      Os parênteses permitem criar grupos de caracteres que são avaliados como um só. \\ 	
+      \begin{center}
+         (vice-)?(governa$|$sena$|$verea$|$)dora?
+      \end{center}
+      Quantas palavras casam com essa expressão? \\
+      O grupo no parênteses pode ser referenciado no resto da expressão.
+      \begin{center}
+         ([A-Za-z]+)\textbackslash 1
+      \end{center}
+      Toda e qualquer sequência de caracteres repetida.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades - Parte I}
+      Crie na sua pasta o diretório \textit{atividades/atividade03}. Copie para ele o arquivo \textit{/home/compartilhado/emailsordenados.txt}. Crie um arquivo chamado \textit{parte\_01.txt} e coloque nele, um por linha e na ordem abaixo, os seguintes comandos:
+      \begin{enumerate}
+         \item Um comando \textit{grep} que encontre todos os alunos cujo primeiro nome começa com A.
+	 \item Um comando \textit{grep} que encontre todos os alunos que tem algum nome começando com A.
+	 \item Um comando \textit{grep} que encontre todos os alunos cujo e-mails terminam com '.br'.
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades - Parte II}
+      Copie o arquivo \textit{/home/compartilhado/expressoesregulares.txt} para a pasta \textit{atividades/atividade03}. Crie um arquivo \textit{parte\_02.txt} com os comandos \textit{grep}, um por linha, para as seguintes buscas:
+      \begin{enumerate}
+         \item Descubra quais linhas tem um espaço em branco antes da pontuação final.
+	 \item Descubra quais linhas tem um sinal de pontuação seguido diretamente de uma letra, sem espaço entre ela e o sinal.
+	 \item Descubra quais linhas não tem uma frase começando com letra maiúscula após a pontuação.
+	 \item Descubra quais linhas não terminam com pontuação.
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades - Parte III}
+      Crie o arquivo \textit{atividades/atividade03/parte\_03.txt} e coloque, uma por linha, as expressões regulares que representam as seguintes cadeias de caracteres:
+      \begin{enumerate}
+         \item A palavra "revista" no singular e no plural.
+	 \item A palavra "letra" em qualquer combinação de letras maiúsculas ou minúsculas.
+	 \item Os números inteiros.
+	 \item Um número IP.
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades - Parte IV}
+      Considerando o arquivo \textit{expressoesregulares.txt}, coloque em um arquivo \textit{parte\_04.txt} com um comando \textit{grep} para a seguinte busca:
+      \begin{itemize}
+         \item Descubra quais linhas contém palavras com mais que 8 caracteres.
+      \end{itemize}
+   \end{frame}
+
+\end{document}
+

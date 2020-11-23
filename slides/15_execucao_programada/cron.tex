@@ -1,0 +1,133 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Execução Programada de Scripts}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+% http://www.devin.com.br/crontab/
+% http://www.infowester.com/linuxcron.php
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{Introdução}
+      Muitas vezes, você deseja executar um \textit{script} várias vezes, obedecendo uma frequência pré-determinada.
+      \begin{itemize}
+         \item Você pode precisar disponibilizar informações atualizadas em uma página ou arquivo
+	 \item Verificar o estado da bateria de um \textit{nobreak}
+	 \item Realizar atualizações automáticas de \textit{software}
+	 \item Liberar espaço em disco
+	 \item etc...
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{O Serviço \textit{cron}}
+      É um serviço disponível na maioria das distribuições
+      \begin{itemize}
+         \item É carregado durante a inicialização do sistema
+	 \item A cada minuto, esse serviço é acionado
+	 \item Utiliza uma tabela \textit{crontab} para saber o que deve ser executado ou não
+	 \item Existe uma tabela geral do sistema e uma para cada usuário
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Como Usar o Cron}
+      \$ contrab -e \\
+      Para acessar a \textit{crontab} do usuário ou abra o arquivo \textit{/etc/crontab} para acessar a tabela do sistema. \\
+      O formato de uma entrada é: \\
+      \scriptsize \\
+      $[$minutos$]$ $[$horas] $[$dias do mês$]$ $[$mês$]$ $[$dias da semana$]$ $[$usuário$]$ $[$comando$]$
+      \normalsize \\
+      \begin{itemize}
+         \item Minutos: informe números de 0 a 59
+	 \item Horas: informe números de 0 a 23
+	 \item Dias do mês: informe números de 0 a 31
+	 \item Mês: informe números de 1 a 12
+	 \item Dias da semana: informe números de 0 a 7
+	 \item Usuário: é o usuário que vai executar o comando
+	 \item Comando: a tarefa que deve ser executada.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Como Usar o Cron}
+      \begin{itemize}
+         \item Em cada campo, se você colocar $*$, significa todas as possibilidades daquele campo. Por exemplo, se você informar $*$ no campo dos dias dos mês, para todos dias para o mês escolhido em Mês o comando será executado. 
+         \item Você pode informar intervalos com $-$, por exemplo $1-6$ representa o primeiro semestre se for informado no campo do Mês. \\
+	 \item Também se pode utilizar $*/N$, onde N é um número, para indicar repetição.
+	 \item A vírgula serve para separar valores exatos
+      \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplos}
+      \scriptsize
+      \begin{minted}{bash}
+      # Executar o comando toda hora, todo dia, nos minutos 1, 21 e 41
+      1,21,41  *  *  *  *  echo "cron ativo!!!"
+      # Apagar conteúdo do /tmp toda segunda-feira, as 4:30 da manhã
+      30 4  *  *  1  rm -rf /tmp/*
+      # Executar o comando ‘backup’ todo dia 1 e 15 às 19:45.
+      45 19 1,15  *  *  /usr/local/bin/backup
+      # Executar o mrtg como root, de 5 e 5 minutos dos minutos 0-59. 
+      0-59/5   *  *  *  *  root /usr/bin/mrtg /etc/mrtg/mrtg.cfg
+      */5   *  *  *  *  root /usr/bin/mrtg /etc/mrtg/mrtg.cfg
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Diretórios /etc/cron.$*$}
+      \begin{table}
+         \begin{tabular}{c|c}
+         Diretório & Período \\
+         \hline 
+	 /etc/cron.hourly & De hora em hora \\
+	 /etc/cron.daily  & Diariamente \\
+	 /etc/cron.weekly & Semanalmente \\
+	 /etc/cron.monthly & Mensalmente \\ 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Faça um \text{script} chamado \textit{dateAndUptime.sh} que quando executado, anexe no arquivo \textit{\$HOME/uptime.log} a data e o tempo desde o último \textit{boot} no seguinte formato: \\
+      10/24/16 17:26:52 up 2 days, 8 hours, 5 minutes \\
+      Sinta-se a vontade para definir outro formato se assim desejar. Em seguida, adicione esse \textit{script} para executar no seu \textit{crontab} de 10 em 10 minutos.
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exercícios - Parte II}
+      Dado um arquivo \textit{uptime.log}, faça um \textit{script} chamado \textit{uptimeStatistics.sh}, que pode usar \textit{awk}, que receba o arquivo e imprima um relatório no seguinte formato: \\
+      \scriptsize
+      \begin{minted}{bash}
+      %---------------------------------%
+      Máquina Ligada: 10/20/16 17:27:15
+      Tempo ligada: 48 horas
+      Máquina Desligada: 10/22/16 17:27:15
+      %---------------------------------%
+      Máquina Ligada: 10/20/16 20:00:15
+      Tempo ligada: 3 horas
+      Máquina Desligada: 10/22/16 23:00:15
+      %---------------------------------%
+      Máquina Ligada: 10/20/16 00:00:45
+      Tempo ligada: 12 horas
+      Máquina Desligada: 10/22/17 12:00:45
+      %---------------------------------%
+      \end{minted}
+      \normalsize
+      Em outras palavras, deve mostrar quando a máquina ligou, por quanto tempo ficou ligada. Você pode arrendondar para horas ou minutos. \\
+\end{frame}
+
+\end{document}

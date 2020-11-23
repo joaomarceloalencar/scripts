@@ -1,0 +1,130 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Iteração}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{A estrutura do \textit{for}}
+      \begin{minted}{bash}
+      for var in valor1 valor2 ... valorN
+      do
+         <comando1>
+	 <comando2>
+	 <...>
+	 <comandoM>
+      done
+      \end{minted}
+      A variável \$\{var\} assume um valor diferente para cada iteração. \\
+      Um comando pode ser usado para gerar a lista de valores. Exemplo: \textbf{seq} permite gerar uma sequência de valores inteiros. \\
+      \begin{minted}{bash}
+      $ seq 10 
+      $ seq 1 10 
+      $ seq 1 2 10 
+      \end{minted}
+      A opção $-s$ permite mudar o caractere que separa os números gerados. Se não existir a palavra \textbf{in} e a sequência de valores, \$\{var\} irá percorrer a lista de parâmetros. \\
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplos}
+      \begin{itemize}
+         \item Vamos criar um \textit{script} chamado \textbf{somaTotal.sh} que receba um parâmetro e calcule a soma de todos os inteiros de zero até o valor do parâmetro.
+	 \item Agora vamos fazer um \textit{script} chamado \textbf{maiorDeTodos.sh} que receba vários parâmetros inteiros e devolva o maior deles.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O Separador Entre os Campos - IFS}
+      Comandos como o \textbf{sort}, o \textbf{cut} e o próprio \textbf{for} na geração de sua lista de valores usam o espaço em branco como separador padrão. \\
+      \begin{minted}{bash}
+      usuario=$1
+      grep $usuario /etc/passwd
+      for info in $(grep $usuario /etc/passwd)
+      do
+         echo $info
+      done
+      OLDIFS=$IFS
+      IFS=":"
+      for info in $(grep $usuario /etc/passwd)
+      do
+         echo $info
+      done
+      IFS=$OLDIFS
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{A estrutura do \textit{while}}
+      \begin{minted}{bash}
+      while <comando>
+      do
+          <comando1>
+	  <comando2>
+	  <...>
+	  <comandoN>
+      done
+      \end{minted}
+      O \textbf{comando} é sempre executado no início. Se o resultado for sucesso, então os outros comandos começam a ser executados. Enquanto \textbf{comando} for sucesso, o laço se repete.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{A estrutura do \textit{until}}
+      \begin{minted}{bash}
+      until <comando>
+      do
+          <comando1>
+	  <comando2>
+	  <...>
+	  <comandoN>
+      done
+      \end{minted}
+      Só começa a executar os comandos caso o \textbf{comando} da condição seja fracasso. Se após a execução do bloco e \textbf{comando} ainda for fracasso o laço se repete. Só irá terminar quando \textbf{comando} executar sucesso. \\ 
+      Para finalizar, só lembrando que tanto o \textbf{break} e o \textbf{continue} das outras linguagens funcionam no \textit{Shell}.
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplos}
+      \begin{itemize}
+         \item Faça um \textit{script} que fique em execução sem parar, sendo que cada vez que um usuário entrar ou sair do sistema, ele exiba um aviso de mudança no número de usuários.
+	 \item Incremente o \textit{script} anterior. Faça com que a mensagem exibide informa se o usuário entrou ou saiu, e qual o nome do usuário.
+	 \item Faça um \textit{script} que receba como parâmetro o caminho de um diretório que só tem arquivos de texto como conteúdo. O \textit{script} deve imprimir em ordem crescente uma lista com os arquivos de acordo com a quantidade de linhas de cada arquivo. Lembrando que o arquivo com mais linhas não é necessariamente o arquivo com tamanho maior em \textit{bytes}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividades}
+      \begin{itemize}
+         \item Crie o diretório \textit{atividades/atividade06}
+	 \item Você vai desenvolver o \textit{script} \textit{latencia.sh}
+	 \item Esse \textit{script} vai receber como parâmetro o nome de um arquivo de texto, contendo um endereço IP por linha.
+	 \item O \textit{script} deve usar o comando \textbf{ping} para enviar dez pacotes ICMP para cada endereço do arquivo, calculando o valor médio do tempo de resposta.
+	 \item O \textit{script} deve imprimir uma lista de IP ordenada do menor para o maior tempo médio de resposta, informando além do endereço, o tempo de resposta médio.
+      \end{itemize}
+      No \textbf{próximo slide} tem um exemplo de como utilizar o \textit{script}.
+   \end{frame}
+
+   \begin{frame}[fragile]
+   \frametitle{Atividades}
+   \begin{minted}{bash}
+   # os IPs abaixo são fantasia. 
+   $ cat enderecos_ip.txt
+   8.8.8.8
+   192.168.0.1
+   54.230.57.207
+   $ ./latencia.sh enderecos_ip.txt
+   192.168.0.1 11.1ms
+   54.230.57.207 55.4ms
+   8.8.8.8 94.0ms
+   \end{minted}
+\end{frame}
+
+\end{document}

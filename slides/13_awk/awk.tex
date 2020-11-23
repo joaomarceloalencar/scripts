@@ -1,0 +1,390 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{AWK}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O que é AWK?}
+      \begin{itemize}
+         \item O \textit{awk} é um comando que foi criado para englobar as capacidades do \textit{sed} e do \textit{grep}. \\
+         \item A operação básica é pesquisar um conjunto de linhas de entrada, uma após a outra, procurando as que satisfaçam a um conjunto de \textbf{padrões ou condições especificadas} por você. \\
+         \item Para cada padrão você pode especificar uma \textbf{ação}:\\
+         \item $[$padrão$]$ $[$\{ ação \}$]$ \\
+      \end{itemize}	 
+      \begin{block}{Exemplo:}
+      \begin{minted}{bash}
+ awk '$1 == "Paula" {print $2, $3}' 
+      \end{minted}
+      \end{block}
+      A instrução mostrada imprime o segundo e terceiro campos de cada linha entrada a partir do teclado cujo primeiro campo seja Paula. \\
+      Veja a sutil diferença entre o uso de \$1, \$2 e \$3 no \textit{awk} e no \textit{shell}. \\
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Uso do \textit{awk}}
+      \begin{block}{Diretamente a partir do teclado:}
+      \begin{minted}{bash}
+awk '{<padrão e ação>}' [arquivo1] ... [arquivoN] 
+      \end{minted}
+      \end{block}
+      \begin{block}{A partir de um arquivo de comando:}
+      \begin{minted}{bash}
+awk -f <arquivo de programa> <lista de arquivos> 
+      \end{minted}
+      \end{block}
+      Por padrão, o separador é o TAB ou espaço em branco. \\
+      A variável IFS não tem efeito no \textit{awk}. \\
+      Os \textbf{padrões} se encaixam em três categorias:
+      \begin{itemize}
+         \item Expressões Relacionais (comparação)
+	 \item Expressões Regulares
+	 \item BEGIN e END
+      \end{itemize}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Expressões Relacionais}
+      \begin{table}
+         \begin{tabular}{c|c}
+	 \textbf{Operadores} & \textbf{Resultados} \\
+	 \hline
+         ==   & Igual a \\
+	 $>$  & Maior que \\
+	 $>=$ & Maior ou igual \\
+	 $<$  & Menor que \\
+	 $<=$ & Menor ou igual \\
+         \&\& & e \\
+	 $||$ & ou \\
+	 !    & Não \\
+         \hline 
+         \end{tabular}
+      \end{table}
+      \small
+      \begin{minted}{bash}
+$ awk '$1 > "J" { print }' ../emailsordenados.txt
+$ awk '$1 > "J" && $2 < "E" { print }' ../emailsordenados.txt
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Expressões Regulares}
+      Devemos colocar a expressão na parte do padrão, entre \slash\slash \\
+      \small
+      \begin{minted}{bash}
+ $ awk '/^C/ { print }' ../emailsordenados.txt
+ $ awk '$2 ~ /^C/ { print }' ../emailsordenados.txt
+ $ awk '$1 !~ /^C/ { print }' ../emailsordenados.txt
+ $ awk '$1 ~ /^[AB]/ { print }' ../emailsordenados.txt
+ $ awk '$1 ~ /^(ANDRE|ANA)/ { print }' ../emailsordenados.txt
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Padrões BEGIN e END}
+      \begin{itemize}
+         \item Padrão BEGIN: processamento anterior à entrada. Exemplo: cabeçalho. 
+         \item Padrão END: processamento posterior à saída. Exemplo: totais e médias. 
+      \end{itemize}
+      \scriptsize
+      \begin{minted}{bash}
+$ awk 'BEGIN { print "Nome Completo" } { print }' ../emailsordenados.txt
+$ awk 'END { print "Fim da Lista"} { print }' ../emailsordenados.txt
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Variáveis}
+      \begin{table}
+         \begin{tabular}{c|c}
+         Variável & Significado \\
+         \hline 
+	 ARGC     &  Número de argumentos\\
+	 ARGV     &  Vetor com parâmetros\\
+	 FILENAME &  Nome do arquivo\\
+	 FMR      &  Número do registro\\
+	 FS       &  Separador \\
+	 NF       &  Número de campos \\
+	 NR       &  Quantidade de registros\\
+	 OFMT     &  Formato para números\\
+	 OFS      &  Separador na saída\\
+	 ORS      &  Separador de registros\\
+	 RS       &  Separador na entrada\\ 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Variáveis}
+      \footnotesize
+      \begin{minted}{bash}
+$ awk 'BEGIN { print "Nome do Alunos" }
+> { print }
+> END { print "Entradas=", NR }' ../emailsordenados.txt
+awk '$1 ~ /^J/ { print; Soma=Soma+1 } 
+> END { print Soma}' ../emailsordenados.txt
+$ awk '
+> BEGIN { printf "%15s %5s\n", "IP", "Latência" }
+> { printf "%15s %5s\n", $1, $2, LatenciaTotal = LatenciaTotal + $2 }
+> END { printf "\n Latência média: %5s\n", 
+> LatenciaTotal / NR } ' ips_latencia.txt
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Operadores e Funções Matemáticas}
+
+      \begin{table}
+         \begin{tabular}{c|c}
+         \textbf{Operadores} & \textbf{Significado} \\
+	 \hline
+         + & Soma \\
+	 - & Diferença \\
+	 * & Multiplicação \\
+	 / & Divisão \\
+	 \% & Resto da Divisão \\
+	 ** & Exponenciação \\
+	 = & Igualdade \\
+	 \hline 
+	 \textbf{Função} & \textbf{Significado} \\
+	 \hline
+          sqrt(x) & Raiz quadrada \\
+	  sin (x) & Seno \\
+	  log (x) & Logaritmo \\
+	  rand (x) & Aleatório entre 0 e 1 \\
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{Funções de Cadeia de Caracteres}
+      \begin{table}
+         \begin{tabular}{c|c}
+         \textbf{Função} & \textbf{Descrição} \\
+         \hline
+	 index(c1, c2) & Posição de c1 em c2 \\
+	 length(c1) & Comprimento da cadeia \\ 
+	 match(c1, exp) & Posição de c1 onde exp ocorre \\
+	 split(c1, v [,c2]) & Divide c1 baseado em c2 \\
+	 sprintf(fmt, lista) & Retorna lista formatada \\
+	 sub(exp, c1 [, c2]) & Substitui exp em c2 por c1 \\
+	 gsub(exp, c1 [, c2]) & Toda exp em c2 é substituída por c1 \\
+	 substr(c1, p, n) & Retorna subcadeia em p de c1 com n caracteres \\
+         \hline
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Funções de Cadeia de Caractere}
+      \footnotesize
+      \begin{minted}{bash}
+$ awk 'BEGIN { print index("LINUX-UNIX", "X")}'
+$ awk 'BEGIN { print length("LINUX-UNIX")}'
+$ awk 'BEGIN { print match("LINUX-UNIX", /[UI]X/)}'
+$ awk 'BEGIN { print match("LINUX-UNIX", /[UI]X$/)}'
+$ awk 'BEGIN { OS="LINUX-UNIX" sub(/LINUX/, "BSD", OS) print OS}'
+$ $ awk 'BEGIN {
+> OS="LINUX-UNIX"
+> sub (/LINUX/, "BSD", OS)
+> print OS
+}'
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo}
+      \begin{itemize}
+         \item Dado o arquivo \textit{emailsordenados.txt}, você conseguiria, usando o \textit{awk}, dizer quantos alunos tem o e-mail começando com a mesma letra do primeiro nome? E com a primeira letra do segundo nome? Considere maiúsculas e minúsculas iguais.
+	 \item Lembrando a saída do comando \textit{ps aux}, faça agora um \textit{script} usando o \textit{awk} para contar a quantidade de memória virtual usada por determinado programa. Será que ficou mais fácil que usar \textit{grep} e \textit{sed}?
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{if}}
+      \begin{minted}{bash}
+      if (expressao)
+         {
+	    comando1
+	    comando2
+	    ...
+	    comandoN
+	 }
+      else 
+         {
+	    comando1
+	    comando2
+	    ...
+	    comandoN
+	 }
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{while}}
+      \begin{minted}{bash}
+      while (expressao)
+         {
+	    comando1
+	    comando2
+	    ...
+	    comandoN
+	 }
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{for}}
+      \begin{minted}{bash}
+      for (expressao1; expressao2; expressao3)
+         {
+	    comando1
+	    comando2
+	    ...
+	    comandoN
+	 }
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Saída dos Laços}
+      \begin{itemize}
+         \item \textbf{break}: desvia para primeira instrução após o laço
+	 \item \textbf{continue}: avança para a primeira instrução da próxima interação do laço
+	 \item \textbf{next}: pula para o próximo registro
+	 \item \textbf{exit}: considera que o arquivo terminou, executa apenas ação END
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{for}}
+      \begin{minted}{bash}
+$ awk '{ Registro [NR] = $0 } 
+> END { print Registro [2] }' ../emailsordenados.txt 
+      \end{minted}
+      Os vetores também pode ser indexados por \textit{strings}.\\
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Saída com \textit{printf}}
+      printf formato, expressao1, expressao2, ... , expressaoN \\
+      \begin{table}
+         \begin{tabular}{l|l}
+	 Letra & Impressão \\
+	 \hline
+         c & Caractere \\
+         d & Decimal \\
+         e & Exponencial \\
+         f & Ponto flutuante \\
+         g & Ponto flutuante compacto \\
+         o & Octal \\
+         s & \textit{String} \\
+         x & Hexadecimal \\
+         \% & O símbolo \\
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Redirecionando a Saída}
+      \footnotesize
+      \begin{minted}{bash}
+      $2 > 7.0 { print $1, $2 > "aprovados.txt" }
+      $2 > 5.0 { print $1, $2 > ("/tmp/" ARQUIVO ) }
+
+      {
+         PrimeiraNota[$1] = $2
+      }
+      END {
+         for (aluno in PrimeiraNota) 
+	    print aluno, "\t" , PrimeiraNota[aluno] | "sort" 
+      }
+
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Acessando Parâmetros}
+      \begin{minted}{bash}
+      'BEGIN {
+      for (i = 1; i < ARGC; i++)
+         print ARGV [i], "\n"
+      }' a b c
+      \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+      \frametitle{Exemplo}
+      Faça um \textit{script} marajas.awk que dado um arquivo de salários no formato abaixo imprima os professores que mais ganham por curso.
+      \begin{minted}{bash}
+      $ cat professores.txt
+      NOME      CURSO      SALARIO
+      Jeandro   Redes        10000
+      Elvis     Engenharia   11000
+      Hélder    Engenharia   15000
+      João      Redes         1000
+      Michel    Redes          800
+      Jefferson Sistemas      5000
+      Márcio    Sistemas      6000
+      Marcos    Redes        11000
+      $ awk -f marajas.awk professores.txt
+      Engenharia: Elvis,  11000
+      Redes:      Marcos, 11000
+      Sistemas:   Márcio,  6000
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade}
+      Coloque a resposta em \textit{atividades/atividade09}. Faça um \textit{script} chamado \textit{contaPalavras.awk} que ao ser invocado com o nome de um arquivo de texto diga quantas vezes cada palavra aparece no texto. \\
+      \begin{minted}{bash}
+      $ cat arquivo.txt
+      a casa que vivo é boa.
+      boa casa é.
+      $ awk -f contaPalavras.awk arquivo.txt 
+      Relatório de palavras.
+      casa: 2
+      boa:  2
+      é:    2
+      a:    1
+      que:  1
+      vivo: 1
+      Total de Palavras analisadas: 9.
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade}
+      Considere o seguinte arquivo \textit{notas.txt}
+      \begin{minted}{bash}
+Aluno:Nota1:Nota2:Nota3 
+João Marcelo:10.0:10.0:10.0 
+Alisson Barbosa:1.0:2.0:3.0
+Jeandro Bezerra:7.0:8.0:9.0
+Marcos Dantas:5.0:4.0:6.0
+Michel Sales:3.0:4.0:2.0 
+      \end{minted}
+      Coloque na pasta \textit{atividades/atividade10} um \textit{script} chamado \textit{disciplina.awk} que realize a seguinte ação:
+      \begin{minted}{bash}
+$ awk -F: -f disciplina.awk notas.txt
+Aluno:Situação:Média
+João Marcelo:Aprovado:10.0
+Alisson Barbosa:Reprovado:2.0
+Jeandro Bezerra:Aprovado:8.0
+Marcos Dantas:Final:5.0
+Michel Sales:Reprovado:3.0
+Média das Provas: 5.2 5.6 6.0
+      \end{minted}
+\end{frame}
+
+\end{document}

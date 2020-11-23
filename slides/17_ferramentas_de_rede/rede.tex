@@ -1,0 +1,171 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Ferramentas de Rede}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+% http://www.onlamp.com/pub/a/onlamp/2004/05/27/netpipes.html 
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução}
+      \begin{itemize}
+         \item \textbf{wget}: baixar conteúdo da \textit{web}
+	 \item \textbf{nc}: brincando com portas TCP/IP
+	 \item \textbf{netpipes}: parecido com o \textit{nc}, porém com algumas facilidades. 
+      \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{O comando \textit{wget}}
+      \$ wget http://www.quixada.ufc.br/docentes \\
+      Se for uma página irá baixar o .html, se for um arquivo baixará o mesmo.
+   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte I}
+%      Este exercício é uma revisão de \textit{grep}. Faça um \textit{script} chamado \textit{emailsprofessor.sh} que ao ser executado retorne o nome de cada professor da UFC Quixadá seguido dos seus e-mails. Essa informação pode ser obtida em \url{http://www.quixada.ufc.br/docente/}, mas alguns \textit{wgets} extra serão necessários.
+%   \end{frame}
+
+   \begin{frame}
+      \frametitle{O comando \textit{nc} (\textit{netcat})}
+      Devemos deixar uma máquina escutando em uma conexão enquanto outras da rede se conectam e trocam informações. \\
+      Em uma máquina que irá escutar por conexões: \\
+      \$ nc -l -p 8080 \\
+      Na máquina cliente: \\
+      \$ nc scripts.joao.marcelo.nom.br 8080 \\
+      O que você digitar na máquina cliente, irá aparecer na tela do servidor. \\
+      Trocando arquivos: \\
+      \$ nc -l -p 8080 $>$ arquivo.destino \\
+      \$ nc scripts.joao.marcelo.nom.br 8080 $<$ arquivo.origem \\
+      Na verdade, o \textit{nc} pode ser colocado dentro de comando com \textit{pipes}, dessa forma a saída pode ser encaminhada para um \textit{grep}, \textit{awk}, etc...
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{O pacote \textit{netpipes}}
+      São um conjunto de comandos 
+      \begin{itemize}
+         \item \textbf{faucet}: servidor
+	 \item \textbf{hose}: cliente
+	 \item \textbf{encapsulate}: faz multiplexação
+	 \item \textbf{timelimit}: limita o tempo de um processo criado para lidar com uma conexão
+	 \item \textbf{sockdown}: desliga uma conexão
+	 \item \textbf{getpeername}: retorna informações sobre a conexão
+      \end{itemize}
+      \$ sudo apt-get install netpipes
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{faucet}}
+      No servidor:  
+      \begin{minted}{bash}
+      faucet 8080 --out echo Olá Mundo
+      \end{minted}
+      Em um cliente, você pode fazer: 
+      \begin{minted}{bash}
+      $ telnet scripts.joao.marcelo.nom.br 8080 
+      $ nc scripts.joao.marcelo.nom.br 8080
+      \end{minted}
+      Em ambos os casos, o cliente exibirá a mensagem, mas o servidor não será finalizado. Novas conexões irão exibir a mensagem novamente. 
+      \begin{minted}{bash}
+      $ faucet 8080 --out sh -c "echo Olá Cliente; w;"
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{hose}}
+      É a versão cliente do \textit{faucet}. \\ 
+      No servidor: 
+      \begin{minted}{bash}
+      $ faucet 8080 --in sh -c "cat" 
+      \end{minted} 
+      No cliente: 
+      \begin{minted}{bash}
+      $ hose scripts.joao.marcelo.nom.br 8080 \
+      --out sh -c "echo Olá Mundo do Cliente"
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Resumo}
+      No servidor: \\
+      \begin{minted}{bash}
+      $ faucet 8080 --out echo hello world 
+      \end{minted}
+      No cliente: 
+      \begin{minted}{bash}
+      $ hose scripts.joao.marcelo.nom.br 8080 \ 
+      --netslave
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Resumo}
+      No servidor: \\
+      \begin{minted}{bash}
+      $ faucet 8080 --in echo Fui acessado, `date`
+      \end{minted}
+      No cliente: \\
+      \begin{minted}{bash}
+      $ hose scripts.joao.marcelo.nom.br 8080 \
+      --netslave
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Resumo}
+      No servidor: \\
+      \begin{minted}{bash}
+      $ faucet 8080 --in sh -c "grep firefox > temp.txt" 
+      \end{minted}
+      No cliente: \\
+      \begin{minted}{bash}
+      $ hose scripts.joao.marcelo.nom.br 8080 \ 
+      --in --out sh -c "ps aux" 
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Resumo}
+      No servidor: \\
+      \begin{minted}{bash}
+      $ faucet 8080 --out sh -c "ps aux" 
+      \end{minted}
+      No cliente: \\
+      \begin{minted}{bash}
+      $ hose scripts.joao.marcelo.nom.br 8080 \
+      --netslave
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios em Sala}
+      Faça um sistema de monitoramento simples.
+      \begin{itemize}
+         \item O \textit{script} \textit{cliente.sh} deve receber dois parâmetros: IP e Porta. Em seguida, deve enviar ao servidor o seu \textit{hostname} seguido da saída do comando \textit{uptime}
+	 \item O \textit{script} \textit{servidor.sh} deve escutar no IP e Porta fornecidos ao cliente. A cada conexão, deve guardar as informações recebidas do cliente no arquivo \textit{monitoramento.log}
+     \end{itemize}
+     Não deixe o servidor escutando em um IP válido!!!
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios I}
+      Coloque os arquivos no pasta \textit{atividades/atividade15}. Vamos fazer um pequeno servidor de arquivos.
+      \begin{itemize}
+         \item O \textit{script} \textit{cliente.sh} deve receber três parâmetros: IP do Servidor, Porta do Servidor e o nome de um arquivo. Ele deve se conectar ao servidor enviando além do nome do arquivo desejado, o IP e Porta na qual espera o recebimento do arquivo.  
+	 \item O \textit{script} \textit{servidor.sh} deve escutar no IP e Porta fornecidos ao cliente. A cada conexão, deve procurar o arquivo requisitado no diretório no qual está executando e enviá-lo através do IP e Porta fornecidos pelo cliente.
+     \end{itemize}
+     Para funcionar, tanto cliente quanto servidor devem estar na mesma rede.
+   \end{frame}
+
+
+\end{document}

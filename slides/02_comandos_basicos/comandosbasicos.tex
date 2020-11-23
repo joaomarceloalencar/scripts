@@ -1,0 +1,706 @@
+\documentclass{beamer}
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\setbeamertemplate{footline}[frame number]
+
+\title{Comandos Básicos}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Básico do Sistema de Arquivos}
+      \begin{columns}
+      \begin{column}{0.4\textwidth}
+      / \\
+      \hspace{0.5cm}/etc  \\
+      \hspace{1.0cm}/etc/passwd \\
+      \hspace{1.0cm}/etc/rc.d \\
+      \hspace{1.0cm} ... \\
+      \hspace{0.5cm}/home \\ 
+      \hspace{1.0cm}/home/joaomarcelo \\ 
+      \hspace{1.0cm}/home/aluno01 \\ 
+      \hspace{1.0cm} ... \\
+      \hspace{0.5cm}/usr \\ 
+      \hspace{1.0cm}/usr/local \\ 
+      \hspace{1.0cm}/usr/lib \\ 
+      \hspace{1.0cm} ... \\
+      \end{column}
+      \begin{column}{0.6\textwidth}
+      \scriptsize
+      \begin{itemize}
+         \item A partição de inicialização é montada na raiz (/).
+	 \item Partindo da raiz, outros diretórios são organizados de acordo com cada distribuição, mas há um padrão geral:
+	 \begin{itemize}
+           \scriptsize
+	    \item /etc: arquivos de configuração específicos do computador.
+	    \item /boot: imagem do \textit{kernel}.
+	    \item /dev: dispositivos.
+	    \item /home: diretórios dos usuários.
+	    \item /lib: bibliotecas básicas.
+	    \item /bin: executáveis acessíveis por todos os usuários.
+	    \item ...
+	 \end{itemize}
+	 \item \url{https://pt.wikipedia.org/wiki/Filesystem_Hierarchy_Standard}
+      \end{itemize}
+      \end{column}
+      \end{columns}
+   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Comandos no Linux}
+   Formato geral: 
+   \begin{minted}{bash}
+   $ comando [-opções...] [argumentos...] 
+   \end{minted}
+   Para obter ajuda:
+   \begin{minted}{bash}
+   $ comando --help (ou -help)
+   $ man comando
+   \end{minted}
+   \begin{itemize}
+      \item Pressionar a tecla \textit{seta para cima} repete os últimos comandos digitados.
+      \item Você pode apenas digitar o início do comando e apertar TAB, o \textit{shell} completa o comando (ou caminho do diretório).
+      \item Caso o \textit{shell} não complete, TAB duas vezes mostra as opções disponíveis.
+      \item CTRL+R permite buscar nos últimos comandos digitados.
+   \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+   \frametitle{pwd - Informa nome do diretório corrente}
+   \begin{minted}{bash}
+   $ pwd 
+   /home/joaomarcelo 
+   \end{minted}
+   \begin{itemize}
+      \item Retorna o diretório atual.
+      \item Não parece muito útil a primeira vista.
+      \item Em \textit{scripts} vai permitir que verifiquemos se estamos no diretório correto.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{cd - Navegando entre diretórios}
+   \begin{minted}{bash}
+   $ cd /usr/local 
+   $ pwd
+   /usr/local 
+   \end{minted}
+   Os seguintes atalhos podem ser usados tanto no \textit{cd} quanto em outros comandos:
+   \begin{table}
+      \begin{tabular}{ c | c }
+         . (ponto) & Diretório atual \\
+         \hline 
+         .. (dois pontos) & Diretório anterior \\
+         \hline
+         \textasciitilde (acento til) & Diretório home do usuário \\
+         \hline
+         / (barra) & Diretório Raiz \\
+         \hline 
+         - (hífen) & Último diretório \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{ls - Lista Arquivos}
+   \begin{minted}{bash}
+   $ ls [opções] [arquivo/diretório] 
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+      -l & Lista detalhada \\
+      \hline 
+      -a & Lista arquivos ocultos \\
+      \hline
+      -r & Ordem reversa \\
+      \hline
+      -h & Formato legível \\
+      \hline 
+      -R & Listar subdiretórios \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{cp - Cópia de arquivos e diretórios}
+   \begin{minted}{bash}
+   $ cp [opções] <origem> <destino>
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+      -i & Modo interativo \\
+      \hline 
+      -v & Exibe cada arquivo copiado \\
+      \hline
+      -r & Copia diretórios e subdiretórios \\
+      \hline
+      -p & Tenta preservar o máximo de atributos \\
+      \end{tabular}
+   \end{table}
+   Em \textit{scripts}, talvez a opção mais importante seja $-p$.
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{mv - Move arquivos e diretórios}
+   \begin{minted}{bash}
+   $ mv [opções] <origem> <destino> 
+   \end{minted}
+   \begin{itemize}
+      \item Mover é uma maneira de renomear arquivos!
+      \item Mover costuma ser mais lento, principalmente se for entre partições diferentes.
+      \item Pode ser aplicado tanto para arquivos quanto diretórios.
+      \item A opçãp $-i$ pergunta antes de sobreescrever arquivos existentes. Não confie que ela está ativa!
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{ln - Ligações entre arquivos}
+   \begin{minted}{bash}
+   $ ln [-s] <origem> <ligação>
+   \end{minted}
+   \begin{itemize}
+      \item \textit{Links} são atalhos.
+      \item \textit{Hard Link}: o arquivo de ligação tem o mesmo \textbf{inode} do arquivo de origem.
+      \item \textit{Soft Link}: o arquivo de ligação contém apenas o caminho do arquivo de origem.
+      \item A \textit{origem} pode ser tanto arquivos quanto diretórios.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{mkdir - Cria um diretório}
+   \begin{minted}{bash}
+   $ mkdir [opções] <nomedodiretorio>
+   \end{minted}
+   \begin{itemize}
+      \item Você pode usar todas as abreviações do comando \textit{cd}.
+      \item Subdiretórios não são criados automaticamente.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{rmdir - Remove diretório}
+   \begin{minted}{bash}
+   $ rmdir <nomedodiretorio>
+   \end{minted}
+   \begin{itemize}
+      \item Para usar esse comando, o diretório tem que estar vazio!
+      \item Pode parecer uma limitação, mas é bom usar em um \textit{script} quando deseja ter certeza que o diretório excluído está vazio.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{rm - Deleta arquivos e diretórios}
+   \begin{minted}{bash}
+   $ rm [opções] <arquivos>
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -f & Modo força bruta \\
+         \hline 
+         -I & Modo Confirmação \\
+         \hline
+         -r & Remove diretórios \\
+      \end{tabular}
+   \end{table}
+   A opção $-r$ remove mesmo se o diretório contenha arquivo.
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{file - Indica o tipo de arquivo}
+   \begin{minted}{bash}
+   $ file <arquivo>
+   \end{minted}
+   \begin{itemize}
+      \item Extensões de arquivos não tem significado preciso no Linux.
+      \item O \textit{file} abre a porção inicial do arquivo e extrai informações sobre sua natureza.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{basename e dirname - Retornam nome do arquivo e nome do diretório}
+   \begin{minted}{bash}
+   $ basename <arquivo> 
+   $ dirname <diretório>
+   \end{minted}
+   Novamente, não são muito úteis fora de \textit{scripts}.
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{grep - Pesquisa arquivos por conteúdo}
+   \scriptsize
+   \begin{minted}{bash}
+$ grep [-opções] [expressão] [arquivo1] [arquivo2] [arquivo3] ...
+   \end{minted}
+   \normalsize
+   \begin{table}
+      \begin{tabular}{ c | c }
+         \hline
+         -c & Apenas informar quantas linhas contém a expressão \\
+         \hline 
+         -i & Não diferenciar maiúsculas e minúsculas \\
+         \hline
+         -l & Apenas informar quais dos arquivos contém a expressão \\
+         \hline
+         -v & Busca reversa \\
+         \hline
+         -n & Exibe o número da linha \\
+         \hline
+      \end{tabular}
+   \end{table}
+   A \textit{expressão} é uma E.R. Por enquanto, vamos considerar como uma simples cadeia de caracteres.
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{find - Procurar arquivos}
+   \begin{minted}{bash}
+   $ find [caminho] [expressão] [ação]
+   \end{minted}
+   \textbf{caminho :} diretório a partir do qual a busca começa. \\
+   \begin{columns}
+   \begin{column}{0.5\textwidth}
+   \textbf{expressão :} \\ 
+      -name \textit{nome} \\
+      -user \textit{usuário} \\
+      -group \textit{grupo} \\
+      -type \textit{tipo} \\
+      -size $\pm$\textit{tamanho} \\
+      -atime $\pm$\textit{dias} \\
+      -ctime $\pm$\textit{dias} \\
+      -mtime $\pm$\textit{dias} \\
+   \end{column}
+   \begin{column}{0.5\textwidth}
+   \textbf{ação :} \\
+      -print \\
+      -exec \textit{comando} \{\} $\backslash$; \\
+      -ok \textit{comando} \{\} $\backslash$; \\ 
+      -printf \textit{formato}
+   \end{column}
+   \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{cat - Exibe conteúdo de arquivos}
+   \begin{minted}{bash}
+   $ cat [-opções] [arquivo]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -v & Mostra caracteres sem representação na tela \\
+         \hline 
+         -e & Mostra a alimentação de linha \\
+         \hline
+         -t & Mostra os TAB \\
+         \hline
+         -n & Enumera as linhas \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{wc - Contar}
+   \begin{minted}{bash}
+   $ wc [-lwc] [arquivo]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -l & Linhas \\
+         \hline 
+         -w & Palavras \\
+         \hline
+         -c & Caracteres \\
+      \end{tabular}
+   \end{table}
+   \begin{itemize}
+      \item A maneira mais fácil de saber se dois arquivos são diferentes.
+      \item Muito útil para saber se \textit{log} contém novas informações.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{head - Exibe linhas a partir do início}
+   \begin{minted}{bash}
+   $ head [-número] [-cn] [arquivo] 
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -número & Linhas a partir do início que são mostradas \\
+         \hline 
+         -c & Bytes a partir do início que são mostrados \\
+         \hline
+         -n & igual à $-numero$ \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{tail - Exibe linhas em relação ao final}
+   \begin{minted}{bash}
+   $ tail [-número] [+número] [-cnf] [arquivo] 
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         +número & Mostra a partir da linha \textsf{número} até o fim. \\
+         \hline 
+         -número & Mostra as \textsf{número} linhas do arquivo. \\
+         \hline
+         -c & Mostra os últimos \textit{bytes} \\
+         \hline
+         -n & Igual à -número \\
+         \hline
+         -f & Exibe o final do arquivo a medida que ele cresce. \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{sort - Ordenar arquivos}
+   \begin{minted}{bash}
+   $ sort [opções] [arquivo]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -k & Define a chave de ordenação no formato $n_{1}.m_{1},n_{2}.m_{2}$ \\
+         \hline 
+         -t & Define o caractere de separação \\ 
+         \hline
+         -m & Intercala arquivos \\
+         \hline
+         -n & Classificação númerica \\
+         \hline
+         -r & Classificação inversa \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{chown - Trocando o Dono do Arquivo}
+   \begin{minted}{bash}
+   $ chown [-f] [-R] dono arquivo
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         arquivo & objeto a ter as permissões alteradas \\
+         \hline 
+         dono & novo dono do arquivo \\ 
+         \hline
+         -f & não reportar erros \\
+         \hline
+         -R & diretórios e subdiretórios \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{chgrp - Trocando o Dono do Arquivo}
+   \begin{minted}{bash}
+   $ chgrp [-f] [-R] grupo arquivo
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         arquivo & objeto a ter as permissões alteradas \\
+         \hline 
+         dono & novo dono do arquivo \\ 
+         \hline
+         -f & não reportar erros \\
+         \hline
+         -R & diretórios e subdiretórios \\
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}
+   \frametitle{Tipos de Acesso}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         dono (\textbf{u}) & usuário dono do arquivo \\
+         \hline 
+         grupo (\textbf{g}) & o grupo a que pertence o arquivo \\ 
+         \hline
+         outros (\textbf{o}) & outros usuários \\
+      \end{tabular}
+   \end{table}
+   \begin{center}
+   Leitura(r), escrita(w) e execução(r).
+   \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{chmod - Ajustando as Permissões de Arquivo}
+   \begin{minted}{bash}
+   $ chmod string-de-acesso arquivo
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         string-de-acesso & formato padrão de permissões \\
+         \hline 
+         arquivo & nome dos arquivos ou diretórios\\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{who - Usuários Ativos}
+   \begin{minted}{bash}
+   $ who [-mH] [am i]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         am i & informações do próprio usuário \\
+         \hline 
+         -H & mostra um cabeçalho \\ 
+         \hline
+	 -a & informações detalhadas \\ 
+         \hline
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{id - Identificadores do Usuário}
+   \begin{minted}{bash}
+   $ id [-ngu]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -n & informações do próprio usuário \\
+         \hline 
+         -g & mostra apenas o grupo \\ 
+         \hline
+	 -G & mostra todos os grupos \\ 
+         \hline
+	 -u & apenas o identificador do usuário \\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{chfn - Mudar as informações do usuário}
+   \begin{minted}{bash}
+   $ chfn [-frpho]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -f & modifica o nome do usuário \\
+         \hline 
+         -r & modifica a localização do usuário \\ 
+         \hline
+	 -p & modifica o telefone de trabalho do usuário \\
+         \hline
+	 -h & modifica o telefone residencial do usuário \\ 
+         \hline
+         -o & informações adicionais (somente root) \\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{date - Exibe altera a data}
+   \begin{minted}{bash}
+   $ date [MMDDhhmm] [+formato]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         [MMDDhhmm] & atualiza a data \\
+         \hline 
+         +formato & indica como exibir a data \\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{ssh - Login Remoto Criptografado}
+   \begin{minted}{bash}
+   $ ssh [-p PORTA] [usuario]@IP
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -p & Tentar se conectar na PORTA no lugar da 22 (padrão) \\
+         \hline 
+         usuario & usuário na máquina remota \\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{scp - Copiar Arquivo Através do ssh}
+   \begin{minted}{bash}
+$ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -P & Tentar se conectar na PORTA no lugar da 22 (padrão) \\
+         \hline 
+         -r & cópia recursiva \\ 
+         \hline
+         diretorio & destino onde será copiado o arquivo no servidor remoto \\ 
+      \end{tabular}
+   \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{tar - Agrupar Arquivos em Um}
+   \begin{minted}{bash}
+   $ tar [-cfprtuvx] [arquivo_tar] [arquivos]
+   \end{minted}
+   \begin{table}
+      \begin{tabular}{ c | c }
+         -c & Cria novo arquivo \\
+         \hline 
+         -f & Indica que o destino é o disco \\ 
+         \hline
+	 -p & Preserva permissões \\
+         \hline 
+         -r & Anexa ao final de um arquivo .tar existente \\ 
+         \hline
+         -t & Lista conteúdo de um arquivo .tar \\ 
+         \hline
+         -u & Adiciona apenas arquivos novos ou modificados  \\
+         \hline 
+         -v & Mostra o nome de cada arquivo processado \\ 
+         \hline
+         -x & Retira os arquivos do .tar \\ 
+      \end{tabular}
+   \end{table}
+   \begin{minted}{bash}
+   # Compacta pasta teste
+   $ tar -czvf teste.tar.gz teste/
+   # Descompacta arquivo
+   $ tar -xzvf teste.tar.gz
+   \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade de Comandos Básicos - Parte I}
+      Esta atividade deve ser feita \textbf{inicialmente} na sua máquina local.
+      \begin{itemize}
+         \item Crie um diretório chamado \textit{ufc\_quixada}.
+	 \item Crie um subdiretório chamado \textit{redes\_de\_computadores}.
+	 \item Em \textit{redes\_de\_computadores}, crie um subdiretório chamado \textit{grade\_curricular}.
+         \item Acesse \url{http://rc.quixada.ufc.br/matriz-curricular/} e anote o nome cada disciplina do curso.
+         \item Para cada disciplina:
+	 \begin{itemize}
+	    \item Crie um subdiretório em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	    \item O nome do diretório deve ser em minúsculas e os espaços devem ser trocados por \_.
+	    \item Por exemplo: Internet e Arquitetura TCP/IP corresponde do diretório \textit{internet\_e\_arquitetura\_tcpip}
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade de Comandos Básicos - Parte II}
+      Este exercício é continuação da Parte I.
+      \begin{itemize}
+         \item Acesse \url{www.quixada.ufc.br} e anote o nome e o primeiro sobrenome de cada professor que você já foi aluno.
+         \item Crie um diretório \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+         \item Dentro do diretório criado, crie um diretório para cada professor. O nome do diretório de cada professor deve seguir o padrão \textit{nome\_sobrenome}. 
+         \item Exemplo: deve existir o diretório \textit{ufc\_quixada/rede\_de\_computadores/professores/joao\_marcelo}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade de Comandos Básicos - Parte III}
+      Este exercício é continuação da Parte II.
+      \begin{itemize}
+         \item Crie o diretório \textit{ufc\_quixada/redes\_de\_computadores/conquistas}.
+	 \item Dentro de \textit{conquistas}, você vai criar um diretório para cada disciplina que já foi aprovado(a).
+         \item Dentro do diretório criado, defina dois \textit{soft links}:
+	 \begin{itemize}
+	    \item \textit{programa}, que deve apontar para a pasta da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	    \item \textit{professor}, que deve apontar para a pasta do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade de Comandos Básicos - Parte IV}
+      Este exercício é continuação da Parte III.
+      \begin{itemize}
+         \item Compacte sua pasta \textit{ufc\_quixada} no arquivo \textit{ufc\_quixada.tar.gz}.
+	 \item No servidor, dentro do seu diretório de usuário, crie a pasta \textit{atividades}.
+	 \item Crie o subdiretório \textit{atividade02}.
+         \item Usando o comando \textit{scp}, copie o arquivo \textit{ufc\_quixada.tar.gz} para o diretório remoto \textit{atividades/atividade01}. 
+         \item Descompacte o arquivo \textit{ufc\_quixada.tar.gz} e verifique se os \textit{links} estão corretos.
+         \item Altere as permissões dos diretórios \textit{grade\_curricular} e \textit{professores} para apenas leitura.
+      \end{itemize}
+   \end{frame}
+
+\begin{frame}
+   \frametitle{Resultado da Atividade}
+   \begin{itemize}
+      \item Pela lógica, deve existir a pasta \textit{atividades/atividade02/ufc\_quixada} na sua pasta no servidor.
+      \item Dentro dela, devem existir a pasta \textit{redes\_de\_computadores} com os seguintes subdiretórios:
+      \begin{itemize}
+         \item \textit{grade\_curricular} com subdiretórios para todas as disciplinas.
+	 \item \textit{professores} com subdiretórios para todos os professores.
+	 \item \textit{conquistas} com pastas para as disciplinas que foi aprovado e dentro delas ligações (\textit{links}) para as pastas no diretório \textit{grade\_curricular} e \textit{professores}.  
+      \end{itemize}
+   \end{itemize}
+   \begin{block}{Objetivo desse trabalho todo...}
+   Garantir que o aluno tem prática no uso da linha de comando.
+   \end{block}
+\end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte I}
+% 
+%      \begin{itemize}
+%         \item Acesse \url{www.quixada.ufc.br} e anote o nome e o primeiro sobrenome de cada professor.
+%         \item Crie um diretório chamado \textit{programacaodescripts}.
+%         \item Dentro do diretório criado, crie um diretório para cada professor. O nome do diretório de cada professor deve seguir o padrão \textit{nomesobrenome}. 
+%         \item Exemplo: deve existir o diretório \textit{programacaodescripts}/\textit{joaomarcelo}
+%      \end{itemize}
+%   \end{frame}
+%
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte II}
+%
+%      \begin{itemize}
+%         \item Acesse o SI3 ou o SIPPA e anote o nome e o primeiro sobrenome de cada aluno da turma.
+%	 \item Dentro do diretório \textit{programacaodescripts} do exercício anterior, crie um diretório para cada aluno seguindo o padrão \textit{nomesobrenome}.
+%      \end{itemize}
+%   \end{frame}
+%
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte III}
+%
+%      \begin{itemize}
+%         \item Crie o subdiretório \textit{professores} dentro de \textit{programacaodescripts} e copie todos os diretórios com nomes de professores para dentro do novo diretório.
+%         \item Crie o subdiretório \textit{alunos} dentro de \textit{programacaodescripts} e copie todos os diretórios com nomes de alunos para dentro do novo diretório.
+%      \end{itemize}
+%   \end{frame}
+%
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte IV}
+%      
+%      \begin{itemize}
+%         \item Crie o diretório \textit{programacaodescripts/professores/enfrentados}.
+%         \item Crie um link simbólico para cada professor que você já cursou alguma disciplina do diretório \textit{programacaodescripts/professores} dentro do subdiretório \textit{programacaodescripts/professores/enfrentados}.
+%      \end{itemize}
+%   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte V}
+%      
+%      \begin{itemize}
+%         \item Encontre todos os arquivos maiores do que 1GB.
+%         \item Encontre todos os arquivos que não foram modificados há mais de uma semana. 
+%         \item Encontre todos os arquivos maiores do que 500 MB que não são acessados há mais de uma semana.
+%         \item Liste o tamanho de todos os arquivos do sistema que ocupam mais do que 100 MB.
+%         \item Dado um diretório com um projeto na linguagem C, procure todos os arquivos que possuem uma variável com determinado nome.
+%      \end{itemize}
+%   \end{frame}
+ 
+
+ 
+
+\end{document}
+
+

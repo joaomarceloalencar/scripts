@@ -1,0 +1,169 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{minted}
+
+\begin{document}
+   \begin{frame}
+   \frametitle{Programação de Scripts}
+      \begin{center}
+         João Marcelo Uchôa de Alencar \\
+	 joao.marcelo@ufc.br \\
+      \end{center}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Programação de Scripts}
+      \tableofcontents
+   \end{frame}
+
+   \section{Regras Gerais}
+   \begin{frame}
+      \frametitle{Regras Gerais}
+      \begin{block}{Formação de Equipes e Temas}
+      Os trabalhos devem ser apresentados por equipes de não mais do que \textbf{4 alunos}. Qualquer exceção o professor deve ser consultado antes. Cada equipe deve escolher um tema e enviar uma mensagem privada para o professor no Slack  com os integrantes e o tema escolhido. A decisão será feita por ordem de chegada. 
+      \end{block}
+      \begin{block}{Produtos esperados e data de entrega}
+      Cada equipe deve entregar os seguintes resultados no dia da apresentação:
+      \begin{itemize}
+         \item Repositório no GitHub com todo o código desenvolvido.
+	 \item Arquivo README.md formatado no repositório explicando como executar a solução.
+      \end{itemize}
+      \end{block}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Avaliação}
+      \begin{block}{Avaliação}
+      A nota do trabalho será dividida em duas partes: equipe (5,0) e individual (5,0).
+      \end{block}
+	
+      \begin{block}{Avaliação da equipe: }
+      \begin{itemize}
+         \item A solução funciona? (3,0)
+	 \item Qualidade da Apresentação. (1,0)
+	 \item Texto no README.md. (1,0)
+      \end{itemize}
+      \end{block}
+	
+      \begin{block}{Avaliação individual: }
+      \begin{itemize}
+         \item A pessoa participou da apresentação? (2,0)
+	 \item A pessoa foi capaz de responder a(s) perguntas(s) feitas pelo professor/turma? (1.0)
+	 \item A pessoa esteve em TODAS as outras apresentações (2,0)
+      \end{itemize}
+      \end{block}
+   \end{frame}
+
+   \section{Temas}
+
+   \begin{frame}
+      \frametitle{Primeiro Tema - Jogo da Forca - 06/12}
+      \begin{block}{Enunciado}
+      Faça um programa em \textit{Shell Script} que execute o jogo da forca. Você terá um arquivo palavras.txt com um número qualquer de palavras em português. Ao iniciar, o \textit{script} escolhe uma palavra aleatória e imprime "\_" para a quantidade de letras da palavra. Em seguida, espera o usuário informar uma letra. Se a letra estiver na palavra, substitui as ocorrências de "\_" pela letra. Caso contrário, emite uma mensagem de erro e espera por nova entrada. Quando o usuário acertar a palavra, o programa termina.
+      \end{block}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Primeiro Tema - Jogo da Forca - 06/12}
+      Considere um arquivo \textit{palavras.txt} com o conteúdo:
+      \begin{minted}{bash}
+      programação
+      quixadá
+      computadores
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Primeiro Tema - Jogo da Forca - 06/12}
+      \scriptsize
+      \begin{minted}{bash}
+ubuntu@scripts:/home/exemplos$ ./forca.sh -f palavras.txt -t 10
+_ _ _ _ _ _ _
+Entre com seu chute: a
+_ _ _ _ a _ a
+Entre com seu chute: z
+Erro!
+_ _ _ _ a _ a
+Entre com seu chute: x
+_ _ _ x a _ a
+Entre com seu chute: d
+_ _ _ x a d a
+Entre com seu chute: u
+_ u _ x a d a
+Entre com seu chute: i
+_ u i x a d a
+Entre com seu chute: q
+q u i x a d a
+Você acertou. Tinha 10 tentativas. Usou 7 tentativas.
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Segundo Tema - Jogo de Xadrez - 06/12}
+	Utilizando o comando \textit{tput}, faça um jogo de xadrez no terminal. Você deve desenhar o tabuleiro, usando letras ou números para representar as peças. O \textit{script} deve alternar pedindo a entrada de cada jogador, ou seja, o jogo não é \textit{online}, é jogado com os dois jogadores de frente para o mesmo terminal. Cada jogador deve informar a coordenada de origem da peça e a coordenada de destino. O \textit{script} deve verificar se a movimentação é permitida e ir removendo as peças à medida que as mesmas são eliminadas. 
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Terceiro Tema - Chat Online - 07/12}
+      Vocês devem desenvolver um sistema de \textit{chat online}, baseado em modo texto. São dois \textit{scripts} na verdade:
+      \begin{enumerate}
+         \item Servidor: Recebe texto do cliente, envia para todos os outros conectados, e anexa a um arquivo de log.
+         \item Cliente: Envia o que foi digita ao servidor e exibe na tela o que o servidor envia de volta.
+      \end{enumerate}
+      O servidor deve aceitar mais de um cliente. A solução deve ser feita exclusivamente em \textit{Shell Script}. Considere que as máquinas estão na mesma local, então pode haver várias conexões entre o \textit{script} Cliente e o \textit{script} Servidor. Arquivos temporários também pode ser utilizados. Uma vez que a parte de comunicação seja feita, a apresentação visual do programação deve ser considerada. 
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Quarto Tema - Backup Distribuído - 07/12}
+   Desenvolva um \textit{script} que monitora uma pasta com apenas arquivos e toda vez que um arquivo é modificado, transfira a mudança para outros computadores. O \textit{script} deve receber como parâmetros um arquivo de configuração e o diretório a ser monitorado. Por exemplo, usando o arquivo de configuração \textit{backup.conf}:
+      \begin{minted}{bash}
+# <IP>     <USER>   <PASSWORD> <DIR>
+10.0.0.1   alunoufc super122   /home/alunoufc/bkp
+10.0.14.54 root     toor       /tmp/backup
+10.0.8.8   jjletho  1234       /home/jjletho/backup
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Quarto Tema - Backup Distribuído - 07/12}
+      \scriptsize
+      A execução do \textit{script} é assim:
+      \begin{minted}{bash}
+ubuntu@scripts:/home/exemplos$ ./backup.sh -c backup.conf \
+                               -d /home/exemplos/mybackup -t 10      
+      \end{minted}
+      A partir daí o \textit{script} começa a execução. Ao iniciar, ele armazena em uma estrutura o nome de todos os arquivos em /home/exemplos/mybackup e suas datas de modificação, copiando todos os arquivos locais para todas as máquinas. De 10 em 10 segundos (-t), ele verifica se houve uma alteração da data de modificação de cada arquivo. Havendo modificação em certo arquivo, ele deve ser transferido para os diretórios das máquinas especificadas em backup.conf. O script também deve tratar a inclusão e exclusão de arquivos. Dica: faça um ambiente de testes no VirtualBox, com três máquinas virtuais. Cada máquina não precisa de muita memória/disco para este cenário.
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Quinto Tema - Contar Palavras Distribuído - 13/12}
+       \footnotesize
+       O primeiro passo é criar um \textit{script} que receba um arquivo txt e conte as palavras. Depois, defina um maneira de distribuir o processamento do texto entre várias máquinas. Para testar seu script, tanto na versão executando em apenas uma máquina, inicialmente você deve usar o arquivo \url{http://norvig.com/big.txt}. Esse arquivo tem 128457 linhas. Se tudo der certo, tente com o arquivo \url{http://www.gutenberg-tar.com/gutenberg_txt.7z}. Vocês devem realizar os seguintes experimentos:
+       \begin{enumerate}
+          \item Executar a versão serial 5 vezes, medindo o tempo de cada execução. Você pode medir o tempo executando date antes e depois da execução, fazendo a diferença entre as datas na precisão de segundos. Descarte a execução mais lenta e a mais rápida, faça a média entre as três outras.
+          \item Execute sua versão distribuída também 5 vezes, mas usando 2 e depois 4 máquinas. Descarte as rodadas mais lentas e mais rápidas. Novamente, faça a média das três para cada número de máquinas. 
+       \end{enumerate}
+       Vocês não precisam monitorar toda a execução, façam \textit{scripts} para automatizar o processo. Faça um teste na sua máquina local, em máquinas virtuais com textos menores, depois use um dos laboratórios para fazer a execução dos testes. Faça um relatório descrevendo como instalar sua solução e o ambiente no qual foram executadas as computações, inclusive com a configuração das máquinas. Também descreva o tempo de execução para cada caso e se a variação no número de máquinas traz alguma vantagem. 
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Sexto Tema - Sistema de Monitoramento Web - 14/12}
+      \scriptsize
+      Vocês deve desenvolver um \textit{script} que a partir de um arquivo de configuração contendo o endereço de máquinas, deve gerar um arquivo .html que apresenta um sumário do parque computacional. A página deve conter as seguintes informações para cada máquina:
+     \begin{enumerate}
+         \item Modelo e número de núcleos da CPU
+         \item Quantidade de Memória RAM
+         \item Carga atual da máquina (conteúdo de /proc/loadavg)
+	 \item Memória (saída de \textit{free})
+	 \item Quantidade de \textit{bytes} transmitidos e recebidos na interface de rede principal.
+     \end{enumerate}
+     Quanto mais alta estiver a carga (carga média no último minuto mais próxima do número de núcleos), a informação da máquina deve ser exibida com pano de fundo cada vez mais próximo do vermelho. É uma sugestão, sejam criativos no .html, imaginem maneiras de chamar atenção do administrador para as máquinas mais carregadas. O \textit{script} deve recuperar as informações das máquinas em um intervalo pré-definido. Vocês podem configurar o cron para executá-lo de minuto a minuto, por exemplo. A configuração de chaves SSH é necessária, pode ser feita previamente.
+   \end{frame}
+
+
+
+\end{document}

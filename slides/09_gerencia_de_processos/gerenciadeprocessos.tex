@@ -1,0 +1,164 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Gerência de Processos}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{ps}}
+      \begin{minted}{bash}
+      $ ps aux 
+      \end{minted}
+      Exibe informações detalhadas dos processos em execução no sistema. Se quiser saber se um script com nome \textit{meuscript.sh} está em execução? 
+      \begin{minted}{bash}
+      $ ps aux | grep meuscript
+      \end{minted}
+      Se quero ver todos os processos do meu usuário? 
+      \begin{minted}{bash}
+      $ ps aux | grep usuario
+      \end{minted}
+      Detalhe: em ambos os casos acima, uma linha extra é retornada para o próprio processo que executa o \textit{grep}. Para matar um processo, existe o comando \textit{kill}. 
+      \begin{minted}{bash}
+      $ kill PID
+      \end{minted}
+      O PID é a segunda coluna da saída do \textit{ps aux}.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O uso do \&}
+      Caso você deseje executar um comando e ter de volta o terminal?
+      \begin{minted}{bash}
+$ ./meuscript.sh [parametros] [redirecionamentos] &
+      \end{minted}
+      \begin{itemize}
+         \item Você, a partir do seu script, iniciar processos da mesma forma.
+         \item A variável \$! armazena o PID do último processo criado. 
+         \item Se você terminar a sessão, ou seu script finalizar, o que acontece com os processos criados depende da distribuição. Eles podem ser finalizados ou continuar. 
+         \item Para garantir que eles continuam a executar, use o \textit{nohup}. 
+      \end{itemize}
+      \begin{minted}{bash}	   
+      $ nohup ./meuscript.sh &
+      \end{minted}	       
+      A saída do script será direcionada para \textit{nohup.out} e você pode ter certeza que ele continuará executando até ser finalizado pelo \textit{kill}.
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{screen}}
+      O \& e o \textit{nohup} são bons para criar \textit{daemons}.\\
+      Mas se você quiser apenas manter uma sessão ativa enquanto entra e sai na máquina, o \textit{screen} é uma boa opção. 
+      \begin{minted}{bash}	   
+      $ screen   
+      \end{minted}	       
+      Você agora pode deixar qualquer comando executando. Para \textit{desanexar} a tela, digite crtl $+$ a $+$ d. \\
+      Você pode fazer \textit{logout} e um novo \textit{login}. Para recuperar a sessão, digite: 
+      \begin{minted}{bash}	   
+      $ screen -r
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Mais opções do \textit{screen}}
+      \begin{itemize}
+         \item Criar um terminal em uma tela: ctrl + a + c 
+         \item Trocar entre as telas: ctrl + a + tab 
+         \item Ir para a próxima tela: ctrl + a + espaço 
+         \item Ir para a tela anterior: ctrl + a + backspace 
+         \item Ir para a n-ésima tela: ctrl + a + [n] 
+         \item Listar as telas abertas: ctrl + a + \textquotedblleft 
+         \item Dividir a tela na vertical: ctrl + a + $|$ 
+         \item Dividir a tela na horizontal: ctrl + a + S 
+         \item Encerrar a divisão de telas: ctrl + a + Q 
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{tmux}}
+      É similar ao \textit{screen} porém mais recente. \\ 
+      Inicializando uma sessão:
+      \begin{minted}{bash}
+      $ tmux	      
+      \end{minted}
+      Podemos também nomear as sessões:
+      \begin{minted}{bash}
+      $ tmux new -s programando	      
+      \end{minted}
+      Listando sessões ativas:
+      \begin{minted}{bash}
+      $ tmux ls
+      \end{minted}
+      Retornar a uma sessão específica:
+      \begin{minted}{bash}
+      $ tmux attach -t 0 
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Mais opções do \textit{tmux}}
+      \begin{itemize}
+         \item Criar um novo painel: CTRL + b + c
+         \item Dividir um painel: CTRL + b + \%
+         \item Alternar entre painéis: CTRL + b + \textit{numero}
+         \item Fechar um painel: CTRL + b + d
+         \item Voltar ao painel anterior: CTRL + b + p
+         \item Avançar ao próximo painel: CTRL + b + n
+         \item Desanexar da sessão: CTRL + d
+      \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{Exercício em Sala}
+      O campo VZS da saída do \textbf{ps aux} equivale a quantidade de memória virtual em \textit{kilobytes} que o processo utiliza. \\
+      Vamos fazer um \textit{script} chamado \textit{consumoDeMemoria.sh} que receba como parâmetro o nome do usuário e imprima quanto o mesmo está consumindo da memória virtual. \\
+   \end{frame}
+
+   \begin{frame}
+     \frametitle{Exercício em Sala}
+      Vamos fazer um \textit{script} chamado \textit{IPsAtivos.sh} que receba como parâmetros os três primeiros octetos de uma sub-rede \slash 24 e verifique quais IPs da rede estão ativos. \\
+      Exemplo: \\
+      \$ ./IPsAtivos.sh 192.168.0. \\
+      192.168.0.1   on \\
+      192.168.0.54  on \\
+      192.168.0.101 on \\
+      Esse \textit{script} pode demorar muito. Use algumas das técnicas apresentadas hoje para guardar o resultado em algum lugar e depois verificá-lo. \\
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade - Parâmetros}
+      Crie o diretório \textit{atividades/atividade07}. Escreva um \textit{script} chamado \textit{alertaDiretorio.sh} que recebe como \textbf{parâmetros} um valor inteiro que serve como intervalo de tempo em segundos e um nome que indica o caminho de um diretório. \\
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade - Ações}
+      A cada intervalo, a quantidade de arquivos em um diretório será analisada. Caso a quantidade de arquivos se altere entre duas verificações, o \textit{script} deve atualizar um arquivo chamado \textit{dirSensors.log} com as seguintes informações:
+      \begin{itemize}
+         \item A data que a alteração foi percebida.
+	 \item Quantos arquivos haviam.
+         \item Quantos existem agora.
+         \item Quais foram alterados, adicionados ou removidos.
+      \end{itemize}
+      Na mesma pasta da atividade, crie um diretório chamado \textit{diretorioMonitorado} para testar. \\
+      Deixe seu \textit{script} executando em uma sessão \textit{screen} ou \textit{tmux}, monitorando o diretório a cada 5 segundos. \\
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Atividade - Formato do Arquivo}	     
+      \footnotesize
+      \begin{minted}{bash}
+$ ./alertaDiretorio.sh 5 diretorioMonitorado
+[25-09-2018 12:59:51] Alteração! 3->2. Removidos: notas.txt
+[25-09-2018 13:04:51] Alteração! 2->4. Adicionados: a.txt, b.txt
+[25-09-2018 13:09:51] Alteração! 4->3. Removidos: a.txt
+[25-09-2018 13:14:51] Alteração! 3->2. Removidos: b.txt
+      \end{minted}
+\end{frame}
+\end{document}

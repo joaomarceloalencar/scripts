@@ -1,0 +1,272 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Miscelânea}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{eval}}
+      \$ eval [linha-de-comando] \\
+      \begin{minted}{bash}
+      $ cano='|'
+      $ ls $cano wc -l
+      ls: cannot access '|': No such file or directory
+      ls: cannot access 'wc': No such file or directory
+      $ eval ls $cano wc -l
+      5
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{wait}}
+      \$ wait [PID] \\
+      \begin{minted}{bash}
+      $ sleep 60 &
+      [1] 3223
+      $ wait 3223
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{O comando \textit{trap}}
+      \$ trap [comando1];[comando2];[comando3]; ... ;[comandoN] sinais \\
+      \begin{table}
+         \begin{tabular}{c|l}
+         0 EXIT     & Saída normal \\
+         \hline 
+         1 SIGHUP   & kill -HUP \\
+         \hline 
+         2 SIGINT   & CTRL + C \\
+         \hline 
+         3 SIGQUIT  & CTRL + \textbackslash \\
+         \hline 
+         15 SIGTERM & kill PID \\
+         \hline 
+         \end{tabular}
+      \end{table}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Funções}
+      \begin{minted}{bash}
+      funcao ()
+      {
+         comando1
+	 comando2
+	 comando3
+	 ...
+	 comandoN
+	 return $var # O valor de var deve ser número
+      }
+   \end{minted}
+      Invocação:
+      \begin{minted}{bash}
+funcao [parametro1] [parametro2] ... [parametroN] 
+      \end{minted}
+      Cada parâmetro dentro da função é tratado por \$1 \$2 \$3 ...
+\end{frame}
+
+%%   \begin{frame}
+%%      \frametitle{Funções}
+%%      \begin{center}
+%%         \includegraphics[scale=0.5]{estruturascripts.png}
+%%      \end{center}
+%%   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Funções}
+      \begin{minted}{bash}
+      function command_not_found_handle
+      {
+         echo "Erro na linha ${BASH_LINENO[0]}"
+	 exit 1
+      }
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios em Sala}
+      O objetivo é criar um \textit{script} chamado \textit{sistema.sh} para permitir monitorar o desempenho de um servidor Linux. 
+     \begin{itemize} 
+        \item Ele deve exibir um menu com opções para o usuário. 
+        \item Ao digitar uma das opções, a tela deve ser limpa, um comando executado, o resultado exibido. 
+        \item Após o usuário apertar \textit{enter} retornar para o menu inicial.
+     \end{itemize}
+     As opções devem ser, de acordo com \url{http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html}:
+     \begin{enumerate}
+        \item Tempo ligado (uptime)
+	\item Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
+	\item Memória Virtual (vmstat 1 10)
+	\item Uso da CPU por núcleo (mpstat -P ALL 1 5)
+	\item Uso da CPU por processos (pidstat 1 5)
+	\item Uso da Memória Física (free -m)
+	\item Sair
+     \end{enumerate}
+     Use funções para criar uma função chamada \textit{menu} para exibir as opções.
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O comando \textit{mkfifo}}
+      \begin{minted}{bash}
+      # No terminal 1
+      $ mkfifo cano
+      $ ls > cano
+      # No terminal 2
+      $ cat < cano
+      cano  sistema.sh  trap.sh
+      \end{minted}
+      Permite comunicação e sincronização entre processos.
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{O Comando \textit{getopts}}
+      \begin{minted}{bash}
+      $ getopts [cadeia de opções] variável 
+      \end{minted}
+      \begin{itemize}
+         \item Se o \textit{script} aceita as opções -a -b -c, então a cadeia de opções deve ser $abc$. 
+         \item Se uma das opções tem argumento, : deve ser colocado depois da letra, a:bc 
+         \item A variável irá armazenar qual opção está sendo tratada, enquanto OPTARG contém o valor passado.
+      \end{itemize}	 
+\end{frame}
+   
+   \begin{frame}[fragile]
+      \frametitle{O Comando \textit{getopts}}
+     \begin{minted}{bash}
+      $ cat getopts_exemplo.sh 
+      #!/bin/bash
+      while getopts "a:bc" OPTVAR
+      do
+         echo $OPTVAR $OPTARG
+      done
+      $ ./getopts_exemplo.sh -a 1 -b -c
+      a 1
+      b
+      c
+      $ ./getopts_exemplo.sh -b -c -a 1  
+      b
+      c
+      a 1
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Execução Passo a Passo}
+      Muitas vezes não é fácil encontrar o erro em \textit{Shell Scripts}.
+      \begin{itemize}
+         \item Uma opção é ativar a execução passo a passo.
+	 \begin{itemize}
+	    \item Coloque \textit{set -x} no início do trecho que deseja analisar.
+	    \item No fim do trecho desabilite com \textit{set +x}. 
+	 \end{itemize}
+	 \item Se você quiser listar as linhas com mais detalhes.
+	 \begin{itemize}
+	    \item Ativar com \textit{set -xv}.
+	    \item Desabilitar com \textit{set +xv}.
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplo de Execução Passo a Passso}
+      \begin{minted}{bash}
+#!/bin/bash
+echo "Iniciando execução passo a passo."
+set -x
+echo "Flag ativado."
+read -p "Informe um valor:" entrada
+entrada=`expr $entrada + 1`
+echo "Valor atualizado: $entrada"
+set +x
+echo "Flag desativado."
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplo de Execução Passo a Passso}
+      \begin{minted}{bash}
+#!/bin/bash
+echo "Iniciando execução passo a passo."
+set -xv
+echo "Flag ativado."
+read -p "Informe um valor:" entrada
+
+soma=0
+for i in `seq $entrada`
+do
+   echo "Atualizando entrada..."
+   soma=`expr $soma + $i`
+done
+
+echo "Valor atualizado: $soma"
+set +xv
+echo "Flag desativado."
+      \end{minted}
+\end{frame}
+
+
+   \begin{frame}
+      \frametitle{Exercícios em Sala}
+      Vamos criar um \textit{script} chamado \textit{hosts} que nos ajude a relacionar nomes de máquinas à IPs.
+      \begin{itemize}
+         \item O \textit{script} deve guardar em um arquivo chamado \textit{hosts.db} um par (nomedamaquina,IP) para cada entrada.
+	 \item Você deve criar as seguintes funções para manipular o arquivo que são invocadas com os parâmetros indicados:
+         \begin{itemize}
+            \item \textbf{adicionar} (parâmetros -a \textit{hostname} -i \textit{IP})
+	    \item \textbf{remover} (parâmetro -d \textit{hostname})
+	    \item \textbf{procurar} (parâmetro \textit{hostname})
+	    \item \textbf{listar} (parâmetro -l)
+         \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exercícios em Sala}
+      \begin{minted}{bash}
+      $ ./hosts -a routerlab -i 192.168.0.1
+      $ ./hosts -a lab01 -i 192.168.0.100
+      $ ./hosts -a lab02 -i 192.168.0.101
+      $ ./hosts -l
+      routerlab 192.168.0.1
+      lab01     192.168.0.100
+      lab02     192.168.0.101
+      lab03     192.168.0.102
+      $ ./hosts -d routerlab
+      $ ./hosts -d lab01
+      $ ./hosts -l 
+      lab02     192.168.0.101
+      lab03     192.168.0.102
+      $ ./hosts lab02
+      192.168.0.101
+      $ ./hosts -r 192.168.0.101
+      lab02
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Atividade Especial}
+      Agora que já conhecemos o comando \textit{getopts} e funções:
+      \begin{itemize}
+         \item Refaça a segunda questão da prova melhorando sua solução usando os conhecimentos desta aula.
+	 \item Obrigatoriamente pelo menos o \textit{getopts} deve ser usado.
+	 \item Vale 1,0 ponto na nota da prova.
+	 \item O nome do \textit{script} deve ser \textit{questao02\_extra.sh}.
+	 \item Deixe na mesma pasta da prova.
+      \end{itemize}
+   \end{frame}
+
+%  \begin{frame}
+%     \frametitle{Atividades}
+%     Refaça o exercício de sala anterior usando o nome \textit{hosts.sh} na pasta \textit{atividades/atividade13}, porém caso o usuário não forneça nenhuma opção por parâmetros, o \textit{script} deve exibir um menu com as opções disponíveis (adicionar, remover, procurar e listar). Se a opção envolver leitura de valores, deve-se requisitar a entrada adequada do usuário.
+%  \end{frame}
+
+\end{document}

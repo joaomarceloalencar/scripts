@@ -1,0 +1,254 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Compilação e Configuração de Programas}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+% http://www.adp-gmbh.ch/cpp/gcc/create_lib.html 
+% http://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html#zz-2.
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução}
+      Você não precisa ser programador em C/C++ para administrar um sistema Linux
+      \begin{itemize}
+         \item Entretanto, boa parte dos serviços é escrita em C/C++
+	 \item O \textit{kernel} é em C
+	 \item Mesmo sem entender a linguagem, é útil saber compilar um programa em C/C++ 
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Ambiente de Compilação GNU}
+      \begin{itemize}
+         \item GCC: coleção de compiladores
+	 \item Make: ferramenta para automatizar a compilação
+	 \item Binutils: \textit{linker} e \textit{assembler}
+	 \item Autotools: sistema de construção
+      \end{itemize}
+      \$ sudo apt-get install g++ gcc make autoconf
+   \end{frame}
+
+   
+   \begin{frame}[fragile]
+      \frametitle{Um Programa Simples em C/C++}
+      \begin{minted}{c}
+      #include <stdio.h>
+       
+      int main() {
+         printf("Redes de Computadores!\n");
+         return 0;
+      }
+      \end{minted}
+      \begin{minted}{c}
+      // hello.cpp
+      #include <iostream>
+      using namespace std;
+       
+      int main() {
+         cout << "Hello, world!" << endl;
+	 return 0;
+       }
+      \end{minted}
+      \$ gcc -o hello hello.c \\
+      \$ g++ -o hello hello.cpp
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Criando Uma Biblioteca Compartilhada}
+      \begin{minted}{c}
+      // media.c
+      double media(double a, double b) {
+         return (a+b) / 2;
+      }
+      // media.h
+      extern double media(double, double);
+      // main.cpp
+      #include <stdio.h>
+      #include "media.h"
+      int main(int argc, char* argv[]) {
+         double v1, v2, m;
+         v1 = 5.2;
+         v2 = 7.9;
+         m = media(v1, v2);
+         printf("%3.2f %3.2f %3.2f\n", v1, v2, m);
+         return 0;
+      }
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Criando uma Biblioteca Compartilhada}
+      Coloque os arquivos \textit{media.c} e \textit{media.h} em um diretório chamado \textit{media} \\
+      \begin{minted}{bash}
+      :~/media$ gcc -c -Wall -Werror -fpic media.c
+      :~/media$ gcc -shared -o libmedia.so media.o
+      :~/$ gcc -Imedia/ -Lmedia/ main.c -o main -lmedia
+      :~/$ ./main 
+      ./main: error while loading shared libraries: 
+      libmedia.so: cannot open shared object file: 
+      No such file or directory
+      :~/$ LD_LIBRARY_PATH=$PWD/media ./main
+      A média de 5.20 e 7.90 é 6.55
+      \end{minted}
+      Ao executar, o programa procura as bibliotecas compartilhadas nos diretórios listados na variável de ambiente \textit{LD\_LIBRARY\_PATH}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Criando uma Biblioteca Compartilhada}
+      Você pode facilitar a compilação configurando as variáves \textit{LIBRARY\_PATH} e \textit{CPATH}
+      \begin{minted}{bash}
+      :~/$ export CPATH=$PWD/media
+      :~/$ export LIBRARY_PATH=$PWD/media
+      :~/$ gcc main.c -o main -lmedia
+      :~/$ export LD_LIBRARY_PATH=$PWD/media
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Crie um \textit{script} chamado \textit{compilaeinstala.sh} que:
+      \begin{itemize}
+         \item Compila os arquivos .c e .h do exemplo anterior
+	 \item Cria os diretórios \textit{bin}, \textit{lib} e \textit{include} na pasta raiz do usuário
+	 \item Move o binário gerado para a pasta \textit{bin}, a biblioteca para a pasta \textit{lib} e o cabeçalho para \textit{include}
+	 \item Atualiza o arquivo \textit{.profile} ou \textit{.bashrc} do usuário para que possa executar o binário como qualquer outro comando
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{A Ferramenta \textit{make}}
+      \begin{itemize}
+         \item Automatiza a compilação de código
+	 \item É baseado no conceito de alvos e pré-requisitos
+	 \item As etapas da compilação são armazenadas em um arquivo \textit{makefile}
+	 \item Foi criada para compilar, mas nada impede que seja usada para automatizar outras tarefas
+      \end{itemize}
+      \begin{minted}{bash}
+      alvo1: alvo0
+             comando0
+	     comando1
+	     ...
+      \end{minted}
+      \begin{itemize}
+         \item Cada comando é executado dentro de um processo \textit{shell} diferente. Não podemos considerar como um \textit{script} normal
+      \end{itemize}
+\end{frame}
+
+
+   \begin{frame}[fragile]
+   \scriptsize
+   \begin{minted}{bash}
+INCLUDE_DIR=media/
+LIBRARY_DIR=media/
+install:	
+	[ -d ~/bin ] || mkdir ~/bin
+	cp main ~/bin/
+	[ -d ~/lib ] || mkdir ~/lib
+	cp media/libmedia.so ~/lib/
+	[ -d ~/include ] || mkdir ~/include
+	cp media/media.h ~/include/
+	echo "PATH=$$PATH:~/bin" >> ~/.profile
+	echo "LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:~/lib" >> ~/.profile
+	echo "export PATH LD_LIBRARY_PATH" >> ~/.profile
+uninstall:
+	rm ~/bin/main
+	rm ~/lib/libmedia.so
+	rm ~/include/media.h
+
+all: main
+main: media.o libmedia.so
+	gcc -I$(INCLUDE_DIR) -L$(LIBRARY_DIR) main.c -o main -lmedia
+libmedia.so: media.o
+	cd media && gcc -shared -o libmedia.so media.o
+media.o:
+	cd media && gcc -c -Wall -Werror -fpic media.c
+clean:
+	rm main
+	rm media/media.o
+	rm media/libmedia.so
+   \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exemplo de Compilação - \textit{pdsh}}
+      Nós vamos instalar o \textit{psdh}
+      \begin{itemize}
+         \item É um programa que facilita a execução de comandos e \textit{scripts} em várias máquinas diferentes
+	 \item Durante a compilação, um \textit{makefile} é criado de acordo com as bibliotecas presente no sistema
+	 \item Você pode informar opções ao \textit{script} que cria o \textit{makefile}, tornando bem mais fácil a compilação
+      \end{itemize}
+   \end{frame}
+   
+   \begin{frame}[fragile]
+      \frametitle{Passos para Instalação}
+      \begin{minted}{bash}
+      $ mkdir $HOME/tools
+      $ wget goo.gl/RBu3U8
+      $ mv RBu3U8 pdsh-2.29.tar.bz2
+      $ tar -xjvf pdsh-2.29.tar.bz2
+      $ cd pdsh-2.29
+      $ ./configure --prefix=$HOME/tools --with-ssh
+      $ make
+      $ make check
+      $ make install
+      $ cat<<EOF >> $HOME/.profile
+      PATH=$PATH:$HOME/tools/bin
+      MANPATH=$MANPATH:$HOME/tools/man
+      LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/tools/lib
+      export PATH MANPATH LD_LIBRARY_PATH
+      EOF
+      \end{minted}
+\end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Utilizando o \textit{pdsh}}
+      \begin{minted}{bash}
+      $ ssh-keygen 
+      $ ssh-copy-id alunoufc@192.168.0.2
+      $ ssh-copy-id alunoufc@192.168.0.3
+      $ pdsh -w alunoufc@192.168.0.2-3 date
+      192.168.0.2: Tue Oct 25 11:57:34 BRT 2016
+      192.168.0.3: Tue Oct 25 11:58:27 BRT 2016
+      \end{minted}
+      Para executar um \textit{script} remotamente, o mesmo deve ser copiado antes através do comando \textit{scp}.
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte I}
+      Instale, na sua máquina, sem usar o usuário \textit{root}, o utilitário \textit{pdsh}. 
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exercício - Parte II}
+      O comando \textit{uptime} retorna, nós três últimos valores numéricos, a carga média do sistema nos últimos um, cinco e quinze minutos. Faça um \textit{script.sh} chamado \textit{clusterLoad.sh} que execute o comando \textit{uptime} em um conjunto de máquinas através do \textit{pdsh} e retorne uma lista ordenada pela carga no último minuto. O conjunto de máquinas que o \textit{pdsh} vai atuar deve ser passado como parâmetro. 
+      \scriptsize
+      \begin{minted}{bash}
+      $ ./clusterLoad.sh 192.168.0.2 192.168.0.14 192.168.0.100
+      192.168.0.2: 0,40
+      192.168.0.100: 0.62
+      192.168.0.15: 0,77
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte III}
+      Faça um \textit{script} chamado \textit{mapAndReduce.sh} com a seguintes funcionalidades:
+      \begin{itemize}
+         \item Ele deve receber como primeiro parâmetro o nome de um arquivo, possivelmente muito grande, contendo texto.
+	 \item Os parâmetros seguintes são endereços de máquinas, nas quais a chave para o \textit{pdsh} já se encontram devidamente instaladas. Também estão copiados nessas máquinas o \textit{script} para contar palavras, seja na versão \textit{awk} ou \textit{shell}
+	 \item O \textit{script} deve repartir o texto em $N$ arquivos, onde $N$ é o número de máquinas informado. Cada arquivo deve conter aproxidamente o mesmo número de linha. 
+	 \item Através do \textit{scp}, cada arquivo temporário deve ser enviado para uma máquina. Através do \textit{pdsh}, deve ser iniciado um \textit{script} em cada máquina para contar as palavras da sua versão local.
+	 \item O \textit{script} deve consolidar o resultado na contagem total de cada palavra.
+      \end{itemize}
+   \end{frame}
+
+\end{document}

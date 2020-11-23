@@ -1,0 +1,413 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Resumo das Atividades}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \tableofcontents
+   \end{frame}
+
+\section{Atividade 1}
+  \begin{frame}
+     \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+     \usebeamerfont{title}\insertsectionhead\par%
+     \end{beamercolorbox}
+  \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Este exercício deve ser feito na sua máquina local.
+      \begin{itemize}
+         \item Crie um diretório chamado \textit{ufc\_quixada}.
+	 \item Crie um subdiretório chamado \textit{redes\_de\_computadores}.
+	 \item Em \textit{redes\_de\_computadores}, crie um subdiretório chamado \textit{grade\_curricular}.
+         \item Acesse \url{http://rc.quixada.ufc.br/matriz-curricular/} e anote o nome cada disciplina do curso.
+         \item Para cada disciplina:
+	 \begin{itemize}
+	    \item Crie um subdiretório em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	    \item O nome do diretório deve ser em minúsculas e os espaços devem ser trocados por \_.
+	    \item Por exemplo: Internet e Arquitetura TCP/IP corresponde do diretório \textit{internet\_e\_arquitetura\_tcpip}
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte II}
+      Este exercício é continuação do Exercício I.
+      \begin{itemize}
+         \item Acesse \url{www.quixada.ufc.br} e anote o nome e o primeiro sobrenome de cada professor que você já foi aluno.
+         \item Crie um diretório \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+         \item Dentro do diretório criado, crie um diretório para cada professor. O nome do diretório de cada professor deve seguir o padrão \textit{nome\_sobrenome}. 
+         \item Exemplo: deve existir o diretório \textit{ufc\_quixada/rede\_de\_computadores/professores/joao\_marcelo}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte III}
+      Este exercício é continuação do Exercício II.
+      \begin{itemize}
+         \item Crie o diretório \textit{ufc\_quixada/redes\_de\_computadores/conquistas}.
+	 \item Dentro de \textit{conquistas}, você vai criar um diretório para cada disciplina que já foi aprovado(a).
+         \item Dentro do diretório criado, defina dois \textit{soft links}:
+	 \begin{itemize}
+	    \item \textit{programa}, que deve apontar para a pasta da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	    \item \textit{professor}, que deve apontar para a pasta do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+	 \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte IV}
+      
+      \begin{itemize}
+         \item Compacte sua pasta \textit{ufc\_quixada} no arquivo \textit{ufc\_quixada.tar.gz}.
+	 \item No servidor, dentro do seu diretório de usuário, crie a pasta \textit{atividades}.
+	 \item Crie o subdiretório \textit{atividade01}.
+         \item Usando o comando \textit{scp}, copie o arquivo \textit{ufc\_quixada.tar.gz} para o diretório remoto \textit{atividades/atividade01}. 
+         \item Descompacte o arquivo \textit{ufc\_quixada.tar.gz} e verifique se os \textit{links} estão corretos.
+         \item Altere as permissões dos diretórios \textit{grade\_curricular} e \textit{professores} para apenas leitura.
+      \end{itemize}
+   \end{frame}
+ 
+\section{Atividade 2}
+
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Crie na sua pasta o diretório \textit{atividades/atividade02}. Copie para ele o arquivo \textit{/home/compartilhado/emailsordenados.txt}. Crie um arquivo chamado \textit{parte\_01.txt} e coloque nele, um por linha e na ordem abaixo, os seguintes comandos:
+      \begin{enumerate}
+         \item Um comando \textit{grep} que encontre todos os alunos cujo primeiro nome começa com A.
+	 \item Um comando \textit{grep} que encontre todos os alunos que tem algum nome começando com A.
+	 \item Um comando \textit{grep} que encontre todos os alunos cujo e-mails terminam com '.br'.
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte II}
+      Copie o arquivo \textit{/home/compartilhado/expressoesregulares.txt} para a pasta \textit{atividades/atividade02}. Crie um arquivo \textit{parte\_02.txt} com os comandos \textit{grep}, um por linha, para as seguintes buscas:
+      \begin{enumerate}
+         \item Descubra quais linhas tem um espaço em branco antes da pontuação final.
+	 \item Descubra quais linhas tem um sinal de pontuação seguido diretamente de uma letra, sem espaço entre ela e o sinal.
+	 \item Descubra quais linhas não tem uma frase começando com letra maiúscula após a pontuação.
+	 \item Descubra quais linhas não terminam com pontuação
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte III}
+      Crie o arquivo \textit{atividades/atividade02/parte\_03.txt} e coloque, uma por linha, as expressões regulares que representam as seguintes cadeias de caracteres:
+      \begin{enumerate}
+         \item A palavra "revista" no singular e no plural
+	 \item A palavra "letra" em qualquer combinação de letras maiúsculas ou minúsculas
+	 \item Os números inteiros
+	 \item Um número IP 
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte IV}
+      Considerando o arquivo \textit{expressoesregulares.txt}, coloque em um arquivo \textit{parte\_04.txt} com um comando \textit{grep} para a seguinte busca:
+      \begin{itemize}
+         \item Descubra quais linhas contém palavras com mais que 8 caracteres.
+      \end{itemize}
+   \end{frame}
+
+
+\section{Atividade 3}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios}
+      Crie o diretório \textit{atividades/atividade03}. Copie o arquivo \textit{/home/compartilhando/auth.log} para o diretório criado. Crie um arquivo chamado \textit{auth\_analise.txt} com os seguintes comandos, um por linha:
+      \begin{enumerate}
+         \item Um comando que analise o arquivo \textit{auth.log} e informe quantas vezes tentaram fazer \textit{login} como \textit{root}.
+	 \item Um comando que salve em um arquivo chamado \textit{malditos.txt} todas as tentativas de \textit{login} como \textit{root}.
+	 \item Vasculhe o arquivo até encontrar um usuário que também seja aluno. Depois escreva o comando que conte quantas vezes ele ou ela tentou fazer o \textit{login} sem sucesso. 
+      \end{enumerate}
+      Abra o arquivo \textit{auth.log} em um editor de texto e estude seu formato antes de tentar definir os comandos.
+   \end{frame}
+
+\section{Atividade 4}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte II}
+      Crie o diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/hosts/entrada.c} para o diretório criado. Crie o arquivo \textit{parte\_02.txt} e coloque os comandos sed que realizam as seguintes ações:
+      \begin{enumerate}
+         \item Troque todas as variáveis int para long e todas as float para double.
+	 \item Adicione o arquivo de cabeçalho stdlib.h. 
+      \end{enumerate}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte III}
+      No diretório \textit{atividades/atividade04}, crie o arquivo \textit{parte\_03.txt}. Usando os comandos aprendidos, crie uma sequência de comandos ligados por $|$ 
+que realize as ações abaixo. Coloque uma sequência por linha no arquivo \textit{parte\_03.txt}.
+      \begin{itemize}
+         \item Analisando $/$etc$/$passwd, liste, um por linha, os diferentes shells utilizados pelos usuários (último campo separado por :). 
+	 \item Veja o arquivo $/$home$/$compartilhado$/$despesas.txt. Use os comandos para calcular o total de despesas.
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 5}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+   \begin{frame}
+      \frametitle{Exercícios Parte I}
+      Coloque os \textit{scripts} criados em \textit{atividades/atividades05}:
+      \begin{itemize}
+         \item Escreva um script chamado \textbf{addN.sh} que recebe uma lista de números e retorna a soma deles.
+	 \item Escreva um script chamado \textbf{menorMediaMaior.sh} que recebe uma lista de números e imprime na tela o menor deles, a média aritmética e o maior em outra linha. 
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 6}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte II}
+      \scriptsize
+      Coloque os \textit{scripts} e arquivos criados em \textit{atividades/atividades06}. 
+      Considere um arquivo \textit{emails\_database.txt} que armazena usuários e e-mails com o seguinte formato para a linha: 
+      nome completo:email \\ 
+      Escreva os seguintes \textit{scripts}:
+      \begin{itemize}
+         \item Script \textbf{addUser.sh}: recebe como parâmetro o nome completo e email e os adiciona no arquivo. Se o arquivo não existir, deve ser criado.
+	 \item Script \textbf{remUser.sh}: recebe como parâmetro o e-mail e remove a linha correspondente do arquivo.
+	 \item Script \textbf{showUser.sh}: recebe como parâmetro o e-mail e exibe o nome do usuário.
+	 \item Script \textbf{showDomains.sh}: recebe como parâmetro um domínio (gmail, yahoo, hotmail, ufc, etc) e retorna quantos usuários tem e-mail nesse domínio (ou semelhante) e exibe esses usuários.
+	 \item Script \textbf{showFile.sh}: exibe o conteúdo do arquivo.
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 7}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+  
+   \begin{frame}
+      \frametitle{Exercícios - Parte III}
+      Coloque os \textit{scripts}, arquivos e pastas criados em \textit{atividades/atividades07}. Considere todos os arquivos do diretório /home/compartilhado/maillog: 
+      \begin{itemize}
+         \item Os arquivos não estão organizados por dia. Por exemplo mail.log.1 tem informação do dia 05\slash09 até o dia 11\slash09. Crie novos arquivos no formato mail\_DD\_MM.log de forma que cada arquivo contenha apenas as entradas do dia DD do mês MM. É necessário que os arquivos de entrada sejam fornecidos através de parâmetro.
+	 \item Use o \textbf{xargs} para executar um comando que transfira os arquivos do 09 para o diretório 09, os arquivos do mês 08 para o diretório, etc. Por enquanto são apenas dois meses, mas faça seu comando para suportar quantidade maior.
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 8}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte I}
+      Escreva na pasta \textit{atividades/atividade08} um \textit{script} chamado \textbf{numeroOuNao.sh} que receba um parâmetro e afirme se o mesmo é um número ou não.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte II}
+      Na mesma pasta \textit{atividades/atividade08}, escreva um \textit{script} chamado \textit{param.sh} que verifique se o usuário passou parâmetros ou não. Caso não tenha passado parâmetros, deve imprimir apenas o nome do script. Caso tenha passado parâmetros, deve imprimir todos.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte III}
+      Na mesma pasta \textit{atividades/atividade08}, faça um \textit{script} chamado \textit{isfile.sh} que receba um parâmetro e verifique se é o nome de um arquivo ou diretório e informe se você tem permissão de escrita e leitura. \\
+      Por exemplo: \\
+      \$ .\slash testFile.sh /etc/hosts \\
+      É um arquivo. \\
+      Tem permissão de leitura. \\
+      Não tem permissão de escrita. \\
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercício - Parte VI}
+      De volta ao diretório \textit{atividades/atividade08}, escreva um \textit{script} chamado \textbf{servico.sh}. Esse script deve receber um parâmetro.
+      \begin{itemize}
+         \item Se o parâmetro for \textit{start}, deve imprimir \textquotedblleft Iniciando Serviço\textquotedblright.
+         \item Se o parâmetro for \textit{stop}, deve imprimir \textquotedblleft Parando Serviço\textquotedblright.
+         \item Se o parâmetro for \textit{restart}, deve imprimir \textquotedblleft Reiniciando Serviço\textquotedblright.
+         \item Se o parâmetro for qualquer outra coisa,  deve imprimir \textquotedblleft Uso: servico.sh (start$|$stop$|$restart) \textquotedblright.
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 9}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios I}
+      Agora é com vocês !!!
+      \begin{itemize}
+         \item Crie o diretório \textit{atividades/atividade09}
+	 \item Você vai desenvolver o \textit{script} \textit{latencia.sh}
+	 \item Esse \textit{script} vai receber como parâmetro o nome de um arquivo de texto, contendo um endereço IP por linha.
+	 \item O \textit{script} deve usar o comando \textbf{ping} para enviar dez pacotes ICMP, calculando o valor médio do tempo de resposta.
+	 \item O \textit{script} deve imprimir uma lista de IP ordenada do menor para o maior tempo médio de resposta, informando além do endereço, o tempo de resposta médio.
+      \end{itemize}
+   \end{frame}
+
+\section{Atividade 10}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Crie o diretório \textit{atividades/atividade10}. \\
+      Escreva um \textit{script} chamado \textit{alertaDiretorio.sh} que verifica de minuto em minuto a quantidade de arquivos em um diretório. \\
+      Caso a quantidade de arquivos se altere entre duas verificações, o \textit{script} deve enviar uma mensagem para o seu endereço de e-mail. \\
+      Faça com que o \textit{script} fique em execução mesmo sem que seu usuário esteja logado. \\
+   \end{frame}
+
+\section{Atividade 11}
+   \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Coloque o \textit{script} resultante em \textit{atividades/atividades11}. \\
+      Observe o arquivo \textit{/home/compartilhado/calculadora.sh}. Altere o programa para também aceitar operações em ponto flutuante com a vírgula como separador das casas decimais.
+   \end{frame}
+
+\section{Atividade 12}
+    \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+ 
+   \begin{frame}[fragile]
+      \frametitle{Exercícios - Parte I}
+      Faça um \textit{script} chamado \textit{contaPalavras.sh} na pasta \textit{atividades/atividade12} que pergunte ao usuário o nome de um arquivo de texto e para cada palavra do arquivo diga quantas vezes ela aparece no texto. \\
+      \begin{minted}{bash}
+      $ cat arquivo.txt
+      a casa que vivo é boa.
+      boa casa é.
+      $ ./contaPalavras.sh
+      Informe o arquivo: arquivo.txt
+      casa: 2
+      boa:  2
+      é:    2
+      a:    1
+      que:  1
+      vivo: 1
+      \end{minted}
+\end{frame}
+
+\section{Atividade 13}
+    \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+ 
+   \begin{frame}
+      \frametitle{Exercícios - Parte I}
+      Refaça o exercício de sala anterior usando o nome \textit{hosts.sh} na pasta \textit{atividades/atividade13}, porém caso o usuário não forneça nenhuma opção por parâmetros, o \textit{script} deve exibir um menu com as opções disponíveis (adicionar, remover, procurar e listar). Se a opção envolver leitura de valores, deve-se requisitar a entrada adequada do usuário.
+   \end{frame}
+
+\section{Atividade 14}
+    \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+ 
+   \begin{frame}[fragile]
+      \frametitle{Exercícios - Parte I}
+      Coloque a resposta em \textit{atividades/atividade14}. Faça um \textit{script} chamado \textit{contaPalavras.awk} que ao ser invocado com o nome de um arquivo de texto diga quantas vezes cada palavra aparece no texto. \\
+      \begin{minted}{bash}
+      $ cat arquivo.txt
+      a casa que vivo é boa.
+      boa casa é.
+      $ awk -f contaPalavras.awk arquivo.txt 
+      Informe o arquivo: arquivo.txt
+      casa: 2
+      boa:  2
+      é:    2
+      a:    1
+      que:  1
+      vivo: 1
+      \end{minted}
+\end{frame}
+
+\section{Atividade 15}
+    \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+ 
+   \begin{frame}
+      \frametitle{Exercícios I}
+      Coloque os arquivos no pasta \textit{atividades/atividade15}. Vamos fazer um pequeno servidor de arquivos.
+      \begin{itemize}
+         \item O \textit{script} \textit{cliente.sh} deve receber três parâmetros: IP do Servidor, Porta do Servidor e o nome de um arquivo. Ele deve se conectar ao servidor enviando além do nome do arquivo desejado, o IP e Porta na qual espera o recebimento do arquivo.  
+	 \item O \textit{script} \textit{servidor.sh} deve escutar no IP e Porta fornecidos ao cliente. A cada conexão, deve procurar o arquivo requisitado no diretório no qual está executando e enviá-lo através do IP e Porta fornecidos pelo cliente.
+     \end{itemize}
+     Para funcionar, tanto cliente quanto servidor devem estar na mesma rede.
+   \end{frame}
+
+\section{Atividade 16}
+    \begin{frame}
+      \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+      \end{beamercolorbox}
+   \end{frame}
+ 
+   \begin{frame}
+      \frametitle{Exercícios I}
+      Coloque o arquivo \textit{compactador.sh} na pasta \textit{atividades/atividade16}. O objetivo do \textit{script} é definir telas para as seguintes ações:
+      \begin{enumerate}
+         \item Apresentar uma tela requisitando o \textbf{caminho de um diretório}.
+	 \item Formar uma \textbf{lista com os nomes dos arquivos} (sem subdiretórios) do diretório citado. O usuário deve escolher um ou mais arquivos.
+	 \item Exibir duas \textbf{opções de compactação}: gzip ou b2zip.
+	 \item Questionar o \textbf{nome do arquivo compactado} a ser criado.
+	 \item Criar o arquivo compactado com os arquivos selecionados do diretório e exibir uma tela de sucesso com o \textbf{nome final do arquivo}.
+      \end{enumerate}
+   \end{frame}
+
+\end{document}
+

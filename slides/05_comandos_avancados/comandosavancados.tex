@@ -1,0 +1,192 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+
+\title{Comandos Avançados}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{ed - Editor de texto orientado a linhas}
+      \begin{itemize}
+         \item Uso minimalista. 
+         \item Utiliza as mesmas expressões regulares que outros comandos e linguagens.
+	 \item Ele é usado para exibir, modificar e manipular arquivos de texto. 
+      \end{itemize}
+   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Indicador de Pesquisa}
+   Para abrir um arquivo: 
+   \begin{minted}{bash}
+   $ ed [nomedoarquivo] 
+   \end{minted}
+   A única coisa que será impressa é a quantidade de \textit{bytes}. \\
+   Como é que uso isso ?!? \\
+   Digite \slash, e em seguida uma cadeia de caracteres. \\
+   Para imprimir todo o texto: 1,\$ p \\
+   Procurar início da linha: \^{}cadeia \\
+   Procurar fim da linha: cadeia\$ \\
+   Para sair do editor: q \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{\textit{Prompt} de Comando}
+   Para tornar as coisas mais fáceis, inicie o ed com o prompt de comando: 
+   \begin{minted}{bash}
+   $ ed -p:
+   \end{minted}
+   Podemos criar um alias para facilitar: \textbf{\$ alias ed='ed -p:'} \\
+   Para adicionar texto a um \textit{buffer}: \textbf{a} \\
+   Para voltar ao \textit{prompt} de comando, deixe linha com apenas um '.'. \\
+   Para salvar em um arquivo: \textbf{w nomedoarquivo} \\
+   Imprimir as linhas numeradas: \textbf{1,\$ n} \\
+   Ir para uma determinada linha: \textbf{n}, onde n é o número da linha. \\
+   Alterar o conteúdo da linha: \textbf{c} \\
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Substituição}
+      Já deve ter notado que \textbf{1,\$} representa uma faixa de valores. \\
+      Nesse caso, é da linha um até o final do arquivo. \\
+      Porém poderia ser qualquer faixa: \textbf{1,5 1,10 5,15} etc \\
+      O \textbf{p} é função imprimir, o \textbf{n} numerar as linhas, etc \\
+      O \textbf{g} permite a busca não por cadeias, mas sim expressões regulares: \textbf{g\slash expressao \slash p} \\
+      O \textbf{s} é a função substituir: \textbf{1,\$ s\slash expressao \slash cadeia \slash g} \\
+      Observer o \textbf{g} no comando anterior. 
+   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte I}
+%      Este exercício não conta como atividade, já que o uso do ed é interativo. Façam para praticar os conhecimentos. 
+%      \begin{itemize}
+%         \item Crie um arquivo texto chamado meu\_historico.txt com o ed, coloque seu nome na primeira linha e o nome de cada professor que você teve aula nas seguintes.
+%	 \item Salve o arquivo, saia do ed, abra novamente e imprima o conteúdo do arquivo.
+%	 \item Mude o conteúdo da primeira linha, no lugar do seu nome, coloque Aluno: ou Aluna:, de acordo com sua identidade, seguido pelo seu nome. 
+%	 \item Copie o arquivo $/home/compartilhado/hosts$ e utilizando o ed retire todas as linhas que são comentários (começam com \#).
+%      \end{itemize}
+%   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{O comando sed}
+   \begin{minted}{bash}
+   sed expressão regular [arquivo]
+   \end{minted}
+   A expressão regular é do formato: \\
+   $[<$endereço-1$>$, $[<$endereço-2$>]]$ $<$função$>$ $[$argumento$]$
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Funções}
+   \scriptsize
+   Substituir por cadeia:
+   \begin{minted}{bash}
+   sed 's/expressaoregular/cadeia/' arquivo
+   \end{minted}
+   Substituir por caractere:
+   \begin{minted}{bash}
+   sed 'y/caractere-1/caractere-2/' arquivo 
+   \end{minted}
+   Imprimir linhas que casam com expressão:
+   \begin{minted}{bash}
+   sed '/expressao/p' arquivo 
+   \end{minted}
+   Deletar linhas:
+   \begin{minted}{bash}
+   sed '1,4d' arquivo 
+   sed '/expressao/d' arquivo 
+   \end{minted}
+   Adicionar uma linha em posição:
+   \begin{minted}{bash}
+   sed '1a \novalinha' arquivo 
+   \end{minted}
+   A opção -n reduz o que é impresso na tela, enquanto a opção -i atualiza o arquivo. \\
+   A opção -r ativa suporte a metacaracteres avançados nas expressões regulares. \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{cut - Cortando cadeias de caracteres}
+   \begin{minted}{bash}
+   cut -f[campo] -d[delimitador] arquivo 
+   \end{minted}
+   O \textit{delimitador} indica qual caractere é usado para separar os campos. \\
+   O número \text{campo} indica qual campo deve ter a coluna impressa. \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{tr - Transformar cadeias de caracteres}
+   \begin{minted}{bash}
+tr [opções] <caracteresoriginais> <caracteresdestino>
+   \end{minted}
+   Converte dos caracteres originais para os caracteres de destino de acordo com a ordem que aparecem. \\
+   Pode usar as classes POSIX. \\
+   A opção -s elimina caracteres repetidos. \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{uniq - Eliminando repetições}
+   \begin{minted}{bash}
+uniq arquivo 
+   \end{minted}
+   Deixa uma única cópia para cada linha repetida. \\
+   As linhas devem ser adjacentes. \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Aritmética no Bash}
+   \begin{minted}{bash}
+expr <operando1> <operador> <operando2>
+   \end{minted}
+   O operador pode ser $+,-,*,/,\%$ \\
+   É extremamente sensível aos espaços. \\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Aritmética no Bash}
+   \begin{minted}{bash}
+bc [arquivo]
+   \end{minted}
+   É como se fosse um \textit{bash} para arimética. \\
+   Mais utilizado como comando destino de um pipe. \\
+   Aceita o parâmetro \textit{scale}.\\
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Aritmética}
+   Também é possível usar o próprio Bash para expressões aritméticas inteiras.
+   \begin{minted}{bash}
+   $(( expressão ))
+   \end{minted}
+   No lugar de executar um comando, o parênteses extra calcular a expressão. \\
+\end{frame}
+
+\begin{frame}
+   \frametitle{Exercícios - Parte I}
+   Continuando no diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/atividade04.py} para o diretório criado. Crie o arquivo \textit{parte\_01.txt} e coloque os comandos \textit{sed} que realizam as seguintes ações:
+   \begin{enumerate}
+      \item Troque o interpretador \textit{Python} para {/usr/bin/python3}.
+      \item Em um único comando, altere o nome das variáveis \textit{nota1}, \textit{nota2} e \textit{notaFinal} para usarem apenas letras maiúsculas (por exemplo, \textit{nota1} vira \textit{NOTA1}).
+      \item Altere o arquivo para importar o módulo \textit{time} do \textit{Python}.
+      \item Adicione um comando ao final do programa para imprimir a data atual (\textit{time.ctime()}).
+   \end{enumerate}
+\end{frame}
+
+\begin{frame}
+   \frametitle{Exercícios - Parte II}
+   Ainda no diretório \textit{atividades/atividade04}, crie o arquivo \textit{parte\_02.txt}. Usando os comandos aprendidos, crie uma sequência de comandos ligados por $|$ 
+que realize as ações abaixo. Coloque uma sequência por linha no arquivo \textit{parte\_02.txt}.
+   \begin{enumerate}
+      \item Analisando $/$etc$/$passwd, liste, um por linha, os diferentes shells utilizados pelos usuários (último campo separado por :). 
+      \item Veja o arquivo $/$home$/$compartilhado$/$despesas.txt. Use os comandos para calcular o total de despesas.
+   \end{enumerate}
+\end{frame}
+
+\end{document}
+
