@@ -10,12 +10,12 @@
 \institute{Universidade Federal do Ceará - Quixadá}
 
 \begin{document}
-   \begin{frame}
+   \begin{frame} 
       \titlepage
    \end{frame}
 
    \begin{frame}
-      \frametitle{Básico do Sistema de Arquivos}
+      \frametitle{Revisão do Básico do Sistema de Arquivos}
       \begin{columns}
       \begin{column}{0.4\textwidth}
       / \\
@@ -35,7 +35,7 @@
       \begin{column}{0.6\textwidth}
       \scriptsize
       \begin{itemize}
-         \item A partição de inicialização é montada na raiz (/).
+         \item A partição de inicialização é montada na raiz (usando o símbolo /).
 	 \item Partindo da raiz, outros diretórios são organizados de acordo com cada distribuição, mas há um padrão geral:
 	 \begin{itemize}
            \scriptsize
@@ -72,7 +72,6 @@
    \end{itemize}
 \end{frame}
 
-
 \begin{frame}[fragile]
    \frametitle{pwd - Informa nome do diretório corrente}
    \begin{minted}{bash}
@@ -98,13 +97,13 @@
       \begin{tabular}{ c | c }
          . (ponto) & Diretório atual \\
          \hline 
-         .. (dois pontos) & Diretório anterior \\
+         .. (dois pontos) & Diretório acima na hierarquia \\
          \hline
-         \textasciitilde (acento til) & Diretório home do usuário \\
+         \textasciitilde (acento til) & Diretório \textit{home} do usuário \\
          \hline
-         / (barra) & Diretório Raiz \\
+         / (barra) & Diretório raiz \\
          \hline 
-         - (hífen) & Último diretório \\
+         - (hífen) & Último diretório visitado \\
       \end{tabular}
    \end{table}
 \end{frame}
@@ -157,7 +156,7 @@
       \item Mover é uma maneira de renomear arquivos!
       \item Mover costuma ser mais lento, principalmente se for entre partições diferentes.
       \item Pode ser aplicado tanto para arquivos quanto diretórios.
-      \item A opçãp $-i$ pergunta antes de sobreescrever arquivos existentes. Não confie que ela está ativa!
+      \item A opção $-i$ pergunta antes de sobreescrever arquivos existentes. Não confie que ela está ativa!
    \end{itemize}
 \end{frame}
 
@@ -205,12 +204,12 @@
       \begin{tabular}{ c | c }
          -f & Modo força bruta \\
          \hline 
-         -I & Modo Confirmação \\
+         -I & Modo confirmação \\
          \hline
          -r & Remove diretórios \\
       \end{tabular}
    \end{table}
-   A opção $-r$ remove mesmo se o diretório contenha arquivo.
+   A opção $-r$ remove mesmo se o diretório contenha arquivos e subdiretórios.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -582,15 +581,16 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
       Esta atividade deve ser feita \textbf{inicialmente} na sua máquina local.
       \begin{itemize}
          \item Crie um diretório chamado \textit{ufc\_quixada}.
-	 \item Crie um subdiretório chamado \textit{redes\_de\_computadores}.
-	 \item Em \textit{redes\_de\_computadores}, crie um subdiretório chamado \textit{grade\_curricular}.
+	      \item Crie um subdiretório chamado \textit{redes\_de\_computadores}.
+	      \item Em \textit{redes\_de\_computadores}, crie um subdiretório chamado \textit{grade\_curricular}.
          \item Acesse \url{http://rc.quixada.ufc.br/matriz-curricular/} e anote o nome cada disciplina do curso.
          \item Para cada disciplina:
-	 \begin{itemize}
-	    \item Crie um subdiretório em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
-	    \item O nome do diretório deve ser em minúsculas e os espaços devem ser trocados por \_.
-	    \item Por exemplo: Internet e Arquitetura TCP/IP corresponde do diretório \textit{internet\_e\_arquitetura\_tcpip}
-	 \end{itemize}
+	      \begin{itemize}
+	         \item Crie um subdiretório em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	         \item O nome do diretório deve ser em minúsculas e os espaços devem ser trocados por \_.
+	         \item Por exemplo: Internet e Arquitetura TCP/IP corresponde do diretório \textit{internet\_e\_arquitetura\_tcpip}
+         \end{itemize}
+         \item \textbf{Se você for de outro curso, adapte de acordo com o nome do seu curso}.
       \end{itemize}
    \end{frame}
 
