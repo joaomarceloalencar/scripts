@@ -586,9 +586,10 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
          \item Acesse \url{http://rc.quixada.ufc.br/matriz-curricular/} e anote o nome cada disciplina do curso.
          \item Para cada disciplina:
 	      \begin{itemize}
-	         \item Crie um subdiretório em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
-	         \item O nome do diretório deve ser em minúsculas e os espaços devem ser trocados por \_.
-	         \item Por exemplo: Internet e Arquitetura TCP/IP corresponde do diretório \textit{internet\_e\_arquitetura\_tcpip}
+	         \item Crie um arquivo de texto em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	         \item O nome do arquivo deve ser em minúsculas e os espaços devem ser trocados por \_.
+	         \item Por exemplo: Internet e Arquitetura TCP/IP corresponde ao arquivo \textit{internet\_e\_arquitetura\_tcpip}
+	         \item Dentro do arquivo, coloque o código da disciplina. 
          \end{itemize}
          \item \textbf{Se você for de outro curso, adapte de acordo com o nome do seu curso}.
       \end{itemize}
@@ -600,8 +601,9 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
       \begin{itemize}
          \item Acesse \url{www.quixada.ufc.br} e anote o nome e o primeiro sobrenome de cada professor que você já foi aluno.
          \item Crie um diretório \textit{ufc\_quixada/redes\_de\_computadores/professores}.
-         \item Dentro do diretório criado, crie um diretório para cada professor. O nome do diretório de cada professor deve seguir o padrão \textit{nome\_sobrenome}. 
-         \item Exemplo: deve existir o diretório \textit{ufc\_quixada/rede\_de\_computadores/professores/joao\_marcelo}.
+         \item Dentro do diretório criado, crie um arquivo para cada professor. O nome do arquivo de cada professor deve seguir o padrão \textit{nome\_sobrenome}. 
+         \item Exemplo: deve existir o arquivo \textit{ufc\_quixada/rede\_de\_computadores/professores/joao\_marcelo}.
+         \item Dentro do arquivo, coloque a url da página do professor em \url{https://www.quixada.ufc.br/docente/}.
       \end{itemize}
       Até aqui, você terá pastas para as disciplinas em \textit{grade\_curricular} e pasta para os professores em \textit{professores}.
    \end{frame}
@@ -614,8 +616,8 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
 	      \item Dentro de \textit{conquistas}, você vai criar um diretório para cada disciplina que já foi aprovado(a).
          \item Dentro do diretório criado, defina dois \textit{soft links}:
 	      \begin{itemize}
-	         \item \textit{programa}, que deve apontar para a pasta da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
-	         \item \textit{professor}, que deve apontar para a pasta do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+	         \item \textit{programa}, que deve apontar para o arquivo da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	         \item \textit{professor}, que deve apontar para o arquivo do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
 	      \end{itemize}
       \end{itemize}
    \end{frame}
@@ -641,7 +643,7 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
          \begin{itemize}
             \item \textit{grade\_curricular} com subdiretórios para todas as disciplinas.
 	         \item \textit{professores} com subdiretórios para todos os professores.
-	         \item \textit{conquistas} com pastas para as disciplinas que foi aprovado e dentro delas ligações (\textit{links}) para as pastas no diretório \textit{grade\_curricular} e \textit{professores}.  
+	         \item \textit{conquistas} com pastas para as disciplinas que foi aprovado e dentro delas ligações (\textit{links}) para os arquivos no diretório \textit{grade\_curricular} e \textit{professores}.  
          \end{itemize}
       \end{itemize}
       \begin{block}{Objetivo desse trabalho todo...}
