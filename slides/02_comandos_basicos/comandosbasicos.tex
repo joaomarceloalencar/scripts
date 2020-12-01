@@ -577,8 +577,8 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
 \end{frame}
 
    \begin{frame}
-      \frametitle{Atividade de Comandos Básicos - Parte I}
-      Esta atividade deve ser feita \textbf{inicialmente} na sua máquina local.
+      \frametitle{Exercício de Comandos Básicos - Parte I}
+      Esta atividade é para ser feita \textbf{inicialmente} na sua máquina local.
       \begin{itemize}
          \item Crie um diretório chamado \textit{ufc\_quixada}.
 	      \item Crie um subdiretório chamado \textit{redes\_de\_computadores}.
@@ -595,7 +595,7 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
    \end{frame}
 
    \begin{frame}
-      \frametitle{Atividade de Comandos Básicos - Parte II}
+      \frametitle{Exercício de Comandos Básicos - Parte II}
       Este exercício é continuação da Parte I.
       \begin{itemize}
          \item Acesse \url{www.quixada.ufc.br} e anote o nome e o primeiro sobrenome de cada professor que você já foi aluno.
@@ -603,50 +603,51 @@ $ scp [-P PORTA] [-r] arquivo [usuario]@IP:[diretorio]
          \item Dentro do diretório criado, crie um diretório para cada professor. O nome do diretório de cada professor deve seguir o padrão \textit{nome\_sobrenome}. 
          \item Exemplo: deve existir o diretório \textit{ufc\_quixada/rede\_de\_computadores/professores/joao\_marcelo}.
       \end{itemize}
+      Até aqui, você terá pastas para as disciplinas em \textit{grade\_curricular} e pasta para os professores em \textit{professores}.
    \end{frame}
 
    \begin{frame}
-      \frametitle{Atividade de Comandos Básicos - Parte III}
+      \frametitle{Exercício de Comandos Básicos - Parte III}
       Este exercício é continuação da Parte II.
       \begin{itemize}
          \item Crie o diretório \textit{ufc\_quixada/redes\_de\_computadores/conquistas}.
-	 \item Dentro de \textit{conquistas}, você vai criar um diretório para cada disciplina que já foi aprovado(a).
+	      \item Dentro de \textit{conquistas}, você vai criar um diretório para cada disciplina que já foi aprovado(a).
          \item Dentro do diretório criado, defina dois \textit{soft links}:
-	 \begin{itemize}
-	    \item \textit{programa}, que deve apontar para a pasta da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
-	    \item \textit{professor}, que deve apontar para a pasta do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
-	 \end{itemize}
+	      \begin{itemize}
+	         \item \textit{programa}, que deve apontar para a pasta da disciplina em \textit{ufc\_quixada/redes\_de\_computadores/grade\_curricular}.
+	         \item \textit{professor}, que deve apontar para a pasta do professor em \textit{ufc\_quixada/redes\_de\_computadores/professores}.
+	      \end{itemize}
       \end{itemize}
    \end{frame}
 
    \begin{frame}
-      \frametitle{Atividade de Comandos Básicos - Parte IV}
+      \frametitle{Exercício de Comandos Básicos - Parte IV}
       Este exercício é continuação da Parte III.
       \begin{itemize}
-         \item Compacte sua pasta \textit{ufc\_quixada} no arquivo \textit{ufc\_quixada.tar.gz}.
-	 \item No servidor, dentro do seu diretório de usuário, crie a pasta \textit{atividades}.
-	 \item Crie o subdiretório \textit{atividade02}.
-         \item Usando o comando \textit{scp}, copie o arquivo \textit{ufc\_quixada.tar.gz} para o diretório remoto \textit{atividades/atividade01}. 
-         \item Descompacte o arquivo \textit{ufc\_quixada.tar.gz} e verifique se os \textit{links} estão corretos.
-         \item Altere as permissões dos diretórios \textit{grade\_curricular} e \textit{professores} para apenas leitura.
+         \item No seu repositório crie a pasta \textit{exercicios}.
+         \item Dentro da pasta \textit{exercicios} crie o diretório \textit{exercicio01}.
+         \item Coloque sua pasta \textit{ufc\_quixada} no repositório na pasta \textit{exercicios/exercicio01}.
+	      \item No servidor, dentro do seu diretório de usuário, clone ou atualize a cópia do repositório no diretório de usuário.
       \end{itemize}
+      \textbf{Importante:} os \textit{links} criados devem continuar funcionando no servidor e em qualquer lugar que o repositório for clonado.
+      Tenha cuidado nos \textbf{caminhos relativos}.
    \end{frame}
 
-\begin{frame}
-   \frametitle{Resultado da Atividade}
-   \begin{itemize}
-      \item Pela lógica, deve existir a pasta \textit{atividades/atividade02/ufc\_quixada} na sua pasta no servidor.
-      \item Dentro dela, devem existir a pasta \textit{redes\_de\_computadores} com os seguintes subdiretórios:
+   \begin{frame}
+      \frametitle{Resultado do Exercício}
       \begin{itemize}
-         \item \textit{grade\_curricular} com subdiretórios para todas as disciplinas.
-	 \item \textit{professores} com subdiretórios para todos os professores.
-	 \item \textit{conquistas} com pastas para as disciplinas que foi aprovado e dentro delas ligações (\textit{links}) para as pastas no diretório \textit{grade\_curricular} e \textit{professores}.  
+         \item Pela lógica, deve existir a pasta \textit{exercicios/exercicio01/ufc\_quixada} na sua pasta no servidor.
+         \item Dentro dela, deve existir a pasta \textit{redes\_de\_computadores} com os seguintes subdiretórios:
+         \begin{itemize}
+            \item \textit{grade\_curricular} com subdiretórios para todas as disciplinas.
+	         \item \textit{professores} com subdiretórios para todos os professores.
+	         \item \textit{conquistas} com pastas para as disciplinas que foi aprovado e dentro delas ligações (\textit{links}) para as pastas no diretório \textit{grade\_curricular} e \textit{professores}.  
+         \end{itemize}
       \end{itemize}
-   \end{itemize}
-   \begin{block}{Objetivo desse trabalho todo...}
-   Garantir que o aluno tem prática no uso da linha de comando.
-   \end{block}
-\end{frame}
+      \begin{block}{Objetivo desse trabalho todo...}
+      Garantir que o aluno tem prática no uso da linha de comando.
+      \end{block}
+   \end{frame}
 
 %   \begin{frame}
 %      \frametitle{Exercícios - Parte I}
