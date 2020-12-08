@@ -69,7 +69,7 @@
          \hline
          \$ & Pesquisar texto no fim das linhas  \\
          \hline
-         \textbackslash b & Pesquissar no início ou fim das palavras  \\
+         \textbackslash b & Pesquisar no início ou fim das palavras  \\
          \hline
          \textbackslash B & Negação de \textbackslash b  \\
          \hline
@@ -184,44 +184,58 @@ $ grep [-opções] [expressão] [arquivo1] [arquivo2] ...
    \end{frame}
 
    \begin{frame}
-      \frametitle{Atividades - Parte I}
-      Crie na sua pasta o diretório \textit{atividades/atividade03}. Copie para ele o arquivo \textit{/home/compartilhado/emailsordenados.txt}. Crie um arquivo chamado \textit{parte\_01.txt} e coloque nele, um por linha e na ordem abaixo, os seguintes comandos:
+      \frametitle{Exercício - Parte I}
+      Crie no seu repositório a pasta \textit{exercicios/exercicio02}. Considere o arquivo \textit{/home/compartilhado/emailsordenados.txt}. Crie um arquivo chamado \textit{parte\_01.sh} e coloque nele, 
+      um por linha e na ordem abaixo, os seguintes comandos:
       \begin{enumerate}
          \item Um comando \textit{grep} que encontre todos os alunos cujo primeiro nome começa com A.
-	 \item Um comando \textit{grep} que encontre todos os alunos que tem algum nome começando com A.
-	 \item Um comando \textit{grep} que encontre todos os alunos cujo e-mails terminam com '.br'.
+	      \item Um comando \textit{grep} que encontre todos os alunos que tem algum nome começando com A.
+	      \item Um comando \textit{grep} que encontre todos os alunos cujo e-mails terminam com '.br'.
+	      \item Um comando \textit{grep} que encontre todos os alunos cujo e-mails contém números.
       \end{enumerate}
    \end{frame}
 
    \begin{frame}
-      \frametitle{Atividades - Parte II}
-      Copie o arquivo \textit{/home/compartilhado/expressoesregulares.txt} para a pasta \textit{atividades/atividade03}. Crie um arquivo \textit{parte\_02.txt} com os comandos \textit{grep}, um por linha, para as seguintes buscas:
+      \frametitle{Exercício - Parte II}
+      Considere o arquivo \textit{/home/compartilhado/auth.log.1}. Crie um arquivo chamado \textit{parte\_02.sh} e coloque nele, 
+      um por linha e na ordem abaixo, os seguintes comandos:
       \begin{enumerate}
-         \item Descubra quais linhas tem um espaço em branco antes da pontuação final.
-	 \item Descubra quais linhas tem um sinal de pontuação seguido diretamente de uma letra, sem espaço entre ela e o sinal.
-	 \item Descubra quais linhas não tem uma frase começando com letra maiúscula após a pontuação.
-	 \item Descubra quais linhas não terminam com pontuação.
+         \item Um comando \textit{grep} que encontre todas as linhas com mensagens do \textit{sshd}.
+	      \item Um comando \textit{grep} que encontre todas as linhas com mensagens que não são do \textit{sshd}.
+	      \item Um comando \textit{grep} que encontre todas as linhas com mensagens que indicam um \textit{login} de sucesso via \textit{sshd}.
+	      \item Um comando \textit{grep} que encontre todas as vezes que alguém tentou fazer \textit{login} via \textit{root} através do \textit{sshd}.
       \end{enumerate}
    \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividades - Parte III}
-      Crie o arquivo \textit{atividades/atividade03/parte\_03.txt} e coloque, uma por linha, as expressões regulares que representam as seguintes cadeias de caracteres:
-      \begin{enumerate}
-         \item A palavra "revista" no singular e no plural.
-	 \item A palavra "letra" em qualquer combinação de letras maiúsculas ou minúsculas.
-	 \item Os números inteiros.
-	 \item Um número IP.
-      \end{enumerate}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Atividades - Parte II}
+%      Copie o arquivo \textit{/home/compartilhado/expressoesregulares.txt} para a pasta \textit{atividades/atividade03}. Crie um arquivo \textit{parte\_02.txt} com os comandos \textit{grep}, um por linha, para as seguintes buscas:
+%      \begin{enumerate}
+%        \item Descubra quais linhas tem um espaço em branco antes da pontuação final.
+%	      \item Descubra quais linhas tem um sinal de pontuação seguido diretamente de uma letra, sem espaço entre ela e o sinal.
+%	      \item Descubra quais linhas não tem uma frase começando com letra maiúscula após a pontuação.
+%	      \item Descubra quais linhas não terminam com pontuação.
+%      \end{enumerate}
+%   \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividades - Parte IV}
-      Considerando o arquivo \textit{expressoesregulares.txt}, coloque em um arquivo \textit{parte\_04.txt} com um comando \textit{grep} para a seguinte busca:
-      \begin{itemize}
-         \item Descubra quais linhas contém palavras com mais que 8 caracteres.
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Atividades - Parte III}
+%      Crie o arquivo \textit{atividades/atividade03/parte\_03.txt} e coloque, uma por linha, as expressões regulares que representam as seguintes cadeias de caracteres:
+%      \begin{enumerate}
+%         \item A palavra "revista" no singular e no plural.
+%	      \item A palavra "letra" em qualquer combinação de letras maiúsculas ou minúsculas.
+%	      \item Os números inteiros.
+%	      \item Um número IP.
+%      \end{enumerate}
+%   \end{frame}
+
+%   \begin{frame}
+%      \frametitle{Atividades - Parte IV}
+%      Considerando o arquivo \textit{expressoesregulares.txt}, coloque em um arquivo \textit{parte\_04.txt} com um comando \textit{grep} para a seguinte busca:
+%      \begin{itemize}
+%         \item Descubra quais linhas contém palavras com mais que 8 caracteres.
+%      \end{itemize}
+%   \end{frame}
 
 \end{document}
 
