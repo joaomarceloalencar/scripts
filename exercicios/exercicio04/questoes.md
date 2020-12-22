@@ -6,7 +6,7 @@ Coloque os arquivos na pasta _exercicios/exercicio04_.
 
 ## Questão 01
 
-Nesta questão, você deve criar um _script_ chamado _agenda.sh_. Esse _script_ deve oferecer as funcionalidades de agenda de contatos, adicionando ou removendo informações em um arquivo auxiliar chamado _usuarios.db_. Por exemplo, ao executar o seguinte comando:
+Nesta questão, você deve criar um _script_ chamado _agenda.sh_. Esse _script_ deve oferecer as funcionalidades de agenda de contatos, adicionando ou listando informações em um arquivo auxiliar chamado _usuarios.db_. Por exemplo, ao executar o seguinte comando:
 
 ```
 $ ./agenda.sh adicionar "João Marcelo" joao.marcelo@ufc.br
