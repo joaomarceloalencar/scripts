@@ -39,7 +39,7 @@
 
 \begin{frame}[fragile]
    \frametitle{\textit{Prompt} de Comando}
-   Para tornar as coisas mais fáceis, inicie o ed com o prompt de comando: 
+   Para tornar as coisas mais fáceis, inicie o ed com o \textit{prompt} de comando: 
    \begin{minted}{bash}
    $ ed -p:
    \end{minted}
@@ -56,9 +56,9 @@
       \frametitle{Substituição}
       Já deve ter notado que \textbf{1,\$} representa uma faixa de valores. \\
       Nesse caso, é da linha um até o final do arquivo. \\
-      Porém poderia ser qualquer faixa: \textbf{1,5 1,10 5,15} etc \\
-      O \textbf{p} é função imprimir, o \textbf{n} numerar as linhas, etc \\
-      O \textbf{g} permite a busca não por cadeias, mas sim expressões regulares: \textbf{g\slash expressao \slash p} \\
+      Porém poderia ser qualquer faixa: \textbf{1,5 1,10 5,15} etc. \\
+      O \textbf{p} é função imprimir, o \textbf{n} numerar as linhas, etc. \\
+      O \textbf{g} permite a busca não por cadeias, mas sim expressões regulares: \textbf{g \slash expressao \slash p} \\
       O \textbf{s} é a função substituir: \textbf{1,\$ s\slash expressao \slash cadeia \slash g} \\
       Observer o \textbf{g} no comando anterior. 
    \end{frame}
@@ -68,9 +68,9 @@
 %      Este exercício não conta como atividade, já que o uso do ed é interativo. Façam para praticar os conhecimentos. 
 %      \begin{itemize}
 %         \item Crie um arquivo texto chamado meu\_historico.txt com o ed, coloque seu nome na primeira linha e o nome de cada professor que você teve aula nas seguintes.
-%	 \item Salve o arquivo, saia do ed, abra novamente e imprima o conteúdo do arquivo.
-%	 \item Mude o conteúdo da primeira linha, no lugar do seu nome, coloque Aluno: ou Aluna:, de acordo com sua identidade, seguido pelo seu nome. 
-%	 \item Copie o arquivo $/home/compartilhado/hosts$ e utilizando o ed retire todas as linhas que são comentários (começam com \#).
+%	       \item Salve o arquivo, saia do ed, abra novamente e imprima o conteúdo do arquivo.
+%	       \item Mude o conteúdo da primeira linha, no lugar do seu nome, coloque Aluno: ou Aluna:, de acordo com sua identidade, seguido pelo seu nome. 
+%	       \item Copie o arquivo $/home/compartilhado/hosts$ e utilizando o ed retire todas as linhas que são comentários (começam com \#).
 %      \end{itemize}
 %   \end{frame}
 
@@ -167,26 +167,59 @@ bc [arquivo]
    No lugar de executar um comando, o parênteses extra calcular a expressão. \\
 \end{frame}
 
-\begin{frame}
-   \frametitle{Exercícios - Parte I}
-   Continuando no diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/atividade04.py} para o diretório criado. Crie o arquivo \textit{parte\_01.txt} e coloque os comandos \textit{sed} que realizam as seguintes ações:
-   \begin{enumerate}
-      \item Troque o interpretador \textit{Python} para {/usr/bin/python3}.
-      \item Em um único comando, altere o nome das variáveis \textit{nota1}, \textit{nota2} e \textit{notaFinal} para usarem apenas letras maiúsculas (por exemplo, \textit{nota1} vira \textit{NOTA1}).
-      \item Altere o arquivo para importar o módulo \textit{time} do \textit{Python}.
-      \item Adicione um comando ao final do programa para imprimir a data atual (\textit{time.ctime()}).
-   \end{enumerate}
+
+\begin{frame}[fragile]
+   \frametitle{Exercício 03 - Parte II}
+   Coloque o \textit{script} na pasta \textit{exercicios/exercicio03}. O nome do \textit{script} deve ser \textit{soma.sh}. Instruções:
+   \begin{itemize}
+      \item Esse \textit{script} deve considerar que no mesmo diretório que será executado existe um arquivo chamado \textit{compras.txt} com a seguinte informação:
+      \begin{minted}{bash}
+Playstation5 4999
+MacBook 9799
+GalaxyS20Ultra 5499
+iPad 3499
+SmartTV554k 2799
+      \end{minted}
+      \item Mais informações no próximo \textit{slide}.
+   \end{itemize}
 \end{frame}
 
-\begin{frame}
-   \frametitle{Exercícios - Parte II}
-   Ainda no diretório \textit{atividades/atividade04}, crie o arquivo \textit{parte\_02.txt}. Usando os comandos aprendidos, crie uma sequência de comandos ligados por $|$ 
-que realize as ações abaixo. Coloque uma sequência por linha no arquivo \textit{parte\_02.txt}.
+
+\begin{frame}[fragile]
+   \frametitle{Exercício 03 - Parte II - Continuação}
+   Você deve fazer uma sequência de cinco comandos, ligados por \textit{pipe}, para somar os valor total
+   das compras. Abaixo, a posição do comando no \textit{pipe} e a respectiva funcionalidade que deve 
+   executar:
    \begin{enumerate}
-      \item Analisando $/$etc$/$passwd, liste, um por linha, os diferentes shells utilizados pelos usuários (último campo separado por :). 
-      \item Veja o arquivo $/$home$/$compartilhado$/$despesas.txt. Use os comandos para calcular o total de despesas.
+      \item Exibe o conteúdo do arquivo.
+      \item Recupera apenas os preços (sugestão: \textit{cut}).
+      \item Substitui o caractere de nova linha por + (sugestão:  \textit{tr}).
+      \item O substitui o + ao final por um caractere nova linha (sugestão: \textit{sed}).
+      \item Faz a soma dos valores (sugestão: \textit{bc}).
    \end{enumerate}
+   Faça de forma incremental, adicionando um comando por vez no \textit{pipe}.
 \end{frame}
+
+%\begin{frame}
+%   \frametitle{Exercícios - Parte I}
+%   Continuando no diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/atividade04.py} para o diretório criado. Crie o arquivo \textit{parte\_01.txt} e coloque os comandos \textit{sed} que realizam as seguintes ações:
+%   \begin{enumerate}
+%      \item Troque o interpretador \textit{Python} para {/usr/bin/python3}.
+%      \item Em um único comando, altere o nome das variáveis \textit{nota1}, \textit{nota2} e \textit{notaFinal} para usarem apenas letras maiúsculas (por exemplo, \textit{nota1} vira \textit{NOTA1}).
+%      \item Altere o arquivo para importar o módulo \textit{time} do \textit{Python}.
+%      \item Adicione um comando ao final do programa para imprimir a data atual (\textit{time.ctime()}).
+%   \end{enumerate}
+%\end{frame}
+
+%\begin{frame}
+%   \frametitle{Exercícios - Parte II}
+%   Ainda no diretório \textit{atividades/atividade04}, crie o arquivo \textit{parte\_02.txt}. Usando os comandos aprendidos, crie uma sequência de comandos ligados por $|$ 
+%que realize as ações abaixo. Coloque uma sequência por linha no arquivo \textit{parte\_02.txt}.
+%   \begin{enumerate}
+%      \item Analisando $/$etc$/$passwd, liste, um por linha, os diferentes shells utilizados pelos usuários (último campo separado por :). 
+%      \item Veja o arquivo $/$home$/$compartilhado$/$despesas.txt. Use os comandos para calcular o total de despesas.
+%   \end{enumerate}
+%\end{frame}
 
 \end{document}
 

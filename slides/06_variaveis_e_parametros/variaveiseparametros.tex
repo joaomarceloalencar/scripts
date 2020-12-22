@@ -18,18 +18,18 @@
       O nome de uma variável é iniciado por uma letra ou um sublinhado, seguido ou não por quaisquer caracteres alfanuméricos ou caracteres sublinhados.
       \begin{itemize}
          \item Para criar uma variável basta colocar o nome, seguido de um sinal de igual $=$ \textbf{colado} ao nome escolhido e, \textbf{colado} ao $=$, o valor estipulado.
-	 \item Para exibirmos o valor de uma variável, devemos preceder o seu nome por um cifrão \$. Podemos e devemos utilizar \{ e \} para delimitar o nome de uma variável.
+	      \item Para exibirmos o valor de uma variável, devemos preceder o seu nome por um cifrão \$. Podemos e devemos utilizar \{ e \} para delimitar o nome de uma variável.
       \end{itemize}
    \end{frame}
 
    \begin{frame}
       \frametitle{Passando e Recebendo Parâmetros}
-      Os parâmetros passados (parm1, parm2 ... parmn) dão origem, dentro do programa que os recebe, às variáveis \$1, \$2, \$3 ... \$n. É importante notar que a passagem de parâmetro é posicional, isto é, o primeiro parâmetro é \$1, o segundo \$2 e assim até o \$9.
+      Os parâmetros passados ($param_ {1}$, $param_ {2}$ ... $param_ {n}$) dão origem, dentro do programa que os recebe, às variáveis \$1, \$2, \$3 ... \$n. É importante notar que a passagem de parâmetro é posicional, isto é, o primeiro parâmetro é \$1, o segundo \$2 e assim até o \$9.
       \begin{itemize}
          \item Do 10 em diante, use \$\{10\} no lugar de \$10.
-	 \item A variável \$0 é o nome do programa.
-	 \item A variável \$\# é quantidade de parâmetros recebida.
-	 \item A variável \$* contém o conjunto de todos os parâmetros separados por espaços em branco.
+	      \item A variável \$0 é o nome do programa.
+	      \item A variável \$\# é quantidade de parâmetros recebida.
+	      \item A variável \$* contém o conjunto de todos os parâmetros separados por espaços em branco.
       \end{itemize}
    \end{frame}
 
@@ -65,30 +65,30 @@ $ find . -type f -name "*.txt" | xargs -i bash -c "echo removendo {}; rm {};"
    \end{minted}
 \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividades -  Parte I}
-      Coloque os \textit{scripts} criados em \textit{atividades/atividades05}:
-      \begin{itemize}
-         \item Escreva um script chamado \textbf{addN.sh} que recebe uma lista de números e retorna a soma deles.
-	 \item Escreva um script chamado \textbf{menorMediaMaior.sh} que recebe uma lista de números e imprime na tela o menor deles, a média aritmética e o maior em outra linha. 
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Atividades -  Parte I}
+%      Coloque os \textit{scripts} criados em \textit{atividades/atividades05}:
+%      \begin{itemize}
+%         \item Escreva um script chamado \textbf{addN.sh} que recebe uma lista de números e retorna a soma deles.
+%	 \item Escreva um script chamado \textbf{menorMediaMaior.sh} que recebe uma lista de números e imprime na tela o menor deles, a média aritmética e o maior em outra linha. 
+%      \end{itemize}
+%   \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividades - Parte II}
-      \scriptsize
-      Coloque os \textit{scripts} e arquivos criados em \textit{atividades/atividades05}. Considere um arquivo \textit{emails\_database.txt} que armazena usuários e e-mails com o seguinte formato para a linha: \\
-      \\
-      nome completo:email \\ \\
-      Escreva os seguintes \textit{scripts}:
-      \begin{itemize}
-         \item Script \textbf{addUser.sh}: recebe como parâmetro o nome completo e email e os adiciona no arquivo. Se o arquivo não existir, deve ser criado.
-	 \item Script \textbf{remUser.sh}: recebe como parâmetro o e-mail e remove a linha correspondente do arquivo.
-	 \item Script \textbf{showUser.sh}: recebe como parâmetro o e-mail e exibe o nome do usuário.
-	 \item Script \textbf{showDomains.sh}: recebe como parâmetro um domínio (gmail, yahoo, hotmail, ufc, etc) e retorna quantos usuários tem e-mail nesse domínio (ou semelhante) e exibe esses usuários.
-	 \item Script \textbf{showFile.sh}: exibe o conteúdo do arquivo.
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Atividades - Parte II}
+%      \scriptsize
+%      Coloque os \textit{scripts} e arquivos criados em \textit{atividades/atividades05}. Considere um arquivo \textit{emails\_database.txt} que armazena usuários e e-mails com o seguinte formato para a linha: \\
+%      \\
+%      nome completo:email \\ \\
+%      Escreva os seguintes \textit{scripts}:
+%      \begin{itemize}
+%         \item Script \textbf{addUser.sh}: recebe como parâmetro o nome completo e email e os adiciona no arquivo. Se o arquivo não existir, deve ser criado.
+%	 \item Script \textbf{remUser.sh}: recebe como parâmetro o e-mail e remove a linha correspondente do arquivo.
+%	 \item Script \textbf{showUser.sh}: recebe como parâmetro o e-mail e exibe o nome do usuário.
+%	 \item Script \textbf{showDomains.sh}: recebe como parâmetro um domínio (gmail, yahoo, hotmail, ufc, etc) e retorna quantos usuários tem e-mail nesse domínio (ou semelhante) e exibe esses usuários.
+%	 \item Script \textbf{showFile.sh}: exibe o conteúdo do arquivo.
+%      \end{itemize}
+%   \end{frame}
 
 %   \begin{frame}
 %      \frametitle{Atividades - Parte III}

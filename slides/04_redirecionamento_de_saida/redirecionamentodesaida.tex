@@ -22,13 +22,6 @@
    \end{minted}
    Um novo processo \textit{shell} é criado, executa o comando e retorna o resultado.
 \end{frame}
-
-%   \begin{frame}
-%      \frametitle{Exercícios - Parte I}
-%      Usando os comandos \textbf{echo} e \textbf{date}, imprima a seguinte frase: \\
-%      \textit{Hoje é dia 30, do mês 08 do ano de 2016.} \\
-%      sem digitar números na \textit{string} passada ao \textbf{echo}.
-%   \end{frame}
    
    \begin{frame}
       \frametitle{Redirecionamento de Saída}
@@ -80,16 +73,45 @@ tail -n 50 /home/compartilhando/auth.log | head -n 25
        \end{minted}
 \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividade}
-      Crie o diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/auth.log} para o diretório criado. Crie um arquivo chamado \textit{auth\_analise.txt} com os seguintes comandos, um por linha:
-      \begin{enumerate}
-         \item Um comando que analise o arquivo \textit{auth.log} e informe quantas vezes tentaram fazer \textit{login} como um usuário inválido.
-	 \item Um comando que salve em um arquivo chamado \textit{malditos.txt} todas as tentativas de \textit{login} como usuários inválidos.
-	 \item Vasculhe o arquivo até encontrar um usuário que também seja aluno. Depois escreva o comando que conte quantas vezes ele ou ela fez o \textit{login} com sucesso. Pode usar seu usuário. 
-      \end{enumerate}
-      Abra o arquivo \textit{auth.log} em um editor de texto e estude seu formato antes de tentar definir os comandos.
-   \end{frame}
+\begin{frame}[fragile]
+   \frametitle{Exercícios 03 - Parte I}
+   Coloque os arquivos no diretório \textit{exercicios/exercicios03}. Escreva um \textit{script} chamado \textit{saudacao.sh} que imprima
+   a seguinte saudação ao ser executado:
+   \begin{minted}{bash}
+   $ ./saudacao.sh
+   Olá jmhal,
+   Hoje é dia 30, do mês 08 do ano de 2016.
+   \end{minted}
+   Instruções:
+   \footnotesize
+   \begin{itemize}
+      \item No lugar de \textit{jmhal}, deve ser exibido o usuário que está executando o \textit{script}.
+      \item A data exibida deve ser a data atual da execução, sendo que o \textit{script} deve funcionar sem alterações seja qual for o dia que for executado.
+      \item Você deve usar os comandos \textbf{echo}, \textbf{who} e \textbf{date}. 
+      \item Veja mais informações sobre o \textit{date} em \url{https://www.vivaolinux.com.br/artigo/Formatando-exibicao-de-datas-no-Linux}.
+   \end{itemize}
+   \normalsize
+   Por último, toda vez que o \textit{script} for executado, além de exibir a saudação na tela, deve anexar
+   a saudação ao arquivo \textit{saudacao.log} no mesmo diretório de execução.
+\end{frame}
+
+%   \begin{frame}
+%      \frametitle{Exercícios - Parte I}
+%      Usando os comandos \textbf{echo} e \textbf{date}, imprima a seguinte frase: \\
+%      \textit{Hoje é dia 30, do mês 08 do ano de 2016.} \\
+%      sem digitar números na \textit{string} passada ao \textbf{echo}.
+%   \end{frame}
+
+%  \begin{frame}
+%     \frametitle{Atividade}
+%     Crie o diretório \textit{atividades/atividade04}. Copie o arquivo \textit{/home/compartilhado/auth.log} para o diretório criado. Crie um arquivo chamado \textit{auth\_analise.txt} com os seguintes comandos, um por linha:
+%     \begin{enumerate}
+%        \item Um comando que analise o arquivo \textit{auth.log} e informe quantas vezes tentaram fazer \textit{login} como um usuário inválido.
+%	       \item Um comando que salve em um arquivo chamado \textit{malditos.txt} todas as tentativas de \textit{login} como usuários inválidos.
+%	       \item Vasculhe o arquivo até encontrar um usuário que também seja aluno. Depois escreva o comando que conte quantas vezes ele ou ela fez o \textit{login} com sucesso. Pode usar seu usuário. 
+%     \end{enumerate}
+%     Abra o arquivo \textit{auth.log} em um editor de texto e estude seu formato antes de tentar definir os comandos.
+%  \end{frame}
 
 %   \begin{frame}
 %      \frametitle{Enviado E-mail no Bash}
@@ -105,8 +127,8 @@ tail -n 50 /home/compartilhando/auth.log | head -n 25
 
 %      \begin{itemize}
 %        \item Envie um e-mail do servidor para seu e-mail. Lembre que pode cair no SPAM.
-%	 \item Responda o e-mail e veja a resposta no terminal.
-%	 \item Cada colega seu no servidor também tem um e-mail @scripts.joao.marcelo.nom.br. Envie um e-mail para um colega.
+%	      \item Responda o e-mail e veja a resposta no terminal.
+%	      \item Cada colega seu no servidor também tem um e-mail @scripts.joao.marcelo.nom.br. Envie um e-mail para um colega.
 %      \end{itemize}
 %   \end{frame}
 

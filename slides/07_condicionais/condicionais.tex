@@ -18,13 +18,13 @@
       Enquanto outras linguagens testam \textbf{condições}, o \textit{Shell} testa o código de retorno do comando que o segue. \\
       \begin{itemize}
          \item O código de retorno está associado à variável \$?
-	 \item Sucesso (verdadeiro) equivale à 0.
-	 \item Erro (falso) equivale à 1.
+	      \item Sucesso (verdadeiro) equivale à 0.
+	      \item Erro (falso) equivale à 1.
       \end{itemize}
       No caso de um $|$, é retornado uma vetor PIPESTATUS, cada posição equivale ao código de retorno do comando na posição equivalente do \textit{pipe}.
       \begin{itemize}
          \item \$\{PIPESTATUS[0]\} é o código de retorno do primeiro comando.
-	 \item \$\{PIPESTATUS[*]\} exibe todo o vetor.
+	      \item \$\{PIPESTATUS[*]\} exibe todo o vetor.
       \end{itemize}
    \end{frame}
 
@@ -34,12 +34,12 @@
       if <comando>
       then
          <comando1>
-	 <comando2>
-	 <...>
+	      <comando2>
+	      <...>
       else
          <comando3>
-	 <comando4>
-	 <...>
+	      <comando4>
+	      <...>
       fi
       \end{minted}
 \end{frame}
@@ -51,12 +51,12 @@
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{test}}
-      Como fazer para analisar condições? $a > b , a = b$, etc?
+      Como fazer para analisar condições booleanas no estilo de comparações $a > b , a == b$, etc?
       \begin{minted}{bash}
       $ test <expressao>
       \end{minted}
       Sendo \textbf{expressao} a condição a ser testada. \\
-      Ao usar o \textbf{test} é bom colocar as variáveis entre aspas. Há diferença entre comparar a string vazia e uma variável não existente.
+      Ao usar o \textbf{test} é bom colocar as variáveis entre aspas. Há diferença entre comparar a \textit{string} vazia e uma variável não existente.
 \end{frame}
 
    \begin{frame}
@@ -248,61 +248,61 @@
       Os padrões só usam um conjunto básico de meta-caracteres, não são expressões regulares completas.
 \end{frame}
 
-   \begin{frame}[fragile]
-      \frametitle{Atividade - Parte I}
-      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{isfile.sh} que receba um parâmetro e verifique se é o nome de um arquivo ou diretório e informe se você tem permissão de escrita e leitura. \\
-      Por exemplo: 
-      \begin{minted}{bash}
-      $ ./testFile.sh /etc/hosts 
-      É um arquivo. 
-      Tem permissão de leitura. 
-      Não tem permissão de escrita. 
-      \end{minted}
-\end{frame}
-
-   \begin{frame}[fragile]
-      \frametitle{Atividade - Parte II}
-      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}.
-      Por exemplo: 
-      \begin{minted}{bash}
-      $ ./maiorDe3.sh 4 6 5 
-      6
-      \end{minted}
-\end{frame}
-
-   \begin{frame}[fragile]
-      \frametitle{Atividade - Parte III}
-      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3Verificado.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}. Esse \textit{script} tem que reclamar caso um dos parâmetros não seja número.
-      Por exemplo: 
-      \begin{minted}{bash}
-      $ ./maiorDe3Verificado.sh 4 6 5
-      6
-      $ ./maiorDe3Verificado.sh casa 10 11
-      Opa!!! casa não é número.
-      \end{minted}
-\end{frame}
-
-   \begin{frame}[fragile]
-      \frametitle{Atividade - Parte IV}
-      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{infoDir.sh} que receba como um parâmetro um caminho. Se for um diretório, deve informar o tamanho do mesmo e quantos arquivos ou subdiretórios possui. Caso contrário, deve exibir uma mensagem reclamando.
-      \begin{minted}{bash}
- $ ./inforDir.sh /etc
- O diretório /etc ocupa 1035 kilobytes e tem 45 itens.
- $ ./inforDir.sh /etc/passwd
- /etc/passwd não é um diretório!!!
-      \end{minted}
-\end{frame}
-
-   \begin{frame}
-      \frametitle{Atividade - Parte V}
-      De volta ao diretório \textit{atividades/atividade05}, escreva um \textit{script} chamado \textbf{servico.sh}. Esse script deve receber um parâmetro.
-      \begin{itemize}
-         \item Se o parâmetro for \textit{start}, deve imprimir \textquotedblleft Iniciando Serviço\textquotedblright.
-         \item Se o parâmetro for \textit{stop}, deve imprimir \textquotedblleft Parando Serviço\textquotedblright.
-         \item Se o parâmetro for \textit{restart}, deve imprimir \textquotedblleft Reiniciando Serviço\textquotedblright.
-         \item Se o parâmetro for qualquer outra coisa,  deve imprimir \textquotedblleft Uso: servico.sh (start$|$stop$|$restart) \textquotedblright.
- 
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade - Parte I}
+%      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{isfile.sh} que receba um parâmetro e verifique se é o nome de um arquivo ou diretório e informe se você tem permissão de escrita e leitura. \\
+%      Por exemplo: 
+%      \begin{minted}{bash}
+%      $ ./testFile.sh /etc/hosts 
+%      É um arquivo. 
+%      Tem permissão de leitura. 
+%      Não tem permissão de escrita. 
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade - Parte II}
+%      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}.
+%      Por exemplo: 
+%      \begin{minted}{bash}
+%      $ ./maiorDe3.sh 4 6 5 
+%      6
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade - Parte III}
+%      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{maiorDe3Verificado.sh} que receba três números como parâmetros e retorne o maior. Não pode utilizar o comando \textbf{sort}. Esse \textit{script} tem que reclamar caso um dos parâmetros não seja número.
+%      Por exemplo: 
+%      \begin{minted}{bash}
+%      $ ./maiorDe3Verificado.sh 4 6 5
+%      6
+%      $ ./maiorDe3Verificado.sh casa 10 11
+%      Opa!!! casa não é número.
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade - Parte IV}
+%      Na pasta \textit{atividades/atividade05}, faça um \textit{script} chamado \textit{infoDir.sh} que receba como um parâmetro um caminho. Se for um diretório, deve informar o tamanho do mesmo e quantos arquivos ou subdiretórios possui. Caso contrário, deve exibir uma mensagem reclamando.
+%      \begin{minted}{bash}
+% $ ./inforDir.sh /etc
+% O diretório /etc ocupa 1035 kilobytes e tem 45 itens.
+% $ ./inforDir.sh /etc/passwd
+% /etc/passwd não é um diretório!!!
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}
+%      \frametitle{Atividade - Parte V}
+%      De volta ao diretório \textit{atividades/atividade05}, escreva um \textit{script} chamado \textbf{servico.sh}. Esse script deve receber um parâmetro.
+%      \begin{itemize}
+%         \item Se o parâmetro for \textit{start}, deve imprimir \textquotedblleft Iniciando Serviço\textquotedblright.
+%         \item Se o parâmetro for \textit{stop}, deve imprimir \textquotedblleft Parando Serviço\textquotedblright.
+%         \item Se o parâmetro for \textit{restart}, deve imprimir \textquotedblleft Reiniciando Serviço\textquotedblright.
+%         \item Se o parâmetro for qualquer outra coisa,  deve imprimir \textquotedblleft Uso: servico.sh (start$|$stop$|$restart) \textquotedblright.
+% 
+%      \end{itemize}
+%   \end{frame}
 
 \end{document}
