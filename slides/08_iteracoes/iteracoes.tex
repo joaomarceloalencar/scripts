@@ -19,9 +19,9 @@
       for var in valor1 valor2 ... valorN
       do
          <comando1>
-	 <comando2>
-	 <...>
-	 <comandoM>
+         <comando2>
+         <...>
+         <comandoM>
       done
       \end{minted}
       A variável \$\{var\} assume um valor diferente para cada iteração. \\
@@ -95,36 +95,36 @@
       \frametitle{Exemplos}
       \begin{itemize}
          \item Faça um \textit{script} que fique em execução sem parar, sendo que cada vez que um usuário entrar ou sair do sistema, ele exiba um aviso de mudança no número de usuários.
-	 \item Incremente o \textit{script} anterior. Faça com que a mensagem exibide informa se o usuário entrou ou saiu, e qual o nome do usuário.
-	 \item Faça um \textit{script} que receba como parâmetro o caminho de um diretório que só tem arquivos de texto como conteúdo. O \textit{script} deve imprimir em ordem crescente uma lista com os arquivos de acordo com a quantidade de linhas de cada arquivo. Lembrando que o arquivo com mais linhas não é necessariamente o arquivo com tamanho maior em \textit{bytes}.
+	      \item Incremente o \textit{script} anterior. Faça com que a mensagem exibida informa se o usuário entrou ou saiu, e qual o nome do usuário.
+	      \item Faça um \textit{script} que receba como parâmetro o caminho de um diretório que só tem arquivos de texto como conteúdo. O \textit{script} deve imprimir em ordem crescente uma lista com os arquivos de acordo com a quantidade de linhas de cada arquivo. Lembrando que o arquivo com mais linhas não é necessariamente o arquivo com tamanho maior em \textit{bytes}.
       \end{itemize}
    \end{frame}
 
-   \begin{frame}
-      \frametitle{Atividades}
-      \begin{itemize}
-         \item Crie o diretório \textit{atividades/atividade06}
-	 \item Você vai desenvolver o \textit{script} \textit{latencia.sh}
-	 \item Esse \textit{script} vai receber como parâmetro o nome de um arquivo de texto, contendo um endereço IP por linha.
-	 \item O \textit{script} deve usar o comando \textbf{ping} para enviar dez pacotes ICMP para cada endereço do arquivo, calculando o valor médio do tempo de resposta.
-	 \item O \textit{script} deve imprimir uma lista de IP ordenada do menor para o maior tempo médio de resposta, informando além do endereço, o tempo de resposta médio.
-      \end{itemize}
-      No \textbf{próximo slide} tem um exemplo de como utilizar o \textit{script}.
-   \end{frame}
-
-   \begin{frame}[fragile]
-   \frametitle{Atividades}
-   \begin{minted}{bash}
-   # os IPs abaixo são fantasia. 
-   $ cat enderecos_ip.txt
-   8.8.8.8
-   192.168.0.1
-   54.230.57.207
-   $ ./latencia.sh enderecos_ip.txt
-   192.168.0.1 11.1ms
-   54.230.57.207 55.4ms
-   8.8.8.8 94.0ms
-   \end{minted}
-\end{frame}
+%   \begin{frame}
+%      \frametitle{Atividades}
+%      \begin{itemize}
+%         \item Crie o diretório \textit{atividades/atividade06}
+%	 \item Você vai desenvolver o \textit{script} \textit{latencia.sh}
+%	 \item Esse \textit{script} vai receber como parâmetro o nome de um arquivo de texto, contendo um endereço IP por linha.
+%	 \item O \textit{script} deve usar o comando \textbf{ping} para enviar dez pacotes ICMP para cada endereço do arquivo, calculando o valor médio do tempo de resposta.
+%	 \item O \textit{script} deve imprimir uma lista de IP ordenada do menor para o maior tempo médio de resposta, informando além do endereço, o tempo de resposta médio.
+%      \end{itemize}
+%      No \textbf{próximo slide} tem um exemplo de como utilizar o \textit{script}.
+%   \end{frame}
+%
+%   \begin{frame}[fragile]
+%   \frametitle{Atividades}
+%   \begin{minted}{bash}
+%   # os IPs abaixo são fantasia. 
+%   $ cat enderecos_ip.txt
+%   8.8.8.8
+%   192.168.0.1
+%   54.230.57.207
+%   $ ./latencia.sh enderecos_ip.txt
+%   192.168.0.1 11.1ms
+%   54.230.57.207 55.4ms
+%   8.8.8.8 94.0ms
+%   \end{minted}
+%\end{frame}
 
 \end{document}
