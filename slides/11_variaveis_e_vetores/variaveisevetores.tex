@@ -21,8 +21,8 @@
          \item Para copiar as variáveis, precisamos usar o comando \textbf{export}. 
          \begin{itemize}
             \item Qualquer variável não exportada é ignorada pelos \textit{subshells}.
-	    \item O \textit{subshell} acessa uma \textbf{cópia} das variáveis.
-	    \item Um \textit{subshell} pode exportar uma variável para seus \textit{subshells}.
+	         \item O \textit{subshell} acessa uma \textbf{cópia} das variáveis.
+	         \item Um \textit{subshell} pode exportar uma variável para seus \textit{subshells}.
          \end{itemize}
          \item Uma maneira de retornar um valor de um \textit{subshell} é atribuir o retorno a uma variável.
 	 \end{itemize}
@@ -55,26 +55,26 @@
          \hline 
          TERM  & Tipo de terminal \\
          \hline 
-	 PROMPT\_COMMAND & Executado ao final de cada comando \\
+	      PROMPT\_COMMAND & Executado ao final de cada comando \\
          \end{tabular}
       \end{table}
    \end{frame}
 
-   \begin{frame}
-      \frametitle{Exemplo}
-      \begin{itemize}
-         \item Vamos criar uma variável no arquivo \textit{.bashrc} chamada \textbf{LOGIN\_DATE}. Ela deve armazenar a data que fazemos \textit{login} no sistema.
-	 \item Vamos criar um diretório \textbf{bin} na sua pasta de usuário. Dentro dele, um \textit{script} chamado \textit{showLoginDate} (sem a extensão .sh) deve exibir na tela o conteúdo da variável \textbf{LOGIN\_DATE}. Esse diretório deve ser inserido na variável \textbf{PATH}.
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Exemplo}
+%      \begin{itemize}
+%         \item Vamos criar uma variável no arquivo \textit{.bashrc} chamada \textbf{LOGIN\_DATE}. Ela deve armazenar a data que fazemos \textit{login} no sistema.
+%	      \item Vamos criar um diretório \textbf{bin} na sua pasta de usuário. Dentro dele, um \textit{script} chamado \textit{showLoginDate} (sem a extensão .sh) deve exibir na tela o conteúdo da variável \textbf{LOGIN\_DATE}. Esse diretório deve ser inserido na variável \textbf{PATH}.
+%      \end{itemize}
+%   \end{frame}
 
    \begin{frame}
       \frametitle{Usando as \{ \} para Controlar Variáveis}
       \begin{itemize}
          \item \$\{!variavel\}: indireção.
-	 \item \$\{!padrao$*$\}: nome de variáveis de acordo com o padrão.
-	 \item \$\{variavel:-default\}: valor \textit{default}.
-	 \item \$\{variavel:=default\}: atualiza a variável com valor \textit{default}.
+	      \item \$\{!padrao$*$\}: nome de variáveis de acordo com o padrão.
+	      \item \$\{variavel:-default\}: valor \textit{default}.
+	      \item \$\{variavel:=default\}: atualiza a variável com valor \textit{default}.
          \item \$\{variavel\slash de\slash para\} substitui uma ocorrência do padrão.
          \item \$\{variavel\slash\slash de\slash para\} substitui todas as ocorrências.
       \end{itemize}
@@ -84,11 +84,11 @@
       \frametitle{Usando as \{ \} para Gerar \textit{Strings}}
       \begin{itemize}
          \item \{lista\}
-	 \item \{inicio..fim\}
-	 \item prefixo\{lista\} ou prefixo\{inicio..fim\}
-	 \item \{lista\}sufixo ou \{inicio..fim\}sufixo
-	 \item prefixo\{lista\}sufixo ou prefixo\{inicio..fim\}sufixo
-	 \item \{inicio..fim..incr\}
+	      \item \{inicio..fim\}
+	      \item prefixo\{lista\} ou prefixo\{inicio..fim\}
+	      \item \{lista\}sufixo ou \{inicio..fim\}sufixo
+	      \item prefixo\{lista\}sufixo ou prefixo\{inicio..fim\}sufixo
+	      \item \{inicio..fim..incr\}
       \end{itemize}
    \end{frame}
 
@@ -96,10 +96,10 @@
       \frametitle{Vetores ou \textit{Arrays}}
       \begin{itemize}
          \item vet=(elemento0 elemento1 elemento2 ... elementoN)
-	 \item vet[n]=valor
-	 \item declare -a vet (sem alterar caso exista)
-	 \item declare -A vet (vetor associativo)
-	 \item read -a vetor
+	      \item vet[n]=valor
+	      \item declare -a vet (sem alterar caso exista)
+	      \item declare -A vet (vetor associativo)
+	      \item read -a vetor
       \end{itemize}
    \end{frame}
 
@@ -113,32 +113,32 @@
       \end{itemize}
    \end{frame}
    
-   \begin{frame}
-      \frametitle{Exemplo}
-      \begin{itemize}
-         \item Façamos um \textit{script} chamado \textit{contadorVetor.sh} 
-	 \item O usuário deve informar, sem utilizar parâmetros, um número por vez.
-	 \item O número deve ser armazenado em um vetor. 
-	 \item Quando o usuário informar o caractere \textit{q} o \textit{script} deve informar quantos números foram inseridos no vetor e terminar. Devemos usar vetores!
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Exemplo}
+%      \begin{itemize}
+%        \item Façamos um \textit{script} chamado \textit{contadorVetor.sh} 
+%	      \item O usuário deve informar, sem utilizar parâmetros, um número por vez.
+%	      \item O número deve ser armazenado em um vetor. 
+%	      \item Quando o usuário informar o caractere \textit{q} o \textit{script} deve informar quantos números foram inseridos no vetor e terminar. Devemos usar vetores!
+%      \end{itemize}
+%   \end{frame}
 
-   \begin{frame}[fragile]
-      \frametitle{Atividade}
-      Faça um \textit{script} chamado \textit{contaPalavras.sh} na pasta \textit{atividades/atividades08} que pergunte ao usuário o nome de um arquivo de texto e para cada palavra do arquivo diga quantas vezes ela aparece no texto. \\
-      \begin{minted}{bash}
-      $ cat arquivo.txt
-      a casa que vivo é boa.
-      boa casa é.
-      $ ./contaPalavras.sh
-      Informe o arquivo: arquivo.txt
-      casa: 2
-      boa:  2
-      é:    2
-      a:    1
-      que:  1
-      vivo: 1
-      \end{minted}
-\end{frame}
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade}
+%      Faça um \textit{script} chamado \textit{contaPalavras.sh} na pasta \textit{atividades/atividades08} que pergunte ao usuário o nome de um arquivo de texto e para cada palavra do arquivo diga quantas vezes ela aparece no texto. \\
+%      \begin{minted}{bash}
+%      $ cat arquivo.txt
+%      a casa que vivo é boa.
+%      boa casa é.
+%      $ ./contaPalavras.sh
+%      Informe o arquivo: arquivo.txt
+%      casa: 2
+%      boa:  2
+%      é:    2
+%      a:    1
+%      que:  1
+%      vivo: 1
+%      \end{minted}
+%\end{frame}
 
 \end{document}

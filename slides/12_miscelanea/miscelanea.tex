@@ -61,11 +61,11 @@
       funcao ()
       {
          comando1
-	 comando2
-	 comando3
-	 ...
-	 comandoN
-	 return $var # O valor de var deve ser número
+	      comando2
+	      comando3
+	      ...
+	      comandoN
+	      return $var # O valor de var deve ser número
       }
    \end{minted}
       Invocação:
@@ -88,31 +88,31 @@ funcao [parametro1] [parametro2] ... [parametroN]
       function command_not_found_handle
       {
          echo "Erro na linha ${BASH_LINENO[0]}"
-	 exit 1
+	      exit 1
       }
       \end{minted}
 \end{frame}
 
-   \begin{frame}
-      \frametitle{Exercícios em Sala}
-      O objetivo é criar um \textit{script} chamado \textit{sistema.sh} para permitir monitorar o desempenho de um servidor Linux. 
-     \begin{itemize} 
-        \item Ele deve exibir um menu com opções para o usuário. 
-        \item Ao digitar uma das opções, a tela deve ser limpa, um comando executado, o resultado exibido. 
-        \item Após o usuário apertar \textit{enter} retornar para o menu inicial.
-     \end{itemize}
-     As opções devem ser, de acordo com \url{http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html}:
-     \begin{enumerate}
-        \item Tempo ligado (uptime)
-	\item Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
-	\item Memória Virtual (vmstat 1 10)
-	\item Uso da CPU por núcleo (mpstat -P ALL 1 5)
-	\item Uso da CPU por processos (pidstat 1 5)
-	\item Uso da Memória Física (free -m)
-	\item Sair
-     \end{enumerate}
-     Use funções para criar uma função chamada \textit{menu} para exibir as opções.
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Exercícios em Sala}
+%      O objetivo é criar um \textit{script} chamado \textit{sistema.sh} para permitir monitorar o desempenho de um servidor Linux. 
+%     \begin{itemize} 
+%        \item Ele deve exibir um menu com opções para o usuário. 
+%        \item Ao digitar uma das opções, a tela deve ser limpa, um comando executado, o resultado exibido. 
+%        \item Após o usuário apertar \textit{enter} retornar para o menu inicial.
+%     \end{itemize}
+%     As opções devem ser, de acordo com \url{http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html}:
+%     \begin{enumerate}
+%        \item Tempo ligado (uptime)
+%	     \item Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
+%	     \item Memória Virtual (vmstat 1 10)
+%	     \item Uso da CPU por núcleo (mpstat -P ALL 1 5)
+%	     \item Uso da CPU por processos (pidstat 1 5)
+%	     \item Uso da Memória Física (free -m)
+%	     \item Sair
+%     \end{enumerate}
+%     Use funções para criar uma função chamada \textit{menu} para exibir as opções.
+%   \end{frame}
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{mkfifo}}
@@ -164,15 +164,15 @@ funcao [parametro1] [parametro2] ... [parametroN]
       Muitas vezes não é fácil encontrar o erro em \textit{Shell Scripts}.
       \begin{itemize}
          \item Uma opção é ativar a execução passo a passo.
-	 \begin{itemize}
-	    \item Coloque \textit{set -x} no início do trecho que deseja analisar.
-	    \item No fim do trecho desabilite com \textit{set +x}. 
-	 \end{itemize}
-	 \item Se você quiser listar as linhas com mais detalhes.
-	 \begin{itemize}
-	    \item Ativar com \textit{set -xv}.
-	    \item Desabilitar com \textit{set +xv}.
-	 \end{itemize}
+	      \begin{itemize}
+	         \item Coloque \textit{set -x} no início do trecho que deseja analisar.
+	         \item No fim do trecho desabilite com \textit{set +x}. 
+	      \end{itemize}
+	      \item Se você quiser listar as linhas com mais detalhes.
+	      \begin{itemize}
+	         \item Ativar com \textit{set -xv}.
+	         \item Desabilitar com \textit{set +xv}.
+	      \end{itemize}
       \end{itemize}
    \end{frame}
 
@@ -214,55 +214,55 @@ echo "Flag desativado."
 \end{frame}
 
 
-   \begin{frame}
-      \frametitle{Exercícios em Sala}
-      Vamos criar um \textit{script} chamado \textit{hosts} que nos ajude a relacionar nomes de máquinas à IPs.
-      \begin{itemize}
-         \item O \textit{script} deve guardar em um arquivo chamado \textit{hosts.db} um par (nomedamaquina,IP) para cada entrada.
-	 \item Você deve criar as seguintes funções para manipular o arquivo que são invocadas com os parâmetros indicados:
-         \begin{itemize}
-            \item \textbf{adicionar} (parâmetros -a \textit{hostname} -i \textit{IP})
-	    \item \textbf{remover} (parâmetro -d \textit{hostname})
-	    \item \textbf{procurar} (parâmetro \textit{hostname})
-	    \item \textbf{listar} (parâmetro -l)
-         \end{itemize}
-      \end{itemize}
-   \end{frame}
-
-   \begin{frame}[fragile]
-      \frametitle{Exercícios em Sala}
-      \begin{minted}{bash}
-      $ ./hosts -a routerlab -i 192.168.0.1
-      $ ./hosts -a lab01 -i 192.168.0.100
-      $ ./hosts -a lab02 -i 192.168.0.101
-      $ ./hosts -l
-      routerlab 192.168.0.1
-      lab01     192.168.0.100
-      lab02     192.168.0.101
-      lab03     192.168.0.102
-      $ ./hosts -d routerlab
-      $ ./hosts -d lab01
-      $ ./hosts -l 
-      lab02     192.168.0.101
-      lab03     192.168.0.102
-      $ ./hosts lab02
-      192.168.0.101
-      $ ./hosts -r 192.168.0.101
-      lab02
-      \end{minted}
-\end{frame}
-
-   \begin{frame}
-      \frametitle{Atividade Especial}
-      Agora que já conhecemos o comando \textit{getopts} e funções:
-      \begin{itemize}
-         \item Refaça a segunda questão da prova melhorando sua solução usando os conhecimentos desta aula.
-	 \item Obrigatoriamente pelo menos o \textit{getopts} deve ser usado.
-	 \item Vale 1,0 ponto na nota da prova.
-	 \item O nome do \textit{script} deve ser \textit{questao02\_extra.sh}.
-	 \item Deixe na mesma pasta da prova.
-      \end{itemize}
-   \end{frame}
+%   \begin{frame}
+%      \frametitle{Exercícios em Sala}
+%      Vamos criar um \textit{script} chamado \textit{hosts} que nos ajude a relacionar nomes de máquinas à IPs.
+%      \begin{itemize}
+%         \item O \textit{script} deve guardar em um arquivo chamado \textit{hosts.db} um par (nomedamaquina,IP) para cada entrada.
+%	      \item Você deve criar as seguintes funções para manipular o arquivo que são invocadas com os parâmetros indicados:
+%         \begin{itemize}
+%            \item \textbf{adicionar} (parâmetros -a \textit{hostname} -i \textit{IP})
+%	         \item \textbf{remover} (parâmetro -d \textit{hostname})
+%	         \item \textbf{procurar} (parâmetro \textit{hostname})
+%	         \item \textbf{listar} (parâmetro -l)
+%         \end{itemize}
+%      \end{itemize}
+%   \end{frame}
+%
+%   \begin{frame}[fragile]
+%      \frametitle{Exercícios em Sala}
+%      \begin{minted}{bash}
+%      $ ./hosts -a routerlab -i 192.168.0.1
+%      $ ./hosts -a lab01 -i 192.168.0.100
+%      $ ./hosts -a lab02 -i 192.168.0.101
+%      $ ./hosts -l
+%      routerlab 192.168.0.1
+%      lab01     192.168.0.100
+%      lab02     192.168.0.101
+%      lab03     192.168.0.102
+%      $ ./hosts -d routerlab
+%      $ ./hosts -d lab01
+%      $ ./hosts -l 
+%      lab02     192.168.0.101
+%      lab03     192.168.0.102
+%      $ ./hosts lab02
+%      192.168.0.101
+%      $ ./hosts -r 192.168.0.101
+%      lab02
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}
+%      \frametitle{Atividade Especial}
+%      Agora que já conhecemos o comando \textit{getopts} e funções:
+%      \begin{itemize}
+%         \item Refaça a segunda questão da prova melhorando sua solução usando os conhecimentos desta aula.
+%	      \item Obrigatoriamente pelo menos o \textit{getopts} deve ser usado.
+%	      \item Vale 1,0 ponto na nota da prova.
+%	      \item O nome do \textit{script} deve ser \textit{questao02\_extra.sh}.
+%	      \item Deixe na mesma pasta da prova.
+%      \end{itemize}
+%   \end{frame}
 
 %  \begin{frame}
 %     \frametitle{Atividades}
