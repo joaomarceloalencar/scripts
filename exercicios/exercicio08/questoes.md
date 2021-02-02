@@ -18,7 +18,7 @@ Opções devem ser, de acordo com [Performance Analysis](http://techblog.netflix
 2. Últimas Mensagens do Kernel (dmesg | tail -n 10)
 3. Memória Virtual (vmstat 1 10)
 4. Uso da CPU por núcleo (mpstat -P ALL 1 5)
-5. Uso da CPU por processos (pidstat 1 5)
+5. Uso da CPU por processos (pidstat -p ALL 1 5)
 6. Uso da Memória Física (free -m)
   
 Por mais simples que sejam os comandos, também coloque-os em funções. Para sair, o usuário deve pressionar CTRL-C, a tela deve ser limpa
