@@ -17,12 +17,12 @@
       \frametitle{O comando \textit{eval}}
       \$ eval [linha-de-comando] \\
       \begin{minted}{bash}
-      $ cano='|'
-      $ ls $cano wc -l
-      ls: cannot access '|': No such file or directory
-      ls: cannot access 'wc': No such file or directory
-      $ eval ls $cano wc -l
-      5
+$ cano='|'
+$ ls $cano wc -l
+ls: cannot access '|': No such file or directory
+ls: cannot access 'wc': No such file or directory
+$ eval ls $cano wc -l
+5
       \end{minted}
 \end{frame}
 
@@ -30,15 +30,17 @@
       \frametitle{O comando \textit{wait}}
       \$ wait [PID] \\
       \begin{minted}{bash}
-      $ sleep 60 &
-      [1] 3223
-      $ wait 3223
+$ sleep 60 &
+[1] 3223
+$ wait 3223
       \end{minted}
 \end{frame}
 
    \begin{frame}
       \frametitle{O comando \textit{trap}}
-      \$ trap [comando1];[comando2];[comando3]; ... ;[comandoN] sinais \\
+      \begin{small}
+ \$ trap "[comando1];[comando2];[comando3]; ... ;[comandoN]" sinais \\
+      \end{small}   
       \begin{table}
          \begin{tabular}{c|l}
          0 EXIT     & Saída normal \\
@@ -58,15 +60,15 @@
    \begin{frame}[fragile]
       \frametitle{Funções}
       \begin{minted}{bash}
-      funcao ()
-      {
-         comando1
-	      comando2
-	      comando3
-	      ...
-	      comandoN
-	      return $var # O valor de var deve ser número
-      }
+funcao ()
+{
+   comando1
+   comando2
+   comando3
+   ...
+   comandoN
+   return $var # O valor de var deve ser número
+}
    \end{minted}
       Invocação:
       \begin{minted}{bash}
@@ -85,11 +87,11 @@ funcao [parametro1] [parametro2] ... [parametroN]
    \begin{frame}[fragile]
       \frametitle{Funções}
       \begin{minted}{bash}
-      function command_not_found_handle
-      {
-         echo "Erro na linha ${BASH_LINENO[0]}"
-	      exit 1
-      }
+function command_not_found_handle
+{
+   echo "Erro na linha ${BASH_LINENO[0]}"
+   exit      
+}
       \end{minted}
 \end{frame}
 
@@ -104,12 +106,12 @@ funcao [parametro1] [parametro2] ... [parametroN]
 %     As opções devem ser, de acordo com \url{http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html}:
 %     \begin{enumerate}
 %        \item Tempo ligado (uptime)
-%	     \item Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
-%	     \item Memória Virtual (vmstat 1 10)
-%	     \item Uso da CPU por núcleo (mpstat -P ALL 1 5)
-%	     \item Uso da CPU por processos (pidstat 1 5)
-%	     \item Uso da Memória Física (free -m)
-%	     \item Sair
+%	      \item Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
+%	      \item Memória Virtual (vmstat 1 10)
+%	      \item Uso da CPU por núcleo (mpstat -P ALL 1 5)
+%	      \item Uso da CPU por processos (pidstat 1 5)
+%	      \item Uso da Memória Física (free -m)
+%	      \item Sair
 %     \end{enumerate}
 %     Use funções para criar uma função chamada \textit{menu} para exibir as opções.
 %   \end{frame}
@@ -117,12 +119,12 @@ funcao [parametro1] [parametro2] ... [parametroN]
    \begin{frame}[fragile]
       \frametitle{O comando \textit{mkfifo}}
       \begin{minted}{bash}
-      # No terminal 1
-      $ mkfifo cano
-      $ ls > cano
-      # No terminal 2
-      $ cat < cano
-      cano  sistema.sh  trap.sh
+# No terminal 1
+$ mkfifo cano
+$ ls > cano
+# No terminal 2
+$ cat < cano
+cano  sistema.sh  trap.sh
       \end{minted}
       Permite comunicação e sincronização entre processos.
 \end{frame}
@@ -142,20 +144,20 @@ funcao [parametro1] [parametro2] ... [parametroN]
    \begin{frame}[fragile]
       \frametitle{O Comando \textit{getopts}}
      \begin{minted}{bash}
-      $ cat getopts_exemplo.sh 
-      #!/bin/bash
-      while getopts "a:bc" OPTVAR
-      do
-         echo $OPTVAR $OPTARG
-      done
-      $ ./getopts_exemplo.sh -a 1 -b -c
-      a 1
-      b
-      c
-      $ ./getopts_exemplo.sh -b -c -a 1  
-      b
-      c
-      a 1
+$ cat getopts_exemplo.sh 
+#!/bin/bash
+while getopts "a:bc" OPTVAR
+do
+   echo $OPTVAR $OPTARG
+done
+$ ./getopts_exemplo.sh -a 1 -b -c
+a 1
+b
+c
+$ ./getopts_exemplo.sh -b -c -a 1  
+b
+c
+a 1
       \end{minted}
 \end{frame}
 
@@ -256,7 +258,7 @@ echo "Flag desativado."
 %      \frametitle{Atividade Especial}
 %      Agora que já conhecemos o comando \textit{getopts} e funções:
 %      \begin{itemize}
-%         \item Refaça a segunda questão da prova melhorando sua solução usando os conhecimentos desta aula.
+%        \item Refaça a segunda questão da prova melhorando sua solução usando os conhecimentos desta aula.
 %	      \item Obrigatoriamente pelo menos o \textit{getopts} deve ser usado.
 %	      \item Vale 1,0 ponto na nota da prova.
 %	      \item O nome do \textit{script} deve ser \textit{questao02\_extra.sh}.
