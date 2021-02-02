@@ -12,7 +12,7 @@ O objetivo é criar um _script_ chamado _sistema.sh_ para permitir monitorar o d
 2. Ao digitar uma das opções, a tela deve ser limpa, um comando executado e o resultado exibido. 
 3. Após o usuário apertar _enter_ retornar para o menu inicial.
   
-Opções devem ser, de acordo com (Performance Analysis)[http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html):
+Opções devem ser, de acordo com [Performance Analysis](http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html):
 
 1. Tempo ligado (uptime)
 2. Últimas Mensagens do Kernel (dmesg $|$ tail -n 10)
