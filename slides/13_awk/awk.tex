@@ -16,10 +16,12 @@
    \begin{frame}[fragile]
       \frametitle{O que é AWK?}
       \begin{itemize}
-         \item O \textit{awk} é um comando que foi criado para englobar as capacidades do \textit{sed} e do \textit{grep}. \\
-         \item A operação básica é pesquisar um conjunto de linhas de entrada, uma após a outra, procurando as que satisfaçam a um conjunto de \textbf{padrões ou condições especificadas} por você. \\
-         \item Para cada padrão você pode especificar uma \textbf{ação}:\\
-         \item $[$padrão$]$ $[$\{ ação \}$]$ \\
+         \item O \textit{awk} é um comando que foi criado para englobar as capacidades do \textit{sed} e do \textit{grep}. 
+         \item A operação básica é pesquisar um conjunto de linhas de entrada, uma após a outra, procurando as que satisfaçam a um conjunto de \textbf{padrões ou condições especificadas} por você. 
+         \item Para cada padrão você pode especificar uma \textbf{ação}:
+         \begin{itemize}
+            \item $[$padrão$]$ $[$\{ ação \}$]$
+         \end{itemize}   
       \end{itemize}	 
       \begin{block}{Exemplo:}
       \begin{minted}{bash}
@@ -172,14 +174,14 @@ $ awk '
          \begin{tabular}{c|c}
          \textbf{Função} & \textbf{Descrição} \\
          \hline
-	 index(c1, c2) & Posição de c1 em c2 \\
+            index(c1, c2) & Posição de \textit{c2} em \textit{c1} \\
 	 length(c1) & Comprimento da cadeia \\ 
-	 match(c1, exp) & Posição de c1 onde exp ocorre \\
-	 split(c1, v [,c2]) & Divide c1 baseado em c2 \\
+            match(c1, exp) & Posição de \textit{c1} onde \textit{exp} ocorre \\
+            split(c1, v [,c2]) & Divide \textit{c1} baseado em \textit{c2} \\
 	 sprintf(fmt, lista) & Retorna lista formatada \\
-	 sub(exp, c1 [, c2]) & Substitui exp em c2 por c1 \\
-	 gsub(exp, c1 [, c2]) & Toda exp em c2 é substituída por c1 \\
-	 substr(c1, p, n) & Retorna subcadeia em p de c1 com n caracteres \\
+            sub(exp, c1 [, c2]) & Substitui \textit{exp} em \textit{c2} por \textit{c1} \\
+            gsub(exp, c1 [, c2]) & Toda \textit{exp} em \textit{c2} é substituída por \textit{c1} \\
+            substr(c1, p, n) & Retorna subcadeia em \textit{p} de \textit{c1} com \textit{n} caracteres \\
          \hline
          \end{tabular}
       \end{table}
@@ -344,47 +346,47 @@ $ awk '{ Registro [NR] = $0 }
       \end{minted}
 \end{frame}
 
-   \begin{frame}[fragile]
-      \frametitle{Atividade}
-      Coloque a resposta em \textit{atividades/atividade09}. Faça um \textit{script} chamado \textit{contaPalavras.awk} que ao ser invocado com o nome de um arquivo de texto diga quantas vezes cada palavra aparece no texto. \\
-      \begin{minted}{bash}
-      $ cat arquivo.txt
-      a casa que vivo é boa.
-      boa casa é.
-      $ awk -f contaPalavras.awk arquivo.txt 
-      Relatório de palavras.
-      casa: 2
-      boa:  2
-      é:    2
-      a:    1
-      que:  1
-      vivo: 1
-      Total de Palavras analisadas: 9.
-      \end{minted}
-\end{frame}
-
-   \begin{frame}[fragile]
-      \frametitle{Atividade}
-      Considere o seguinte arquivo \textit{notas.txt}
-      \begin{minted}{bash}
-Aluno:Nota1:Nota2:Nota3 
-João Marcelo:10.0:10.0:10.0 
-Alisson Barbosa:1.0:2.0:3.0
-Jeandro Bezerra:7.0:8.0:9.0
-Marcos Dantas:5.0:4.0:6.0
-Michel Sales:3.0:4.0:2.0 
-      \end{minted}
-      Coloque na pasta \textit{atividades/atividade10} um \textit{script} chamado \textit{disciplina.awk} que realize a seguinte ação:
-      \begin{minted}{bash}
-$ awk -F: -f disciplina.awk notas.txt
-Aluno:Situação:Média
-João Marcelo:Aprovado:10.0
-Alisson Barbosa:Reprovado:2.0
-Jeandro Bezerra:Aprovado:8.0
-Marcos Dantas:Final:5.0
-Michel Sales:Reprovado:3.0
-Média das Provas: 5.2 5.6 6.0
-      \end{minted}
-\end{frame}
-
+%    \begin{frame}[fragile]
+%    \frametitle{Atividade}
+%      Coloque a resposta em \textit{atividades/atividade09}. Faça um \textit{script} chamado \textit{contaPalavras.awk} que ao ser invocado com o nome de um arquivo de texto diga quantas vezes cada palavra aparece no texto. \\
+%      \begin{minted}{bash}
+%      $ cat arquivo.txt
+%      a casa que vivo é boa.
+%      boa casa é.
+%      $ awk -f contaPalavras.awk arquivo.txt 
+%      Relatório de palavras.
+%      casa: 2
+%      boa:  2
+%      é:    2
+%      a:    1
+%      que:  1
+%      vivo: 1
+%      Total de Palavras analisadas: 9.
+%      \end{minted}
+%\end{frame}
+%
+%   \begin{frame}[fragile]
+%      \frametitle{Atividade}
+%      Considere o seguinte arquivo \textit{notas.txt}
+%      \begin{minted}{bash}
+%Aluno:Nota1:Nota2:Nota3 
+%João Marcelo:10.0:10.0:10.0 
+%Alisson Barbosa:1.0:2.0:3.0
+%Jeandro Bezerra:7.0:8.0:9.0
+%Marcos Dantas:5.0:4.0:6.0
+%Michel Sales:3.0:4.0:2.0 
+%      \end{minted}
+%      Coloque na pasta \textit{atividades/atividade10} um \textit{script} chamado \textit{disciplina.awk} que realize a seguinte ação:
+%      \begin{minted}{bash}
+%$ awk -F: -f disciplina.awk notas.txt
+%Aluno:Situação:Média
+%João Marcelo:Aprovado:10.0
+%Alisson Barbosa:Reprovado:2.0
+%Jeandro Bezerra:Aprovado:8.0
+%Marcos Dantas:Final:5.0
+%Michel Sales:Reprovado:3.0
+%Média das Provas: 5.2 5.6 6.0
+%      \end{minted}
+%\end{frame}
+%
 \end{document}
