@@ -1,0 +1,32 @@
+{
+  "professores": [
+    {
+      "nome": "Jeandro",
+      "sobrenome": "de Mesquita Bezerra",
+      "idade": 41,
+      "disciplinas": [
+        "Laboratório de Infraestrutura de Redes de Computadores",
+        "Projeto de Pesquisa Científica e Tecnológica",
+        "Redes de Computadores"
+      ]
+    },
+    {
+      "nome": "João Marcelo",
+      "sobrenome": "Uchôa de Alencar",
+      "idade": 37,
+      "disciplinas": [
+        "Programação de Scripts",
+        "Linguagens de Programação"
+      ]
+    },
+    {
+      "nome": "Michel",
+      "sobrenome": "Sales Bonfim",
+      "idade": 35,
+      "disciplinas": [
+        "Projeto de Pesquisa Científica e Tecnológica",
+        "Projeto Integrado em Redes de Computadores"
+      ]
+    }
+  ]
+}

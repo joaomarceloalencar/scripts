@@ -1,0 +1,4 @@
+** PRODUTO VALOR ** 
+   PS5     5000
+   MACBOOK 12000
+   GALAXY  6000
