@@ -8,54 +8,154 @@
 \author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
 \institute{Universidade Federal do Ceará - Quixadá}
 
-% http://blog.terminal.com/using-daemon-to-daemonize-your-programs/
-% https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux
-
 
 \begin{document}
    \begin{frame}
       \titlepage
    \end{frame}
 
+   \begin{frame}
+      \frametitle{Execução de Scripts de Inicialização}
+      \begin{itemize}
+          \item A inicialização de um sistema envolve a execução de \textit{scripts}.
+          \item O sistema clássico de inicialização era o modelo System V:
+	  \begin{itemize}
+	     \item \textit{Scripts} comuns em \textit{shell}.
+	     \item Organizados nas pastas \textit{/etc/init.d} ou \textit{/etc/rc.d}.
+	     \item Cabeçalho especial para determinar a ordem de execução.
+          \end{itemize}
+          \item As distribuições ainda suportam System V de forma legada.  
+      \end{itemize}
+   \end{frame}
+
    \begin{frame}[fragile]
-      \frametitle{O Comando \textit{daemon}}
-      Garante o reinício de um \textit{script} mesmo em caso de falha. 
+      \frametitle{Exemplo de um Script System V}
       \begin{minted}{bash}
-      $ sudo apt-get install daemon
-      $ daemon -r /home/jmhal/teste.sh
-      $ ps -ef | grep teste
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:             sshd
+# Required-Start:       $remote_fs $syslog
+# Required-Stop:        $remote_fs $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:
+# Short-Description:    OpenBSD Secure Shell server
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/ssh: start and stop the OpenBSD "secure shell(tm)" daemon
+
+test -x /usr/sbin/sshd || exit 0
+( /usr/sbin/sshd -\? 2>&1 | grep -q OpenSSH ) 2>/dev/null || exit 0
+
+umask 022
+...
+      \end{minted}
+\end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução ao SystemD}
+      \begin{itemize}
+         \item O System V foi substituído pelo SystemD.
+	 \item Assume o controle logo após a ativação do \textit{kernel} pelo GRUB.
+         \item Integrou várias funcionalidades extras em relação ao System V.
+	 \item Exige arquivos de configuração que não são \textit{shell scripts}.
+         \item Utiliza unidades de \textit{sockets} para coordenar a inicialização simultânea de vários serviços.
+      \end{itemize}
+      Sua adoção causou polêmica no início, entretanto hoje é utilizado por quase todas distribuições.
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Arquitetura do SystemD}
+      As tarefas de inicialização são organizadas em \textbf{unidades}.
+      \begin{itemize}
+         \item \textbf{service}: são tarefas para inicializar serviços como servidores \textit{web}, bancos de dados, etc.	      
+         \item \textbf{timer}: temporizadores para determinar ações com base no tempo.
+         \item \textbf{mount}: arquivo de configuração para controlar a montagem de um volume.
+         \item \textbf{target}: grupos de unidades que compõem um serviço complexo.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Arquitetura do SystemD}
+      \begin{itemize}
+         \item \textbf{snapshot}: cria estados do sistema para restauração.	      
+         \item \textbf{path}: tarefas para monitorar diretórios.
+	 \item \textbf{socket}: arquivo de configuração sobre \textit{sockets} de rede ou arquivo FIFO.
+	 \item \textbf{swap}: gerencia partições de \textit{swap}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Comandos do SystemD}
+      \begin{minted}{bash}
+# Listar todos os serviços
+systemctl list-unit-files --type=service
+# Verificar se um serviço está ativo
+systemctl is-active httpd.service
+# Habilitá-lo no próximo boot
+systemctl enable httpd.service
+# Desabilitá-lo no próximo boot
+systemctl disable httpd.service
       \end{minted}
 \end{frame}
 
    \begin{frame}[fragile]
-      \frametitle{Usando o SysVinit}
-      É o sistema clássico, ainda suportado na maioria das distribuições.
+      \frametitle{Comandos do SystemD}
       \begin{minted}{bash}
-      $ sudo cp test /etc/init.d/
-      
-      $ sudo /etc/init.d/test start
-      $ sudo /etc/init.d/test status
-      $ ps -ef | grep test | grep -v grep 
-      $ sudo /etc/init.d/test stop
-
-      $ sudo service --status-all
-      $ sudo update-rc.d test defaults
-      $ sudo update-rc.d -f test remove
+# Iniciar de imediato um serviço
+systemctl start httpd.service
+# Reiniciar de imediato um serviço
+systemctl restart httpd.service
+# Parar um serviço
+systemctl stop httpd.service
+# Forçar um serviço a recarregar sua configuração
+systemctl reload httpd.service
+# Verificar a situação de um serviço
+systemctl status httpd.service
       \end{minted}
 \end{frame}
+
+   \begin{frame}
+      \frametitle{Criando um Serviço SystemD}
+      \begin{itemize}
+          \item Vamos criar um serviço em \textit{shell script} 
+	  \item Trata-se de \textit{script} executado durante a inicialização.
+          \item O \textit{script} vai finalizar, mas poderia ficar em execução enquanto a máquina estiver ativa.
+          \item Vamos fazer em \textit{shell}, mas poderia ser feito em qualquer outra linguagem.
+      \end{itemize}
+      Nosso \textit{script} vai verificar o tamanho do diretório \textit{/home} e escrever um relatório no diretório \textit{/root}.
+   \end{frame}
 
    \begin{frame}[fragile]
-      \frametitle{Usando o Upstart}
-      Foi usado pelo Ubuntu no 12.04 até o 14.04.
+      \frametitle{Unidade do Serviço}
+      Arquivo \textit{disk-space-check.service}:
       \begin{minted}{bash}
-      $ sudo cp test.conf /etc/init/
-      $ sudo init-checkconf /etc/init/test.conf
-      File /etc/init/test.conf: syntax ok
-      $ service test start
-      $ service test stop
+[Unit]
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/disk-space-check.sh
+
+[Install]
+WantedBy=default.target
       \end{minted}
-      Não deve funcionar na versão mais recente do Ubuntu.
+      Deve ser colocado no diretório \textit{/etc/systemd/system}.
 \end{frame}
+
+   \begin{frame}
+      \frametitle{Unidade do Serviço}
+      \begin{itemize}
+         \item \textbf{After}: quando o \textit{script} pode iniciar. Aqui estamos dizendo que ele deve executar após a rede estar configurada, apenas por exemplo.	      
+         \item \textbf{ExecStart}: caminho completo do executável.
+	 \item \textbf{WantedBy}: o \textit{target} no qual o serviço deve ser executado.
+      \end{itemize}
+      Existem muito mais detalhes, mas vai ficar no básico nesta introdução.
+   \end{frame}
+
+   \begin{frame}
+   \end{frame}  
 
    \begin{frame}[fragile]
       \frametitle{Usando o SystemD}
@@ -71,10 +171,13 @@
       \end{minted}
 \end{frame}
 
-
-   \begin{frame}
-      \frametitle{Exercício}
-      No seu computador pessoal, crie um serviço de inicialização.
-   \end{frame}
+    \begin{frame}
+	\frametitle{Referências}
+	\begin{enumerate}
+	   \item \url{https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux}
+           \item \url{https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6}
+           \item \url{https://e-tinet.com/linux/systemd/}
+	\end{enumerate}
+    \end{frame}
 
 \end{document}
