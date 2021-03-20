@@ -25,10 +25,9 @@ curl -O https://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
 touch wordpress/.htaccess
 cp -a wordpress/. /var/www/html/wordpress
-a2ensite wordpress
 chown -R www-data:www-data /var/www/html/wordpress
-find /var/www/wordpress/ -type d -exec chmod 750 {} \;
-find /var/www/wordpress/ -type f -exec chmod 640 {} \;
+find /var/www/html/wordpress/ -type d -exec chmod 750 {} \;
+find /var/www/html/wordpress/ -type f -exec chmod 640 {} \;
 systemctl restart apache2
 ```
 
