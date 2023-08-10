@@ -1,6 +1,9 @@
 # Diretório com as chaves
 chaves/
 
+# MAC OS
+.DS_Store*
+
 # Prerequisites
 *.d
 
