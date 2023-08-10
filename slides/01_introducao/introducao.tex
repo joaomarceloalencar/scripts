@@ -19,7 +19,7 @@
    \begin{itemize}
       \item Professor João Marcelo Uchôa de Alencar.
       \item E-mail para contato: joao.marcelo@ufc.br.
-      \item Programa da disciplina: \url{http://joao.marcelo.nom.br/disciplinas/20222/scripts/index.html}.
+      \item Grupo no Telegram.
       \item Avaliações:
       \begin{itemize}
          \item 3 notas: 
@@ -51,8 +51,8 @@
 \end{frame}
 
 \begin{frame}
-   \frametitle{História dos Sistemas UNIX}
-   \includegraphics[scale=0.17]{figuras/Unix_history-simple.png}
+   %\frametitle{História dos Sistemas UNIX}
+   \includegraphics[scale=0.1563]{figuras/Unix_history-simple.png}
 \end{frame}
 
 \begin{frame}
@@ -123,7 +123,7 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
       \frametitle{O que é o \textit{Shell}?}
       \begin{itemize}
          \item O \textit{shell} é simplesmente o programa que lê o comando que você teclou e o converte em uma forma mais simplificada e legível ao sistema operacional (\textit{kernel}). 
-         \item Também fornece uma \textbf{linguagem} para organizar uma sequência de comandos em um scripts, permitindo a automização de tarefas administrativas. 
+         \item Também fornece uma \textbf{linguagem} para organizar uma sequência de comandos em  arquivos de texto chamados \textit{scripts}, permitindo a automização de tarefas administrativas. 
 	 \item Um dos grandes diferencias é permitir invocar programas feitos em outras linguagens sem dificuldade.
 	 \item A troca de dados entre programas é feita em formato de linhas de \textbf{texto simples}.
       \end{itemize}
@@ -133,7 +133,7 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
       \frametitle{Tarefas do \textit{Shell}}
       \begin{itemize}
          \item Exame da linha de comandos recebida.
-         \item Atribuição e substituição de sariáveis.
+         \item Atribuição e substituição de variáveis.
          \item Resolução de redirecionamentos.
          \item Substituição de metacaracteres.
          \item Criação de processos filhos para executar comandos.
@@ -143,17 +143,18 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
    \begin{frame}
       \frametitle{Principais versões do \textit{Shell}}
       \begin{itemize}
-         \item Bourne Shell (sh)
-         \item Bourne Again Shell (bash)
-         \item Korn Shell (ksh)
-         \item C Shell (csh)
+         \item Bourne Shell (sh).
+         \item Bourne Again Shell (bash).
+         \item Korn Shell (ksh).
+         \item C Shell (csh).
+         \item Z Shell (zsh).
       \end{itemize}
    \end{frame}
 
 \begin{frame}
    \frametitle{Por que usar \textit{Shell}?}
    \begin{itemize}
-      \item É mais fácil lidar com arquivos e diretórios em \textit{Shell}, assim iniciar ou finalizar outros programas.
+      \item É mais fácil lidar com arquivos e diretórios em \textit{shell}, assim iniciar ou finalizar outros programas.
       \item O desempenho costuma ser pior, mas o tempo de programação é bem menor do que em linguagens compiladas.
       \item Simplicidade.
       \item Portabilidade.
@@ -276,7 +277,7 @@ $ ssh -i joaomarcelo.pem joaomarcelo@programacaoscripts.joao.marcelo.nom.br
       \item O servidor remoto é \textit{programacaoscripts.joao.marcelo.nom.br}.
       \item O usuário \textit{joaomarcelo} deve existir no servidor remoto e estar configurado para permitir o acesso via chave.
    \end{itemize}
-   No Slack do curso já enviei a chave privada de cada um. Podem tentar fazer o \textit{login} agora.
+   Em nuvens computacionais (AWS, Azure, Google, etc) o \textit{login} é feito por arquivo de chaves.
    \begin{block}{Lembrete}
    A chave tem que ter permissões de acesso apenas para o usuário local. Portanto, confirme:
    \begin{minted}{bash}
