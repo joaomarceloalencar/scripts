@@ -39,7 +39,7 @@
    \frametitle{História dos Sistemas UNIX}
    \begin{itemize}
       \item Unix foi desenvolvido pelo \textit{Bell Labs} logo após esse laboratório abandonar o projeto \textit{Multics}.
-      \item Algumas decisões de projeto foram reaproveitadas do \textit{Multics}
+      \item Algumas decisões de projeto foram reaproveitadas do \textit{Multics}:
       \begin{itemize}
          \item Dispositivos como arquivos.
 	 \item Interpretador de comandos como processo independente do \textit{kernel}.
@@ -73,10 +73,10 @@
 \begin{frame}
    \frametitle{Linguagens de \textit{Scripting} versus Linguagens Compiladas}
    \begin{itemize}
-      \item Programas escritos em linguagens compiladas são traduzidas do seu \textbf{código fonte} original para o \textbf{código objeto} da máquina alvo.
+      \item Programas escritos em linguagens compiladas são traduzidos do seu \textbf{código fonte} original para o \textbf{código objeto} da máquina alvo.
       \item A vantagem é que são programas eficientes, a desvantagem é que atuam em baixo nível.
       \item Exemplo da desvantagem: escrever em C um programa que copie todos arquivos de um diretório para outro.
-      \item Linguagens de \textit{script} são interpretadas, um \textbf{interpretador} ler cada linha do \textit{script} e usa funções internas para executá-las.
+      \item Linguagens de \textit{script} são interpretadas, um \textbf{interpretador} lê cada linha do \textit{script} e usa funções internas para executá-las.
    \end{itemize}
 \end{frame}
 
@@ -124,8 +124,8 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
       \begin{itemize}
          \item O \textit{shell} é simplesmente o programa que lê o comando que você teclou e o converte em uma forma mais simplificada e legível ao sistema operacional (\textit{kernel}). 
          \item Também fornece uma \textbf{linguagem} para organizar uma sequência de comandos em  arquivos de texto chamados \textit{scripts}, permitindo a automização de tarefas administrativas. 
-	 \item Um dos grandes diferencias é permitir invocar programas feitos em outras linguagens sem dificuldade.
-	 \item A troca de dados entre programas é feita em formato de linhas de \textbf{texto simples}.
+	      \item Um dos grandes diferenciais é permitir invocar programas feitos em outras linguagens sem dificuldade.
+	      \item A troca de dados entre programas é feita em formato de linhas de \textbf{texto simples}.
       \end{itemize}
    \end{frame}
 
@@ -155,7 +155,7 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
    \frametitle{Por que usar \textit{Shell}?}
    \begin{itemize}
       \item É mais fácil lidar com arquivos e diretórios em \textit{shell}, assim iniciar ou finalizar outros programas.
-      \item O desempenho costuma ser pior, mas o tempo de programação é bem menor do que em linguagens compiladas.
+      \item O desempenho costuma ser pior, mas o tempo de desenvolvimento é bem menor do que em linguagens compiladas.
       \item Simplicidade.
       \item Portabilidade.
       \item Facilidade de desenvolvimento.
@@ -172,7 +172,7 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
    who | wc -l
    ^D
    $ chmod +x usuarios.sh
-   $ ./usuarios
+   $ ./usuarios.sh
    \end{minted}
 \end{frame}
 
