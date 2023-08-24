@@ -16,7 +16,8 @@
    \begin{frame}
       \frametitle{O que é uma Expressão Regular?}
       \begin{itemize}
-         \item Uma \textbf{Expressão Regular} (ER) é uma construção que utiliza pequenas ferramentas para obter uma determinada sequência de caracteres de um texto. 
+         \item Uma \textbf{Expressão Regular} (ER) é uma construção que utiliza um conjunto finito de operadores 
+         para representar cadeias de caracteres em um alfabeto que possuem um formato regular.  
          \item \textbf{Expressões Regulares} são escritas em uma linguagem formal que pode ser interpretada por um processador de expressões. 
       \end{itemize}
    \end{frame}
@@ -24,8 +25,8 @@
    \begin{frame}
       \frametitle{Para quem servem Expressões Regulares?}
       \begin{itemize}
-         \item Procura e substituição de textos em editores e linguagens de programação.
-         \item Validação de formatos de texto.
+         \item Busca e substituição de textos em editores e linguagens de programação.
+         \item Validação de formatação de texto.
          \item Realce de sintaxe.
          \item Filtragem de informação. 
       \end{itemize}
@@ -42,20 +43,23 @@
       \end{block}
       
       \begin{block}{Quantificação}
-      Um quantificador após um \textit{token} ou agrupamento especifica a quantidade de vezes que o elemento precedente pode ocorrer. \\
-      ? indica zero ou uma ocorrência. \\
-      * indica zero ou mais ocorrências. \\
-      + indica uma ou mais ocorrências. \\
+      Um quantificador após um \textit{token} ou agrupamento especifica a quantidade de vezes que o elemento precedente pode ocorrer:
+      \begin{itemize}
+         \item ? indica zero ou uma ocorrência. 
+         \item * indica zero ou mais ocorrências. 
+         \item + indica uma ou mais ocorrências. 
+      \end{itemize}
       Chamamos ?,*,+ de metacaracteres.
       \end{block}
    \end{frame}
 
    \begin{frame}
       \frametitle{Metacaracteres}
+      Os metacaracteres se classificam em:
       \begin{itemize}
          \item Âncoras
-	 \item Representantes
-	 \item Quantificadores
+	      \item Representantes
+	      \item Quantificadores
       \end{itemize}
    \end{frame}
 
@@ -184,8 +188,8 @@ $ grep [-opções] [expressão] [arquivo1] [arquivo2] ...
    \end{frame}
 
    \begin{frame}
-      \frametitle{Exercício 02 - Parte I}
-      Crie no seu repositório a pasta \textit{exercicios/exercicio02}. Considere o arquivo \textit{/home/compartilhado/emailsordenados.txt}. Crie um arquivo chamado \textit{parte\_01.sh} e coloque nele, 
+      \frametitle{Exemplo - Parte I}
+      Considere o arquivo \textit{emailsordenados.txt}. Vamos criar um arquivo chamado \textit{parte\_01.sh} e colocar nele, 
       um por linha e na ordem abaixo, os seguintes comandos:
       \begin{enumerate}
          \item Um comando \textit{grep} que encontre todos os alunos cujo primeiro nome começa com A.
@@ -196,8 +200,8 @@ $ grep [-opções] [expressão] [arquivo1] [arquivo2] ...
    \end{frame}
 
    \begin{frame}
-      \frametitle{Exercício 02 - Parte II}
-      Crie o arquivo \textit{exercicios/exercicio02/parte\_02.txt} e coloque, uma por linha, as expressões regulares que representam as seguintes cadeias de caracteres:
+      \frametitle{Exemplo - Parte II}
+      Quais seria as expressões regulares que representam as seguintes cadeias de caracteres?
       \begin{enumerate}
          \item A palavra "revista" no singular e no plural.
 	      \item A palavra "letra" em qualquer combinação de letras maiúsculas ou minúsculas.
