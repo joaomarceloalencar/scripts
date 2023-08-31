@@ -28,40 +28,48 @@
    \begin{minted}{bash}
    $ ed [nomedoarquivo] 
    \end{minted}
-   A única coisa que será impressa é a quantidade de \textit{bytes}. \\
-   Como é que uso isso ?!? \\
-   Digite \slash, e em seguida uma cadeia de caracteres. \\
-   Para imprimir todo o texto: 1,\$ p \\
-   Procurar início da linha: \^{}cadeia \\
-   Procurar fim da linha: cadeia\$ \\
-   Para sair do editor: q \\
+   \begin{itemize}
+      \item A única coisa que será impressa é a quantidade de \textit{bytes}. 
+      \item Como é que uso isso ?!? 
+      \begin{itemize}
+         \item Digite \slash, e em seguida uma cadeia de caracteres. 
+         \item Para imprimir todo o texto: 1,\$ p 
+         \item Procurar início da linha: \^{}cadeia 
+         \item Procurar fim da linha: cadeia\$ 
+         \item Para sair do editor: q
+      \end{itemize} 
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{\textit{Prompt} de Comando}
-   Para tornar as coisas mais fáceis, inicie o ed com o \textit{prompt} de comando: 
+   Para tornar as coisas mais fáceis, inicie o \textit{ed} com o \textit{prompt} de comando: 
    \begin{minted}{bash}
    $ ed -p:
    \end{minted}
-   Podemos criar um alias para facilitar: \textbf{\$ alias ed='ed -p:'} \\
-   Para adicionar texto a um \textit{buffer}: \textbf{a} \\
-   Para voltar ao \textit{prompt} de comando, deixe linha com apenas um '.'. \\
-   Para salvar em um arquivo: \textbf{w nomedoarquivo} \\
-   Imprimir as linhas numeradas: \textbf{1,\$ n} \\
-   Ir para uma determinada linha: \textbf{n}, onde n é o número da linha. \\
-   Alterar o conteúdo da linha: \textbf{c} \\
+   \begin{itemize}
+      \item Podemos criar um alias para facilitar: \textbf{\$ alias ed='ed -p:'} 
+      \item Para adicionar texto a um \textit{buffer}: \textbf{a} 
+      \item Para voltar ao \textit{prompt} de comando, deixe linha com apenas um '.'. 
+      \item Para salvar em um arquivo: \textbf{w nomedoarquivo} 
+      \item Imprimir as linhas numeradas: \textbf{1,\$ n} 
+      \item Ir para uma determinada linha: \textbf{n}, onde n é o número da linha. 
+      \item Alterar o conteúdo da linha: \textbf{c}
+   \end{itemize}
 \end{frame}
 
    \begin{frame}
       \frametitle{Substituição}
-      Já deve ter notado que \textbf{1,\$} representa uma faixa de valores. \\
-      Nesse caso, é da linha um até o final do arquivo. \\
-      Porém poderia ser qualquer faixa: \textbf{1,5 1,10 5,15} etc. \\
-      O \textbf{p} é função imprimir, o \textbf{n} numerar as linhas, etc. \\
-      O \textbf{g} permite a busca não por cadeias, mas sim expressões regulares: \textbf{g \slash expressao \slash p} \\
-      O \textbf{s} é a função substituir: \textbf{1,\$ s\slash expressao \slash cadeia \slash g} \\
-      Observer o \textbf{g} no comando anterior. 
-   \end{frame}
+      \begin{itemize}
+         \item Já deve ter notado que \textbf{1,\$} representa uma faixa de valores. 
+         \item Nesse caso, é da linha um até o final do arquivo. 
+         \item Porém poderia ser qualquer faixa: \textbf{1,5 1,10 5,15} etc. 
+         \item O \textbf{p} é função imprimir, o \textbf{n} numerar as linhas, etc. 
+         \item O \textbf{g} permite a busca não por cadeias, mas sim expressões regulares: \textbf{g \slash expressao \slash p} 
+         \item O \textbf{s} é a função substituir: \textbf{1,\$ s\slash expressao \slash cadeia \slash g} 
+         \item Observer o \textbf{g} no comando anterior. 
+      \end{itemize}
+    \end{frame}
 
 %   \begin{frame}
 %      \frametitle{Exercícios - Parte I}
@@ -76,129 +84,174 @@
 
 \begin{frame}[fragile]
    \frametitle{O comando sed}
-   \begin{minted}{bash}
-   sed expressão regular [arquivo]
-   \end{minted}
-   A expressão regular é do formato: \\
-   $[<$endereço-1$>$, $[<$endereço-2$>]]$ $<$função$>$ $[$argumento$]$
+   \begin{center}
+      \begin{minted}{bash}
+      sed [função/expressão regular] [arquivo]
+      \end{minted}
+   \end{center}
+   \begin{block}{A função e expressão regular é do formato:}
+      $[<$endereço-1$>$, $[<$endereço-2$>]]$ $<$função$>$ $[$argumento$]$
+   \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{Funções}
    \scriptsize
-   Substituir por cadeia:
-   \begin{minted}{bash}
-   sed 's/expressaoregular/cadeia/' arquivo
-   \end{minted}
-   Substituir por caractere:
-   \begin{minted}{bash}
-   sed 'y/caractere-1/caractere-2/' arquivo 
-   \end{minted}
-   Imprimir linhas que casam com expressão:
-   \begin{minted}{bash}
-   sed '/expressao/p' arquivo 
-   \end{minted}
-   Deletar linhas:
-   \begin{minted}{bash}
-   sed '1,4d' arquivo 
-   sed '/expressao/d' arquivo 
-   \end{minted}
-   Adicionar uma linha em posição:
-   \begin{minted}{bash}
-   sed '1a \novalinha' arquivo 
-   \end{minted}
-   A opção -n reduz o que é impresso na tela, enquanto a opção -i atualiza o arquivo. \\
-   A opção -r ativa suporte a metacaracteres avançados nas expressões regulares. \\
+   \begin{block}{Substituir por cadeia:}
+      \begin{minted}{bash}
+         sed 's/expressaoregular/cadeia/' arquivo
+      \end{minted}   
+   \end{block}
+   
+   \begin{block}{Substituir por caractere:}
+      \begin{minted}{bash}
+         sed 'y/caractere-1/caractere-2/' arquivo 
+      \end{minted}   
+   \end{block}
+
+   \begin{block}{Imprimir linhas que casam com expressão:}
+      \begin{minted}{bash}
+         sed '/expressao/p' arquivo 
+      \end{minted}   
+   \end{block}
+
+   \begin{block}{Deletar linhas:}
+      \begin{minted}{bash}
+         sed '1,4d' arquivo 
+         sed '/expressao/d' arquivo 
+      \end{minted}   
+   \end{block}
+
+   \begin{block}{Adicionar uma linha em posição:}
+      \begin{minted}{bash}
+         sed '1a \novalinha' arquivo 
+      \end{minted}   
+   \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Funções}
+   \begin{itemize}
+      \item A opção -n reduz o que é impresso na tela, enquanto a opção -i atualiza o arquivo. 
+      \item A opção -r ativa suporte a metacaracteres avançados nas expressões regulares.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{cut - Cortando cadeias de caracteres}
-   \begin{minted}{bash}
-   cut -f[campo] -d[delimitador] arquivo 
-   \end{minted}
-   O \textit{delimitador} indica qual caractere é usado para separar os campos. \\
-   O número \text{campo} indica qual campo deve ter a coluna impressa. \\
+   \begin{center}
+      \begin{minted}{bash}
+         cut -f[campo] -d[delimitador] arquivo 
+      \end{minted}
+   \end{center}
+   \begin{itemize}
+      \item O \textit{delimitador} indica qual caractere é usado para separar os campos.
+      \item O número \text{campo} indica qual campo deve ter a coluna impressa.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{tr - Transformar cadeias de caracteres}
-   \begin{minted}{bash}
+   \begin{center}
+      \begin{minted}{bash}
 tr [opções] <caracteresoriginais> <caracteresdestino>
-   \end{minted}
-   Converte dos caracteres originais para os caracteres de destino de acordo com a ordem que aparecem. \\
-   Pode usar as classes POSIX. \\
-   A opção -s elimina caracteres repetidos. \\
+      \end{minted}
+   \end{center}
+   \begin{itemize}
+      \item Converte dos caracteres originais para os caracteres de destino de acordo com a ordem que aparecem.
+      \item Pode usar as classes POSIX.
+      \item A opção -s elimina caracteres repetidos.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{uniq - Eliminando repetições}
-   \begin{minted}{bash}
-uniq arquivo 
-   \end{minted}
-   Deixa uma única cópia para cada linha repetida. \\
-   As linhas devem ser adjacentes. \\
+   \begin{center}
+      \begin{minted}{bash} 
+uniq [arquivo]
+      \end{minted}
+   \end{center}
+   \begin{itemize}
+      \item Deixa uma única cópia para cada linha repetida.
+      \item As linhas devem ser adjacentes.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{Aritmética no Bash}
-   \begin{minted}{bash}
+   \begin{center}
+      \begin{minted}{bash}
 expr <operando1> <operador> <operando2>
-   \end{minted}
-   O operador pode ser $+,-,*,/,\%$ \\
-   É extremamente sensível aos espaços. \\
+      \end{minted}
+   \end{center}
+   \begin{itemize}
+      \item O operando pode ser um número ou uma variável.
+      \item O operador pode ser +, -, *, /, \%, =,!=.
+      \item É extremamente sensível aos espaços.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{Aritmética no Bash}
-   \begin{minted}{bash}
+   \begin{center}
+      \begin{minted}{bash}
 bc [arquivo]
-   \end{minted}
-   É como se fosse um \textit{bash} para arimética. \\
-   Mais utilizado como comando destino de um pipe. \\
-   Aceita o parâmetro \textit{scale}.\\
+      \end{minted}
+   \end{center}
+   \begin{itemize}
+      \item É como se fosse um \textit{bash} para arimética.
+      \item Mais utilizado como comando destino de um pipe.
+      \item Aceita o parâmetro \textit{scale}.
+   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{Aritmética}
-   Também é possível usar o próprio Bash para expressões aritméticas inteiras.
-   \begin{minted}{bash}
-   $(( expressão ))
-   \end{minted}
-   No lugar de executar um comando, o parênteses extra calcular a expressão. \\
-\end{frame}
-
-
-\begin{frame}[fragile]
-   \frametitle{Exercício 03 - Parte II}
-   Coloque o \textit{script} na pasta \textit{exercicios/exercicio03}. O nome do \textit{script} deve ser \textit{soma.sh}. Instruções:
    \begin{itemize}
-      \item Esse \textit{script} deve considerar que no mesmo diretório que será executado existe um arquivo chamado \textit{compras.txt} com a seguinte informação:
+      \item Também é possível usar o próprio Bash para expressões aritméticas inteiras.
+   \end{itemize}
+   \begin{center}
       \begin{minted}{bash}
-Playstation5 4999
-MacBook 9799
-GalaxyS20Ultra 5499
-iPad 3499
-SmartTV554k 2799
+$(( expressão ))
       \end{minted}
-      \item Mais informações no próximo \textit{slide}.
+   \end{center}
+   \begin{itemize}
+      \item No lugar de executar um comando, o parênteses extra calcular a expressão.
    \end{itemize}
 \end{frame}
 
 
-\begin{frame}[fragile]
-   \frametitle{Exercício 03 - Parte II - Continuação}
-   Você deve fazer uma sequência de cinco comandos, ligados por \textit{pipe}, para somar os valor total
-   das compras. Abaixo, a posição do comando no \textit{pipe} e a respectiva funcionalidade que deve 
-   executar:
-   \begin{enumerate}
-      \item Exibe o conteúdo do arquivo.
-      \item Recupera apenas os preços (sugestão: \textit{cut}).
-      \item Substitui o caractere de nova linha por + (sugestão:  \textit{tr}).
-      \item O substitui o + ao final por um caractere nova linha (sugestão: \textit{sed}).
-      \item Faz a soma dos valores (sugestão: \textit{bc}).
-   \end{enumerate}
-   Faça de forma incremental, adicionando um comando por vez no \textit{pipe}.
-\end{frame}
+%\begin{frame}[fragile]
+%   \frametitle{Exercício 03 - Parte II}
+%   Coloque o \textit{script} na pasta \textit{exercicios/exercicio03}. O nome do \textit{script} deve ser \textit{soma.sh}. Instruções:
+%   \begin{itemize}
+%      \item Esse \textit{script} deve considerar que no mesmo diretório que será executado existe um arquivo chamado \textit{compras.txt} com a seguinte informação:
+%      \begin{minted}{bash}
+%Playstation5 4999
+%MacBook 9799
+%GalaxyS20Ultra 5499
+%iPad 3499
+%SmartTV554k 2799
+%      \end{minted}
+%      \item Mais informações no próximo \textit{slide}.
+%   \end{itemize}
+%\end{frame}
+
+
+%\begin{frame}[fragile]
+%   \frametitle{Exercício 03 - Parte II - Continuação}
+%   Você deve fazer uma sequência de cinco comandos, ligados por \textit{pipe}, para somar os valor total
+%   das compras. Abaixo, a posição do comando no \textit{pipe} e a respectiva funcionalidade que deve 
+%   executar:
+%   \begin{enumerate}
+%      \item Exibe o conteúdo do arquivo.
+%      \item Recupera apenas os preços (sugestão: \textit{cut}).
+%      \item Substitui o caractere de nova linha por + (sugestão:  \textit{tr}).
+%      \item O substitui o + ao final por um caractere nova linha (sugestão: \textit{sed}).
+%      \item Faz a soma dos valores (sugestão: \textit{bc}).
+%   \end{enumerate}
+%   Faça de forma incremental, adicionando um comando por vez no \textit{pipe}.
+%\end{frame}
 
 %\begin{frame}
 %   \frametitle{Exercícios - Parte I}
