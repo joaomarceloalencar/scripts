@@ -15,7 +15,7 @@
 
    \begin{frame}
       \frametitle{Estruturas de Controle}
-      Enquanto outras linguagens testam \textbf{condições}, o \textit{Shell} testa o código de retorno do comando que o segue. \\
+      Enquanto outras linguagens testam \textbf{condições}, o \textit{Shell} testa o código de retorno do comando que o segue:
       \begin{itemize}
          \item O código de retorno está associado à variável \$?
 	      \item Sucesso (verdadeiro) equivale à 0.
@@ -34,34 +34,45 @@
       if <comando>
       then
          <comando1>
-	      <comando2>
-	      <...>
+	 <comando2>
+	 <...>
       else
          <comando3>
-	      <comando4>
-	      <...>
+	 <comando4>
+	 <...>
       fi
       \end{minted}
 \end{frame}
 
    \begin{frame}
       \frametitle{Exemplo}
-      Como seria um \textit{script} chamado \textbf{numeroOuNao.sh} que recebe um parâmetro e afirma se o mesmo é um número ou não.
+      Como seria um \textit{script} chamado \textbf{numeroOuNao.sh} que recebe um parâmetro e afirma se o mesmo é um número ou não?
    \end{frame}
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{test}}
-      Como fazer para analisar condições booleanas no estilo de comparações $a > b , a == b$, etc?
+
+      \begin{itemize}
+         \item Como fazer para analisar condições booleanas no estilo de comparações $a > b , a == b$, etc?
+      \end{itemize}
+
       \begin{minted}{bash}
       $ test <expressao>
       \end{minted}
-      Sendo \textbf{expressao} a condição a ser testada. \\
-      Ao usar o \textbf{test} é bom colocar as variáveis entre aspas. Há diferença entre comparar a \textit{string} vazia e uma variável não existente.
+
+      \begin{itemize}
+         \item Sendo \textbf{expressao} a condição a ser testada.
+         \item Ao usar o \textbf{test} é bom colocar as variáveis entre aspas. Há diferença entre comparar a \textit{string} vazia e uma variável não existente.
+      \end{itemize}
 \end{frame}
 
    \begin{frame}
       \frametitle{Exemplo}
-      Como seria um \textit{script} chamado \textit{param.sh} que verifica se o usuário passou parâmetros ou não. Caso não tenha passado parâmetros, deve imprimir apenas o nome do \textit{script}. Caso tenha passado parâmetros, deve imprimir todos.
+      \begin{itemize}
+         \item Como seria um \textit{script} chamado \textit{param.sh} que verifica se o usuário passou parâmetros ou não?
+         \item Caso não tenha passado parâmetros, deve imprimir apenas o nome do \textit{script}.
+         \item Caso tenha passado parâmetros, deve imprimir todos.
+      \end{itemize}
    \end{frame}
 
    \begin{frame}
@@ -125,31 +136,54 @@
 
    \begin{frame}[fragile]
       \frametitle{Simplificando a escrita do \textit{test}}
-      No lugar de: 
+      \begin{itemize}
+         \item No lugar de: 
+      \end{itemize}
+      
       \begin{minted}{bash}
       $ test <expressao>
       \end{minted}
-      Podemos escrever:
+
+      \begin{itemize}
+         \item Podemos escrever:
+      \end{itemize}
+
       \begin{minted}{bash}
       $ [ <expressao> ]
       \end{minted}
-      Importante notar que há um espaço entre os colchetes e a expressão. \\
-      Se houver um sinal de ! antes da expressão, ela está negada. Mas lembre, tudo separado por \textbf{espaços}!!! \\
-      O \textbf{e} lógico pode ser criado usando \textbf{-a} para separar as expressões. \\
-      O \textbf{ou} lógico pode ser criado usando \textbf{-o} para separar as expressões. \\
-      Você pode usar parênteses, mas eles devem ser precedidos da barra invertida para o shell não interpretá-los: \\
-      \begin{minted}{bash}
-     \( $a = $b -o $c = $d \) -a \( $a -gt $d \)
-     \end{minted}
+      \begin{itemize}
+         \item Importante notar que há um espaço entre os colchetes e a expressão.
+         \item Se houver um sinal de ! antes da expressão, ela está negada. Mas lembre, tudo separado por \textbf{espaços}!!!
+      \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+   \frametitle{Simplificando a escrita do \textit{test}}
+   \begin{itemize}
+      \item O \textbf{e} lógico pode ser criado usando \textbf{-a} para separar as expressões.
+      \item O \textbf{ou} lógico pode ser criado usando \textbf{-o} para separar as expressões.
+      \item Você pode usar parênteses, mas eles devem ser precedidos da barra invertida para o shell não interpretá-los:
+   \end{itemize}
+   \begin{minted}{bash}
+   \( $a = $b -o $c = $d \) -a \( $a -gt $d \)
+   \end{minted}
 \end{frame}
 
    \begin{frame}[fragile]
       \frametitle{Usando o \&\& e o $||$}
-      Executar o segundo comando apenas se o primeiro for sucesso: 
+      \begin{itemize}
+         \item Executar o segundo comando apenas se o primeiro for sucesso: 
+      \end{itemize}
+      
       \begin{minted}{bash}
       comando1 && comando2
       \end{minted}
-      Executar o primeiro comando, e caso este falhe, executar o segundo: 
+
+      \begin{itemize}
+         \item Executar o primeiro comando, e caso este falhe, executar o segundo: 
+      \end{itemize}
+      
       \begin{minted}{bash}
       comando1 || comando2
       \end{minted}
@@ -160,7 +194,7 @@
       Vamos definir dois comandos:
       \begin{itemize}
          \item Caso um diretório chamado \textbf{novoDir} não exista, deve ser criado.
-	 \item Mover todos os arquivos \textit{.txt} para um diretório chamados \textbf{textos} e em seguida compacte o diretório.
+	      \item Mover todos os arquivos \textit{.txt} para um diretório chamados \textbf{textos} e em seguida compacte o diretório.
       \end{itemize}
    \end{frame}
 
