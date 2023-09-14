@@ -15,8 +15,9 @@
 
    \begin{frame}
       \frametitle{Variáveis}
-      O nome de uma variável é iniciado por uma letra ou um sublinhado, seguido ou não por quaisquer caracteres alfanuméricos ou caracteres sublinhados.
       \begin{itemize}
+         \item O nome de uma variável é iniciado por uma letra ou um sublinhado.
+         \item Seguido ou não por quaisquer caracteres alfanuméricos ou caracteres sublinhados.
          \item Para criar uma variável basta colocar o nome, seguido de um sinal de igual $=$ \textbf{colado} ao nome escolhido e, \textbf{colado} ao $=$, o valor estipulado.
 	      \item Para exibirmos o valor de uma variável, devemos preceder o seu nome por um cifrão \$. Podemos e devemos utilizar \{ e \} para delimitar o nome de uma variável.
       \end{itemize}
@@ -24,8 +25,9 @@
 
    \begin{frame}
       \frametitle{Passando e Recebendo Parâmetros}
-      Os parâmetros passados ($param_ {1}$, $param_ {2}$ ... $param_ {n}$) dão origem, dentro do programa que os recebe, às variáveis \$1, \$2, \$3 ... \$n. É importante notar que a passagem de parâmetro é posicional, isto é, o primeiro parâmetro é \$1, o segundo \$2 e assim até o \$9.
       \begin{itemize}
+         \item Os parâmetros passados ($param_ {1}$, $param_ {2}$ ... $param_ {n}$) dão origem, dentro do programa que os recebe, às variáveis \$1, \$2, \$3 ... \$n.
+         \item É importante notar que a passagem de parâmetro é posicional, isto é, o primeiro parâmetro é \$1, o segundo \$2 e assim até o \$9.
          \item Do 10 em diante, use \$\{10\} no lugar de \$10.
 	      \item A variável \$0 é o nome do programa.
 	      \item A variável \$\# é quantidade de parâmetros recebida.
@@ -35,16 +37,28 @@
 
 \begin{frame}[fragile]
    \frametitle{Comando \textit{xargs}}
-   Como procurar, em um diretório, todos os arquivos que possuam uma determinada cadeia de caracteres? 
+
+   \begin{itemize}
+      \item Como procurar, em um diretório, todos os arquivos que possuam uma determinada cadeia de caracteres? 
+   \end{itemize}
+   
    \begin{minted}{bash}
 $ ls | grep -l [cadeia] 
    \end{minted}
-   Isso vai funcionar? Estou procurando no nome dos arquivos ou no conteúdo dos mesmos? \\
-   O correto é passar cada arquivo encontrado por \textbf{ls} em parâmetro para o \textbf{grep}. 
+
+   \begin{itemize}
+      \item Isso vai funcionar? Estou procurando no nome dos arquivos ou no conteúdo dos mesmos?
+      \item O correto é passar cada arquivo encontrado por \textbf{ls} em parâmetro para o \textbf{grep}.
+   \end{itemize}
+
    \begin{minted}{bash}
 $ ls | xargs grep -l [cadeia] 
    \end{minted}
-   Você consegue imaginar por que é melhor do que o comando abaixo? 
+
+   \begin{itemize}
+      \item Você consegue imaginar por que é melhor do que o comando abaixo? 
+   \end{itemize}
+   
    \begin{minted}{bash}
 $ find [diretorio] -type f -exec grep -l [cadeia] {} \;
    \end{minted}
@@ -52,16 +66,24 @@ $ find [diretorio] -type f -exec grep -l [cadeia] {} \;
 
 \begin{frame}[fragile]
    \frametitle{Comando \textit{xargs}}
-   Como excluir apenas os arquivos que pertencem a determinado usuário? 
+
+   \begin{itemize}
+      \item Como excluir apenas os arquivos que pertencem a determinado usuário? 
+   \end{itemize}
+   
    \small
    \begin{minted}{bash}
 $ ls -l | grep jmhal | tr -s '' | cut -f9 -d'' | xargs rm  
    \end{minted}
    \normalsize
-   Exibindo mais informações:
-   \scriptsize
+
+   \begin{itemize}
+      \item Exibindo mais informações:
+   \end{itemize}
+   
    \begin{minted}{bash}
-$ find . -type f -name "*.txt" | xargs -i bash -c "echo removendo {}; rm {};" 
+$ find . -type f -name "*.txt" | xargs -i \ 
+bash -c "echo removendo {}; rm {};" 
    \end{minted}
 \end{frame}
 
