@@ -15,22 +15,34 @@
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{ps}}
+      \begin{itemize}
+         \item Exibe informações detalhadas dos processos em execução no sistema:
+      \end{itemize}
       \begin{minted}{bash}
       $ ps aux 
       \end{minted}
-      Exibe informações detalhadas dos processos em execução no sistema. Se quiser saber se um script com nome \textit{meuscript.sh} está em execução? 
+      \begin{itemize}
+         \item Se quiser saber se um script com nome \textit{meuscript.sh} está em execução?
+      \end{itemize}
       \begin{minted}{bash}
       $ ps aux | grep meuscript
       \end{minted}
-      Se quero ver todos os processos do meu usuário? 
+      \begin{itemize}
+         \item Se quero ver todos os processos do meu usuário?
+      \end{itemize}
       \begin{minted}{bash}
       $ ps aux | grep usuario
       \end{minted}
-      Detalhe: em ambos os casos acima, uma linha extra é retornada para o próprio processo que executa o \textit{grep}. Para matar um processo, existe o comando \textit{kill}. 
+      \begin{itemize}
+         \item Detalhe: o \textit{grep} é um comando que filtra a saída de um comando.
+         \item Para matar um processo, existe o comando \textit{kill}.
+      \end{itemize}
       \begin{minted}{bash}
       $ kill PID
       \end{minted}
-      O PID é a segunda coluna da saída do \textit{ps aux}.
+      \begin{itemize}
+         \item O PID é a segunda coluna da saída do \textit{ps aux}.
+      \end{itemize}
 \end{frame}
 
    \begin{frame}[fragile]
@@ -53,18 +65,27 @@ $ ./meuscript.sh [parametros] [redirecionamentos] &
    \begin{minted}{bash}
 $ nohup ./meuscript.sh &
    \end{minted} 
-   A saída do \textit{script} será direcionada para \textit{nohup.out} e você pode ter certeza que ele continuará executando até ser finalizado pelo \textit{kill}.
+   \begin{itemize}
+      \item  A saída do \textit{script} será direcionada para \textit{nohup.out}.
+      \item Você pode ter certeza que ele continuará executando até ser finalizado pelo \textit{kill}.
+   \end{itemize}
 \end{frame}
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{screen}}
-      O \& e o \textit{nohup} são bons para criar \textit{daemons}.\\
-      Mas se você quiser apenas manter uma sessão ativa enquanto entra e sai na máquina, o \textit{screen} é uma boa opção. 
+      \begin{itemize}
+         \item O \& e o \textit{nohup} são bons para criar \textit{daemons}.
+         \item Mas se você quiser manter uma sessão ativa enquanto entra e sai na máquina, o \textit{screen} é uma boa opção:
+      \end{itemize}
       \begin{minted}{bash}
 $ screen
       \end{minted}        
-      Você agora pode deixar qualquer comando executando. Para \textit{desanexar} a tela, digite crtl $+$ a $+$ d. \\
-      Você pode fazer \textit{logout} e um novo \textit{login}. Para recuperar a sessão, digite: 
+      \begin{itemize}
+         \item Você agora pode deixar qualquer comando executando. 
+         \item Para \textit{desanexar} a tela, digite crtl $+$ a $+$ d.
+         \item Para \textit{desanexar} a tela, digite crtl $+$ a $+$ d.
+         \item Você pode fazer \textit{logout} e um novo \textit{login}. Para recuperar a sessão, digite: 
+      \end{itemize}      
       \begin{minted}{bash}
 $ screen -r
       \end{minted} 
@@ -87,20 +108,35 @@ $ screen -r
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{tmux}}
-      É similar ao \textit{screen} porém mais recente. \\ 
-      Inicializando uma sessão:
+      \begin{itemize}
+         \item É similar ao \textit{screen} porém mais recente.
+         \item Inicializando uma sessão:
+      \end{itemize}
+   
       \begin{minted}{bash}
       $ tmux	      
       \end{minted}
-      Podemos também nomear as sessões:
+
+      \begin{itemize}
+         \item Podemos também nomear as sessões:
+      \end{itemize}
+
       \begin{minted}{bash}
       $ tmux new -s programando	      
       \end{minted}
-      Listando sessões ativas:
+
+      \begin{itemize}
+         \item Listando sessões ativas:
+      \end{itemize}
+
       \begin{minted}{bash}
       $ tmux ls
       \end{minted}
-      Retornar a uma sessão específica:
+
+      \begin{itemize}
+         \item  Retornar a uma sessão específica:
+      \end{itemize}
+     
       \begin{minted}{bash}
       $ tmux attach -t 0 
       \end{minted}
