@@ -47,32 +47,36 @@
    \end{minted}
 \end{frame}
 
-%   \begin{frame}[fragile]
-%      \frametitle{Exemplo}
-%      Vamos escrever um \textit{script} chamado \textit{formataTexto.sh} que recebe quatro parâmetros: 
-%      \begin{enumerate} 	     
-%         \item \textbf{Primeiro Parâmetro}: um das três opções \textit{sublinhado, negrito ou reverso}. 
-%         \item \textbf{Segundo Parâmetro}: um número que representa a cor de acordo com o comando \textit{tput}. 
-%         \item \textbf{Terceiro Parâmetro}: dois números separados por vírgula. 
-%         \item \textbf{Quarto Parâmetro}: um texto a ser impresso. 
-%      \end{enumerate}
-%      Por exemplo: 
-%      \begin{minted}{bash}
-%$ ./formataTexto.sh negrito 1 20,20 "Scripts"
-%      \end{minted}
-%      Imprime o texto na posição 20,20, na cor vermelha e em negrito.
-%\end{frame}
+   \begin{frame}[fragile]
+      \frametitle{Exemplo}
+      Vamos escrever um \textit{script} chamado \textit{formataTexto.sh} que recebe quatro parâmetros: 
+      \begin{enumerate} 	     
+         \item \textbf{Primeiro Parâmetro}: um das três opções \textit{sublinhado, negrito ou reverso}. 
+         \item \textbf{Segundo Parâmetro}: um número que representa a cor de acordo com o comando \textit{tput}. 
+         \item \textbf{Terceiro Parâmetro}: dois números separados por vírgula. 
+         \item \textbf{Quarto Parâmetro}: um texto a ser impresso. 
+      \end{enumerate}
+      Por exemplo: 
+      \begin{minted}{bash}
+$ ./formataTexto.sh negrito 1 20,20 "Scripts"
+      \end{minted}
+      Imprime o texto na posição 20,20, na cor vermelha e em negrito.
+\end{frame}
 
    \begin{frame}[fragile]
       \frametitle{Comando \textit{read}}
       \begin{minted}{bash}
       $ read [var1] [var2] [var3] ... 
       \end{minted}
-      Onde \textit{var1, var2, var3} são variáveis separadas por um ou mais espaços em branco ou TAB e os valores informados também deveram conter um ou mais espaços entre si. 
+      \begin{itemize}
+         \item Onde \textit{var1, var2, var3} são variáveis separadas por um ou mais espaços em branco ou TAB.
+      \end{itemize}
       \begin{minted}{bash}
       $ read -p "Informe seu nome:" nome 
       \end{minted}
-      O parâmetro $-p$ permite adicionar uma frase antes da leitura.
+      \begin{itemize}
+         \item O parâmetro $-p$ permite adicionar uma frase antes da leitura.
+      \end{itemize}
 \end{frame}
 
    \begin{frame}[fragile]
@@ -95,7 +99,7 @@
    $ printf formato [argumento ...]         
       \end{minted}
       \begin{itemize}
-         \item formato: é uma cadeiaa de caracteres que contém três tipos de objetos: caracteres simples, caracteres de formato e sequências de escape.
+         \item formato: é uma cadeia de caracteres que contém três tipos de objetos: caracteres simples, caracteres de formato e sequências de escape.
 	      \item é a cadeia a ser impressa
       \end{itemize}
       Cada um dos caracteres utilizados para especificação de formato é precedido pelo caractere \% e logo a seguir vem a especificação de formato.
