@@ -15,7 +15,6 @@
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{eval}}
-      \$ eval [linha-de-comando] \\
       \begin{minted}{bash}
 $ cano='|'
 $ ls $cano wc -l
@@ -24,16 +23,25 @@ ls: cannot access 'wc': No such file or directory
 $ eval ls $cano wc -l
 5
       \end{minted}
+
+      \begin{itemize}
+         \item Permite avaliar o conteúdo de uma variável como se fosse um comando.
+         \item Você pode ir construindo um comando em uma variável para depois executá-lo.
+      \end{itemize}
+   
 \end{frame}
 
    \begin{frame}[fragile]
       \frametitle{O comando \textit{wait}}
-      \$ wait [PID] \\
       \begin{minted}{bash}
 $ sleep 60 &
 [1] 3223
 $ wait 3223
       \end{minted}
+      \begin{itemize}
+         \item Bloqueia até o processo termine.
+         \item Você pode criar vários processos e usar \textit{wait} para ter certeza que todos terminaram.
+      \end{itemize}
 \end{frame}
 
    \begin{frame}
@@ -55,7 +63,12 @@ $ wait 3223
          \hline 
          \end{tabular}
       \end{table}
+      \begin{itemize}
+         \item Permite executar comandos de acordo com os sinais recebidos.
+         \item Pode ser usado para limpar arquivos temporários.
+      \end{itemize}
    \end{frame}
+
 
    \begin{frame}[fragile]
       \frametitle{Funções}
@@ -93,6 +106,10 @@ function command_not_found_handle
    exit      
 }
       \end{minted}
+      \begin{itemize}
+         \item Permite tratar erros de execução de comandos.
+         \item O comando \textit{exit} encerra a execução do \textit{script}.
+      \end{itemize}
 \end{frame}
 
 %   \begin{frame}
@@ -126,7 +143,10 @@ $ ls > cano
 $ cat < cano
 cano  sistema.sh  trap.sh
       \end{minted}
-      Permite comunicação e sincronização entre processos.
+      \begin{itemize}
+         \item Cria um \textit{pipe} nomeado.
+         \item Permite comunicação e sincronização entre processos.
+      \end{itemize}
 \end{frame}
 
    \begin{frame}[fragile]
