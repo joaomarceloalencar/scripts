@@ -48,9 +48,9 @@ awk -f <arquivo de programa> <lista de arquivos>
       A variável IFS não tem efeito no \textit{awk}. \\
       Os \textbf{padrões} se encaixam em três categorias:
       \begin{itemize}
-         \item Expressões Relacionais (comparação)
-	 \item Expressões Regulares
-	 \item BEGIN e END
+         \item Expressões Relacionais (comparação).
+	      \item Expressões Regulares.
+	      \item BEGIN e END.
       \end{itemize}
 \end{frame}
 
@@ -132,10 +132,11 @@ $ awk 'END { print "Fim da Lista"} { print }' ../emailsordenados.txt
 $ awk 'BEGIN { print "Nome do Alunos" }
 > { print }
 > END { print "Entradas=", NR }' ../emailsordenados.txt
-awk '$1 ~ /^J/ { print; Soma=Soma+1 } 
+
+$ awk '$1 ~ /^J/ { print; Soma=Soma+1 } 
 > END { print Soma}' ../emailsordenados.txt
-$ awk '
-> BEGIN { printf "%15s %5s\n", "IP", "Latência" }
+
+$ awk 'BEGIN { printf "%15s %5s\n", "IP", "Latência" }
 > { printf "%15s %5s\n", $1, $2, LatenciaTotal = LatenciaTotal + $2 }
 > END { printf "\n Latência média: %5s\n", 
 > LatenciaTotal / NR } ' ips_latencia.txt
@@ -196,7 +197,7 @@ $ awk 'BEGIN { print length("LINUX-UNIX")}'
 $ awk 'BEGIN { print match("LINUX-UNIX", /[UI]X/)}'
 $ awk 'BEGIN { print match("LINUX-UNIX", /[UI]X$/)}'
 $ awk 'BEGIN { OS="LINUX-UNIX" sub(/LINUX/, "BSD", OS) print OS}'
-$ $ awk 'BEGIN {
+$ awk 'BEGIN {
 > OS="LINUX-UNIX"
 > sub (/LINUX/, "BSD", OS)
 > print OS
@@ -269,12 +270,11 @@ $ $ awk 'BEGIN {
    \end{frame}
 
    \begin{frame}[fragile]
-      \frametitle{O comando \textit{for}}
+      \frametitle{Vetores}
       \begin{minted}{bash}
 $ awk '{ Registro [NR] = $0 } 
 > END { print Registro [2] }' ../emailsordenados.txt 
       \end{minted}
-      Os vetores também pode ser indexados por \textit{strings}.\\
 \end{frame}
 
    \begin{frame}
@@ -301,15 +301,17 @@ $ awk '{ Registro [NR] = $0 }
       \frametitle{Redirecionando a Saída}
       \footnotesize
       \begin{minted}{bash}
+      # Similar ao bash
       $2 > 7.0 { print $1, $2 > "aprovados.txt" }
+      # Usando variável para guardar o nome do arquivo
       $2 > 5.0 { print $1, $2 > ("/tmp/" ARQUIVO ) }
-
+      # Invocando um comando via pipe
       {
          PrimeiraNota[$1] = $2
       }
       END {
          for (aluno in PrimeiraNota) 
-	    print aluno, "\t" , PrimeiraNota[aluno] | "sort" 
+	      print aluno, "\t" , PrimeiraNota[aluno] | "sort" 
       }
 
       \end{minted}
@@ -323,6 +325,10 @@ $ awk '{ Registro [NR] = $0 }
          print ARGV [i], "\n"
       }' a b c
       \end{minted}
+      \begin{itemize}
+         \item ARGC: número de argumentos.
+         \item ARGV: vetor com os argumentos.
+      \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
