@@ -1,0 +1,225 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+\setbeamertemplate{footline}[frame number]
+
+\title{Linha de Comando da AWS}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução}
+      \begin{itemize}
+         \item Podemos controlar a AWS através de três formas:
+         \begin{itemize}
+            \item Console Web.
+            \item SDKs (Software Development Kits).
+            \item Linha de Comando (CLI - Command Line Interface).
+         \end{itemize}
+         \item A CLI é uma ferramenta poderosa para administrar a AWS.
+         \item Permite automatizar tarefas através de scripts.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Instalação da AWS CLI}
+      \begin{itemize}
+         \item A AWS CLI pode ser instalada em diversos sistemas operacionais.
+         \item No Linux, podemos usar o gerenciador de pacotes da distribuição.
+         \item Exemplo para Ubuntu/Debian:
+         \begin{minted}{bash}
+sudo apt-get install awscli
+         \end{minted}
+         \item Instruções mais recentes: \url{https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html}. 
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Configuração da AWS CLI}
+      \begin{itemize}
+         \item Após a instalação, precisamos configurar a CLI com nossas credenciais.
+         \item Vá até o AWS Academy e inicialize o ambiente de laboratório.
+         \item Clique em AWS Details, depois no botão Show ao lado de AWS CLI, no painel à direita.
+         \item Copie o conteúdo dentro do arquivo \textit{\$HOME/.aws/credentials}.     
+         \item Deixe o conteúdo de \textit{\$HOME/.aws/config} da seguinte forma:
+         \begin{minted}{ini}
+[default]
+region = us-east-1
+output = json            
+         \end{minted}
+         \item Para testar, execute:
+         \begin{minted}{bash}
+aws ec2 describe-instances
+         \end{minted}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Comandos Básicos da AWS CLI}
+      \begin{itemize}
+         \item A AWS CLI possui comandos para praticamente todos os serviços da AWS.
+         \item Exemplos de comandos comuns:
+         \begin{itemize}
+            \item Listar instâncias EC2:
+            \begin{minted}{bash}
+aws ec2 describe-instances
+            \end{minted}
+            \item Criar um bucket S3:
+            \begin{minted}{bash}
+aws s3 mb s3://meu-bucket
+            \end{minted}
+            \item Fazer upload de um arquivo para o S3:
+            \begin{minted}{bash}
+aws s3 cp arquivo.txt s3://meu-bucket/
+            \end{minted}
+            \item Listar buckets S3:
+            \begin{minted}{bash}
+aws s3 ls
+            \end{minted}   
+            \item Baixar arquivo de um bucket S3:
+            \begin{minted}{bash}
+aws s3 cp s3://meu-bucket/arquivo.txt .
+            \end{minted}   
+         \end{itemize}
+         \item Formato geral do comando:
+         \begin{minted}{bash}
+aws <serviço> <ação> [parâmetros]   
+         \end{minted}         
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Criar uma Instância EC2 via CLI}
+      \footnotesize
+      \begin{minted}{bash}
+aws ec2 run-instances --image-id ami-0360c520857e3138f \
+--count 1 \
+--instance-type t2.micro \
+--key-name vockey \
+--security-groups default \
+--tag-specifications \
+    'ResourceType=instance,Tags=[{Key=Name,Value=Instancia-CLI}]'
+      \end{minted}
+      \begin{itemize}
+         \item $count$ é a quantidade de instâncias a serem criadas.
+         \item $instance-type$ é o tipo da instância.
+         \item $key-name$ é o par de chaves para acesso SSH.
+         \item $security-groups$ é o grupo de segurança associado. Ele precisa estar com a porta 22 aberta para acesso SSH.
+         \item $tag-specifications$ são as tags para identificar a instância.
+         \item $ami-0360c520857e3138f$ é a AMI do Ubuntu na região us-east-1. Cada região tem um identificador diferente para a mesma AMI.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Liberando Portas no Grupo de Segurança via CLI}
+      \begin{itemize}
+         \item Para liberar a porta 22 (SSH) no grupo de segurança padrão:
+         \begin{minted}{bash}
+aws ec2 authorize-security-group-ingress \
+--group-name default \
+--protocol tcp \
+--port 22 \
+--cidr 0.0.0.0/0
+         \end{minted}
+         \item Você pode liberar outras portas, como a 80 (HTTP) ou 443 (HTTPS), alterando o valor do parâmetro \texttt{--port}.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Recuperando o Endereço IP da Instância via CLI}
+      \footnotesize 
+      \begin{minted}{bash}
+aws ec2 describe-instances \
+--query "Reservations[*].Instances[*].[InstanceId,PublicIpAddress]" \
+--output text
+      \end{minted}
+      \normalsize
+      \begin{itemize}
+         \item O comando retorna o endereço IP público de todas as instâncias em execução.
+         \item Você pode usar esse IP para acessar a instância via SSH.
+         \item Se tiver mais de uma instância, o comando retornará uma lista de IPs.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Gerenciando Instâncias via CLI}
+      \begin{itemize}
+         \item Detalhes de uma instância específica:
+         \begin{minted}{bash}
+aws ec2 describe-instances \
+--instance-ids <ID-da-instância>
+         \end{minted}
+         \item Parar uma instância:
+         \begin{minted}{bash}
+aws ec2 stop-instances \
+--instance-ids <ID-da-instância>
+         \end{minted}
+         \item Iniciar uma instância:
+         \begin{minted}{bash}
+aws ec2 start-instances \
+--instance-ids <ID-da-instância>
+         \end{minted}
+         \item Terminar uma instância:
+         \begin{minted}{bash} 
+aws ec2 terminate-instances \
+--instance-ids <ID-da-instância>
+         \end{minted}
+      \end{itemize}
+   \end{frame} 
+
+   \begin{frame}[fragile]
+      \frametitle{Criando uma Instância com Tamanho de Disco Personalizado via CLI} 
+      \begin{itemize}
+         \item Para criar uma instância EC2 com um tamanho de disco personalizado, você pode usar o parâmetro \texttt{--block-device-mappings}.
+         \item Exemplo para criar uma instância com um disco de 30 GB:
+         \footnotesize
+         \begin{minted}{bash}
+aws ec2 run-instances --image-id ami-0360c520857e3138f \
+--count 1 \
+--instance-type t2.micro \
+--key-name vockey \
+--security-groups default \
+--block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=30}
+         \end{minted}
+      \end{itemize}
+   \end{frame} 
+   
+   \begin{frame}[fragile]
+      \frametitle{Executando Scripts na Instância via CLI - User Data}
+      \begin{itemize}
+         \item Podemos executar scripts automaticamente na inicialização da instância usando o recurso User Data.
+         \item Exemplo de script para instalar o servidor web nginx:
+         \begin{minted}{bash}
+#!/bin/bash
+apt-get update
+apt-get install -y nginx
+         \end{minted}
+         \item Para usar esse script ao criar a instância, salve-o em um arquivo (por exemplo, \texttt{user-data.sh}) e use o parâmetro \texttt{--user-data}:
+         \begin{minted}{bash}
+aws ec2 run-instances --image-id ami-0360c520857e3138f \
+--count 1 \
+--instance-type t2.micro \
+--key-name vockey \
+--security-groups default \
+--user-data file://user-data.sh
+         \end{minted}
+      \end{itemize}
+   \end{frame} 
+
+   \begin{frame}
+      \frametitle{Conclusão}
+      \begin{itemize}
+         \item A AWS CLI é uma ferramenta poderosa para gerenciar recursos na AWS.
+         \item Permite automatizar tarefas e integrar com scripts e sistemas de automação.
+         \item Consulte a documentação oficial da AWS CLI para mais comandos e opções: \url{https://docs.aws.amazon.com/cli/latest/index.html}.
+      \end{itemize}
+   \end{frame} 
+
+\end{document}
