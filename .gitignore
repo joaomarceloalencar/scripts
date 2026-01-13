@@ -1,3 +1,6 @@
+# Exemplo Terraforn\m
+.terraform*
+
 # Arquivos do Minted
 _minted*
 
