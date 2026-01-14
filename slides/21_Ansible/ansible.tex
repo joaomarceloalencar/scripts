@@ -1,0 +1,349 @@
+\documentclass{beamer}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+\usepackage{graphicx}
+\setbeamertemplate{footline}[frame number]
+
+\title{Ansible para Configuração de Infraestrutura}
+\author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
+\institute{Universidade Federal do Ceará - Quixadá}
+
+\begin{document}
+   \begin{frame}
+      \titlepage
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Introdução}
+      \begin{itemize}
+      \item Contextualização:
+      \begin{itemize}
+      \item O Terraform automatiza a criação (provisionamento) de máquinas virtuais.
+      \item Uma vez implantadas, as VMs devem ser configuradas (instalação de pacotes, arquivos de conf.).
+      \end{itemize}
+      \item O que é o Ansible?
+      \begin{itemize}
+      \item Solução de configuração mantida pela Red Hat.
+      \item Arquivos de configuração em YAML ou JSON.
+      \item \textbf{Agentless}: Poucas dependências (apenas Python) e usa SSH para acessar as VMs.
+      \end{itemize}
+      \item Diferença de escopo: Embora o Ansible possa provisionar, focaremos no seu uso para configuração pós-provisionamento.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Conceitos Básicos}
+      \begin{itemize}
+      \item O Ansible possui duas configurações básicas:
+      \begin{itemize}
+      \item \textbf{Inventário (Inventory)}: Define quais servidores são alvos das ações (Web, Banco de dados, etc.).
+      \item \textbf{Playbook}: Define as tarefas de configuração a serem executadas.
+      \end{itemize}
+      \item No inventário, utilizamos IP ou nome (DNS) dos servidores.
+      \item O Playbook associa tarefas a um servidor específico ou a um grupo.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Instalação no Ubuntu}
+      \begin{itemize}
+      \item Comandos para instalação :
+      \end{itemize}
+      \footnotesize
+      \begin{minted}{bash}
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible python3-boto3
+      \end{minted}
+      \normalsize
+      \begin{itemize}
+      \item \textit{Nota: O pacote python3-boto3 é necessário para interações com a AWS.}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Configuração}
+      \begin{itemize}
+      \item Arquivo global: \texttt{/etc/ansible/ansible.cfg}.
+      \item Boas Práticas:
+      \begin{itemize}
+      \item Evitar configurações globais para facilitar o compartilhamento de código.
+      \item Utilizar variáveis de ambiente.
+      \item Manter configurações locais no diretório do projeto (inventários e playbooks).
+      \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Tipos de Inventário}
+      \begin{itemize}
+      \item \textbf{Estático}:
+      \begin{itemize}
+      \item Servidores listados manualmente em arquivo INI ou YAML.
+      \item Uso de IP ou FQDN.
+      \end{itemize}
+      \item \textbf{Dinâmico}:
+      \begin{itemize}
+      \item Gerado por \textit{script} ou \textit{plugin}.
+      \item Captura informações da nuvem (ex: AWS) em tempo real.
+      \item Ideal para ambientes criados via Terraform onde IPs mudam.
+      \item Requer AWS CLI configurado.
+      \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Inventário Estático: Exemplo}
+      \begin{itemize}
+      \item Exemplo simples (INI) agrupando por função :
+      \end{itemize}
+      \begin{minted}{ini}
+[all:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+[web]
+192.168.0.100
+192.168.0.101
+
+[bancodedados]
+192.168.0.200
+      \end{minted}
+      \begin{itemize}
+      \item Assume-se que o acesso SSH (chaves) já está configurado no SO para estes IPs.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Inventário Estático: Parâmetros}
+      \footnotesize
+      \begin{minted}{ini}
+[web]
+servidorweb1 ansible_host=3.81.235.92 ansible_user=ubuntu \
+             ansible_private_key_file=~/labsuser.pem
+servidorweb2 ansible_host=3.81.235.93 ansible_user=ubuntu \
+             ansible_private_key_file=~/labsuser.pem
+
+[bancodedados]
+bd1 ansible_host=54.3.97.17 ansible_user=ubuntu \
+    ansible_private_key_file=~/labsuser.pem
+      \end{minted}
+      \normalsize
+      \begin{itemize}
+      \item Principais parâmetros :
+      \begin{itemize}
+      \item \texttt{ansible\_host}: IP real do servidor (permite usar alias no nome).
+      \item \texttt{ansible\_user}: Usuário SSH.
+      \item \texttt{ansible\_private\_key\_file}: Caminho da chave PEM.
+      \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Verificando Conectividade (Ad-Hoc)}
+      \begin{itemize}
+      \item O módulo \texttt{ping} verifica o acesso aos servidores listados no inventário .
+      \end{itemize}
+      \begin{minted}{bash}
+# Verificar todos os servidores
+ansible -i inventario.ini all -m ping
+
+# Verificar apenas grupo web
+ansible -i inventario.ini web -m ping
+
+# Verificar servidor específico
+ansible -i inventario.ini servidorweb1 -m ping
+      \end{minted}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Inventário Dinâmico (AWS)}
+      \begin{itemize}
+      \item Arquivo YAML (\texttt{aws\_ec2.yml}) que usa plugin para ler tags da AWS .
+      \end{itemize}
+      \footnotesize
+      \begin{minted}{yaml}
+plugin: amazon.aws.aws_ec2
+aws_profile: default
+regions:
+  - us-east-1
+keyed_groups:
+  - key: tags
+    prefix: tag
+      \end{minted}
+      \normalsize
+      \begin{itemize}
+      \item Comando para visualizar o grafo de recursos:
+      \begin{minted}{bash}
+ansible-inventory -i aws_ec2.yml --graph
+      \end{minted}
+      \item Comando para testar a conectividade:
+      \begin{minted}{bash}
+ansible -i aws_ec2.yml all -m ping \
+--ssh-extra-args='-o StrictHostKeyChecking=no' \
+-u ubuntu --private-key ˜/labsuser.pem
+      \end{minted}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+        \frametitle{Diretório group\_vars}
+        \begin{itemize}
+        \item Podemos definir variáveis comuns para todos os \textit{hosts}.
+        \item Criar diretório \texttt{group\_vars} no mesmo nível.
+        \item Colocar as opções em um arquivo chamado all.yml:
+        \footnotesize
+        \begin{minted}{yaml}
+---
+# Usuário padrão para conexão
+ansible_user: ubuntu
+
+# Caminho para sua chave privada
+ansible_ssh_private_key_file: ~/labsuser.pem
+
+# Desativa a verificação de Host Key (evita o prompt de yes/no)
+ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+        \end{minted}
+        \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
+      \frametitle{Playbook}
+      \begin{itemize}
+      \item Escrito em YAML.
+      \item Lista tarefas de configuração para grupos de \textit{hosts}.
+      \item Vantagem: Uso de \textbf{módulos} abstratos em vez de comandos \textit{bash} puros.
+      \item Exemplos de ações (Tasks) :
+      \begin{itemize}
+      \item Instalar pacotes (\texttt{apt}, \texttt{yum}).
+      \item Gerenciar serviços (\texttt{service}, \texttt{systemd}).
+      \item Manipular arquivos (\texttt{copy}, \texttt{template}).
+      \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplo de Playbook: Nginx}
+      \begin{minted}{yaml}
+---
+- hosts: web
+  tasks:
+    - name: Instalar nginx
+      become: true
+      apt:
+        name: nginx
+        state: latest
+        update_cache: true
+
+    - name: Iniciar o nginx
+      service:
+        name: nginx
+        state: started
+      \end{minted}
+      \begin{itemize}
+      \item \texttt{become: true}: Executa como sudo.
+      \item \texttt{state: latest}: Garante a última versão instalada.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Exemplo de Playbook: Múltiplos Grupos}
+      \footnotesize
+      \begin{minted}{yaml}
+- hosts: bancodedados
+  tasks:
+    - name: Instalar o MySQL Server
+      become: true
+      apt:
+        name: mysql-server
+        state: latest
+        update_cache: true
+
+    - name: Iniciar o MySQL Server
+      service:
+        name: mysql
+        state: started
+      \end{minted}
+      \normalsize
+      \begin{itemize}
+      \item Podemos ter múltiplas entradas de \texttt{hosts} no mesmo arquivo.
+      \item Para utilizar os \textit{hosts} da AWS no seu playbook.yml, basta referenciar o nome exato que aparece na hierarquia do grafo (sem o @).
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}[fragile]
+      \frametitle{Organização: Roles e Diretórios}
+      \begin{itemize}
+      \item Para projetos complexos, organizamos em \textbf{Roles} (Papéis).
+      \end{itemize}
+      \footnotesize
+      \begin{verbatim}
+.
+|-- aws_ec2.yml (Inventário Dinâmico)
+|-- group_vars
+|   `-- all.yml (Opções comuns)
+|-- playbook.yml (Orquestrador)
+`-- roles
+    |-- bancodedados
+    |   `-- tasks
+    |       `-- main.yml
+    `-- web
+        `-- tasks
+            `-- main.yml
+      \end{verbatim}
+      \normalsize
+      \begin{itemize}
+      \item O arquivo \texttt{playbook.yml} passa a apenas referenciar as \textit{roles}:
+      \end{itemize}
+      \footnotesize
+      \begin{minted}{yaml}
+- hosts: tag_grupo_web
+  roles:
+    - web
+      \end{minted}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Execução}
+      \begin{itemize}
+      \item Passos para execução :
+      \begin{enumerate}
+      \item Configurar credenciais AWS CLI.
+      \item Criar infraestrutura (Terraform).
+      \item Definir inventário (\texttt{aws\_ec2.yml}).
+      \item Executar o comando:
+      \end{enumerate}
+      \end{itemize}
+      \begin{center}
+      \texttt{\$ ansible-playbook -i aws\_ec2.yml playbook.yml}
+      \end{center}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Saída da Execução}
+      \begin{itemize}
+      \item \textbf{Gathering Facts}: Ansible verifica acessibilidade e coleta dados do SO.
+      \item Estados das Tarefas :
+      \begin{itemize}
+      \item \textcolor{green}{ok}: Sucesso, nenhuma mudança necessária (idempotência).
+      \item \textcolor{yellow}{changed}: Sucesso, alteração realizada no sistema.
+      \item \textcolor{red}{unreachable}: Falha na conexão (SSH/Rede).
+      \item \textcolor{red}{failed}: Conectou, mas erro ao executar comando (ex: pacote inexistente).
+      \end{itemize}
+      \item \textbf{Play Recap}: Resumo final de quantos hosts foram alterados ou falharam.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Conclusão}
+      \begin{itemize}
+      \item Ansible permite descrever infraestrutura de forma declarativa e modular.
+      \item A vasta coleção de módulos permite configurar desde pacotes simples até orquestração complexa de clusters.
+      \item Integração fluida com Terraform (Terraform cria, Ansible configura).
+      \item Documentação oficial: \url{https://docs.ansible.com/}
+      \end{itemize}
+   \end{frame}
+
+\end{document}
