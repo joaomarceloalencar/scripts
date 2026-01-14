@@ -1,5 +1,6 @@
 # Exemplo Terraforn\m
 .terraform*
+*.tfstate
 
 # Arquivos do Minted
 _minted*
