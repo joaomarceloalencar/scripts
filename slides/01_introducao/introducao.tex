@@ -2,7 +2,43 @@
 
 \usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{xcolor}
 \usepackage{minted}
+
+% --- Aparência dos blocos de código -----------------------------------------
+\definecolor{codebg}{HTML}{F6F6F2}
+\definecolor{coderule}{HTML}{CFCFC4}
+\definecolor{codebreak}{HTML}{909090}
+
+\usemintedstyle{friendly}
+\setminted{
+   fontsize=\footnotesize,
+   breaklines=true,            % quebra linhas longas em vez de estourar a margem
+   breakanywhere=true,         % permite quebrar dentro de URLs/caminhos longos
+   breaksymbolleft=\textcolor{codebreak}{\tiny\ensuremath{\hookrightarrow}},
+   breakindent=1em,
+   autogobble=true,            % remove a indentação do .tex do código exibido
+   tabsize=3,
+   bgcolor=codebg,
+   frame=leftline,
+   framesep=2mm,
+   rulecolor=coderule,
+   xleftmargin=1mm,
+   xrightmargin=1mm,
+}
+% O \setminted acima também valeria para o \mintinline, e a combinação
+% bgcolor + breaklines corrompe o código inline (tokens coloridos e espaços
+% somem). Por isso o inline recebe sua própria configuração, sem fundo,
+% moldura nem quebra de linha.
+\setmintedinline{
+   fontsize=auto,
+   breaklines=false,
+   breakanywhere=false,
+   autogobble=false,
+   bgcolor=,
+   frame=none,
+}
+% ----------------------------------------------------------------------------
 
 \title{Introdução}
 \author[João Marcelo Uchôa de Alencar]{João Marcelo Uchôa de Alencar}
@@ -86,27 +122,25 @@
 \end{frame}
 
 \begin{frame}[fragile]
-      \frametitle{O que é o \textit{Shell}?}
-	      \scriptsize
-      \begin{block}{Ao nível do \textit{Shell}:}
-      \begin{minted}{bash}
-$ ls 
-'Área de trabalho'  Documentos  Downloads  Dropbox  Imagens  Modelos  Música 
-Público  Vídeos
+   \frametitle{O que é o \textit{Shell}?}
+   \begin{block}{Ao nível do \textit{Shell}:}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ ls
+         'Área de trabalho'  Documentos  Downloads  Dropbox
+         Imagens  Modelos  Música  Público  Vídeos
       \end{minted}
-      \end{block}
-      \begin{block}{Ao nível do \textit{Kernel}:}
-      \scriptsize
-      \begin{minted}{bash}
-execve("/usr/bin/ls", ["ls"], [/* 49 vars */]) = 0 
-brk(NULL) = 0x5585c31e8000 
-mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) 
-access("/etc/ld.so.preload", R\_OK) = -1 ENOENT (No such file or directory) 
-open("/etc/ld.so.cache", O\_RDONLY|O\_CLOEXEC) = 3 
-fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0 
-...
+   \end{block}
+   \begin{block}{Ao nível do \textit{Kernel}:}
+      \begin{minted}[fontsize=\tiny]{bash}
+         execve("/usr/bin/ls", ["ls"], [/* 49 vars */]) = 0
+         brk(NULL) = 0x5585c31e8000
+         mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0)
+         access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+         open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+         fstat(3, {st_mode=S_IFREG|0644, st_size=101277, ...}) = 0
+         ...
       \end{minted}
-      \end{block}
+   \end{block}
 \end{frame}
 
 \begin{frame}
@@ -220,29 +254,27 @@ fstat(3, {st\_mode=S\_IFREG|0644, st\_size=101277, ...}) = 0
    \end{minted}
    ou
    \begin{minted}{bash}
-   $ ssh programacaoscripts.joao.marcelo.nom.br
+   $ ssh servidor.example.com
    \end{minted}
    \begin{itemize}
-      \item O cliente \textit{ssh} vai tentar logar no servidor remoto (200.19.176.156 ou programacaoscripts.joao.marcelo.nom.br) usando o usuário que você está logado no sistema local.
+      \item O cliente \textit{ssh} vai tentar logar no servidor remoto (200.19.176.156 ou servidor.example.com) usando o usuário que você está logado no sistema local.
       \item \textbf{Exemplo:} se seu usuário local for \textit{alunoufc}, o cliente irá tentar logar como \textit{alunoufc} na máquina remota.
    \end{itemize}
 
    Caso o usuário local não exista no servidor e deseje utilizar outro:
    \begin{minted}{bash}
-$ ssh joaomarcelo@programacaoscripts.joao.marcelo.nom.br
+      $ ssh joaomarcelo@servidor.example.com
    \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]
    \frametitle{Acessando um Servidor com SSH}
    Quando você acessa um servidor pela primeira vez:
-   \small
-   \begin{minted}{bash}
-The authenticity of host '18.213.179.235' can't be established.
-ECDSA key fingerprint is SHA256:LKdo00AkJT7haicaM.
-Are you sure you want to continue connecting (yes/no)?    
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      The authenticity of host '18.213.179.235' can't be established.
+      ECDSA key fingerprint is SHA256:LKdo00AkJT7haicaM.
+      Are you sure you want to continue connecting (yes/no)?
    \end{minted}
-   \normalsize
    \begin{itemize}
       \item É apenas uma confirmação, digitando \textit{yes} ela não aparece nas próximas conexões.
       \item Partimos para a parte de autenticação, que irá requisitar uma senha.
@@ -265,43 +297,193 @@ Are you sure you want to continue connecting (yes/no)?
 
 \begin{frame}[fragile]
    \frametitle{Utilizando a Chave no SSH}
-   \scriptsize
-   \begin{minted}{bash}
-$ ssh -i joaomarcelo.pem joaomarcelo@programacaoscripts.joao.marcelo.nom.br   
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ ssh -i joaomarcelo.pem joaomarcelo@servidor.example.com
    \end{minted}
-   \normalsize
    \begin{itemize}
       \item A chave é o arquivo \textit{joaomarcelo.pem}.
       \item O usuário remoto é \textit{joaomarcelo}. O nome do arquivo da chave e do usuário não precisam ser os mesmos.
-      \item O servidor remoto é \textit{programacaoscripts.joao.marcelo.nom.br}.
+      \item O servidor remoto é \textit{servidor.example.com}.
       \item O usuário \textit{joaomarcelo} deve existir no servidor remoto e estar configurado para permitir o acesso via chave.
    \end{itemize}
    Em nuvens computacionais (AWS, Azure, Google, etc) o \textit{login} é feito por arquivo de chaves.
    \begin{block}{Lembrete}
    A chave tem que ter permissões de acesso apenas para o usuário local. Portanto, confirme:
-   \begin{minted}{bash}
-   $ chmod 0600 joaomarcelo.pem
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ chmod 0600 joaomarcelo.pem
    \end{minted}
    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
+   \frametitle{O Problema de Digitar Tudo Toda Vez}
+   Repetir a linha inteira a cada acesso é cansativo e propenso a erro:
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ ssh -i ~/.ssh/joaomarcelo.pem joaomarcelo@servidor.example.com
+      $ scp -i ~/.ssh/joaomarcelo.pem teste.txt joaomarcelo@servidor.example.com:
+   \end{minted}
+   \begin{itemize}
+      \item Você precisa lembrar o caminho da chave, o nome do usuário e o endereço do servidor.
+      \item Se a chave for protegida por \textit{passphrase}, ela é pedida a cada comando.
+   \end{itemize}
+   O Ubuntu (e qualquer Linux) oferece duas ferramentas para resolver isso:
+   \begin{itemize}
+      \item O \textbf{\textit{ssh-agent}}: guarda a chave destravada na memória durante a sessão.
+      \item O arquivo \textbf{\textit{\textasciitilde/.ssh/config}}: dá um apelido para cada servidor.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Organizando o Diretório \textit{\textasciitilde/.ssh}}
+   Por convenção, chaves e configurações ficam em \textit{\textasciitilde/.ssh}:
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ mkdir -p ~/.ssh
+      $ mv joaomarcelo.pem ~/.ssh/
+      $ chmod 700 ~/.ssh
+      $ chmod 600 ~/.ssh/joaomarcelo.pem
+   \end{minted}
+   \begin{itemize}
+      \item \mintinline{bash}{chmod 700} no diretório: só o dono entra e lista.
+      \item \mintinline{bash}{chmod 600} na chave: só o dono lê e escreve.
+      \item O cliente \textit{ssh} \textbf{recusa} usar uma chave com permissões abertas demais, com a mensagem \textit{UNPROTECTED PRIVATE KEY FILE}.
+   \end{itemize}
+   Se ainda não tem uma chave própria, você mesmo pode gerar um par:
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -C "seu.email@ufc.br"
+   \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Ativando o \textit{ssh-agent} no Ubuntu}
+   O \textit{ssh-agent} é um processo que mantém suas chaves destravadas na memória.
+   \begin{block}{Verificando se já existe um agente ativo}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ echo $SSH_AUTH_SOCK
+         /run/user/1000/keyring/ssh
+      \end{minted}
+   \end{block}
+   \begin{itemize}
+      \item No \textbf{Ubuntu Desktop}, a sessão gráfica já inicia um agente automaticamente. Se a variável acima tem um valor, não precisa fazer mais nada.
+      \item Em um \textbf{servidor}, dentro do \textbf{WSL} ou numa sessão sem interface gráfica, a variável costuma vir \textbf{vazia}: é preciso iniciar o agente na mão.
+   \end{itemize}
+   \begin{block}{Iniciando o agente manualmente}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ eval "$(ssh-agent -s)"
+         Agent pid 3412
+      \end{minted}
+   \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Por que \texttt{eval}?}
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ ssh-agent -s
+      SSH_AUTH_SOCK=/tmp/ssh-XXbK2p/agent.3411; export SSH_AUTH_SOCK;
+      SSH_AGENT_PID=3412; export SSH_AGENT_PID;
+      echo Agent pid 3412;
+   \end{minted}
+   \begin{itemize}
+      \item O comando \mintinline{bash}{ssh-agent -s} não configura nada: ele apenas \textbf{imprime} os comandos de \textit{shell} necessários.
+      \item O \mintinline{bash}{eval} pega essa saída e a \textbf{executa} no \textit{shell} atual, definindo as variáveis de ambiente.
+      \item Sem o \mintinline{bash}{eval}, o agente até sobe, mas o cliente \textit{ssh} não sabe como falar com ele.
+      \item Voltaremos a esse comando quando estudarmos substituição de comandos e variáveis de ambiente.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Carregando a Chave com \textit{ssh-add}}
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ ssh-add ~/.ssh/joaomarcelo.pem
+      Enter passphrase for /home/aluno/.ssh/joaomarcelo.pem:
+      Identity added: /home/aluno/.ssh/joaomarcelo.pem
+   \end{minted}
+   \begin{itemize}
+      \item A \textit{passphrase} é pedida \textbf{uma única vez}. A partir daí o agente responde pelas conexões.
+      \item Se a chave não tiver \textit{passphrase}, ela é adicionada direto, sem perguntar nada.
+   \end{itemize}
+   \begin{block}{Comandos úteis}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ ssh-add -l              # lista as chaves carregadas
+         $ ssh-add -t 3600 chave   # carrega, mas expira em 1 hora
+         $ ssh-add -d chave        # remove uma chave do agente
+         $ ssh-add -D              # remove todas as chaves
+      \end{minted}
+   \end{block}
+   O agente morre junto com a sessão: ao reiniciar a máquina, é preciso carregar a chave de novo.
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{O Arquivo \textit{\textasciitilde/.ssh/config}}
+   Um arquivo de texto onde você guarda as opções de conexão de cada servidor:
+   \begin{minted}[fontsize=\scriptsize]{bash}
+      $ nano ~/.ssh/config
+      $ chmod 600 ~/.ssh/config
+   \end{minted}
+   \begin{minted}[fontsize=\scriptsize]{apacheconf}
+      # Servidor da disciplina
+      Host disciplina
+          HostName servidor.example.com
+          User joaomarcelo
+          IdentityFile ~/.ssh/joaomarcelo.pem
+          IdentitiesOnly yes
+          AddKeysToAgent yes
+   \end{minted}
+   \begin{itemize}
+      \item A indentação é opcional, serve apenas para facilitar a leitura.
+      \item Linhas iniciadas por \texttt{\#} são comentários.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Significado das Diretivas}
+   \begin{itemize}
+      \item \textbf{Host} --- o apelido que você vai digitar. Vale qualquer nome curto.
+      \item \textbf{HostName} --- o endereço real (nome ou IP) do servidor.
+      \item \textbf{User} --- o usuário remoto, dispensando o \mintinline{bash}{usuario@}.
+      \item \textbf{IdentityFile} --- o caminho da chave, dispensando a opção \mintinline{bash}{-i}.
+      \item \textbf{IdentitiesOnly yes} --- usa \textbf{apenas} a chave indicada. Sem isso, o \textit{ssh} tenta todas as chaves do agente e o servidor pode recusar a conexão por excesso de tentativas.
+      \item \textbf{AddKeysToAgent yes} --- carrega a chave no agente automaticamente na primeira conexão, poupando o \textit{ssh-add}.
+   \end{itemize}
+   Outras diretivas comuns: \mintinline{bash}{Port} (porta diferente de 22) e \mintinline{bash}{ServerAliveInterval 60} (evita que a conexão caia por inatividade).
+\end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{O Resultado}
+   \begin{block}{Antes}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ ssh -i ~/.ssh/joaomarcelo.pem joaomarcelo@servidor.example.com
+      \end{minted}
+   \end{block}
+   \begin{block}{Depois}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ ssh disciplina
+      \end{minted}
+   \end{block}
+   \begin{itemize}
+      \item O apelido também funciona no \textit{scp} e em qualquer ferramenta que use SSH por baixo, como o \textit{git} e o \textit{rsync}.
+      \item Você pode ter quantos blocos \mintinline{bash}{Host} quiser no mesmo arquivo, um para cada servidor.
+   \end{itemize}
+   \begin{block}{Depurando a conexão}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         $ ssh -v disciplina
+      \end{minted}
+   \end{block}
+   A opção \mintinline{bash}{-v} mostra qual configuração foi lida e qual chave foi oferecida ao servidor.
+\end{frame}
+
+\begin{frame}[fragile]
    \frametitle{Copiando Arquivos via SCP - Formato Geral}
-   \small
    \begin{block}{Copiando arquivos para o servidor}
-   \scriptsize
-   \begin{minted}{bash}
-scp -i <chave> <arquivolocal> <usuario>@<servidor>:<diretorioremoto>
-   \end{minted}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         scp -i <chave> <arquivolocal> <usuario>@<servidor>:<diretorioremoto>
+      \end{minted}
    \end{block}
-   \normalsize
    \begin{block}{Copiando arquivos do servidor}
-   \scriptsize
-   \begin{minted}{bash}
-scp -i <chave> <usuario>@<servidor>:<arquivoremoto> <arquivolocal>
-   \end{minted}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         scp -i <chave> <usuario>@<servidor>:<arquivoremoto> <arquivolocal>
+      \end{minted}
    \end{block}
-   Para copiar diretórios, podemos usar a opção $-r$.
+   Para copiar diretórios, podemos usar a opção \mintinline{bash}{-r}.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -310,20 +492,17 @@ scp -i <chave> <usuario>@<servidor>:<arquivoremoto> <arquivolocal>
    \textbf{Observação:} os comandos abaixos podem ser digitados na mesma linha. Coloquei em várias linhas para caber no \textit{slide}. A \textbackslash (barra)  pode ser usada para dividir um comando em várias linhas.
    \normalsize
    \begin{block}{Copiando arquivos para o servidor}
-   \scriptsize
-   \begin{minted}{bash}
-scp -i joaomarcelo.pem teste.txt \
-joaomarcelo@programacaoscripts.joao.marcelo.nom.br:/home/joaomarcelo/
-   \end{minted}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         scp -i joaomarcelo.pem teste.txt \
+         joaomarcelo@servidor.example.com:/home/joaomarcelo/
+      \end{minted}
    \end{block}
-   \normalsize
    \begin{block}{Copiando arquivos do servidor}
-   \scriptsize
-   \begin{minted}{bash}
-scp -i joaomarcelo.pem \
-joaomarcelo@programacaoscripts.joao.marcelo.nom.br:/home/joaomarcelo/teste.txt \
-teste.txt
-   \end{minted}
+      \begin{minted}[fontsize=\scriptsize]{bash}
+         scp -i joaomarcelo.pem \
+         joaomarcelo@servidor.example.com:/home/joaomarcelo/teste.txt \
+         teste.txt
+      \end{minted}
    \end{block}
 \end{frame}
 
@@ -341,7 +520,7 @@ teste.txt
 %\begin{frame}
 %   \frametitle{Atividade 01 - Atividade de como usar o SSH/SCP}
 %   \begin{enumerate}
-%      \item Faça \textit{login} no servidor programacaoscripts.joao.marcelo.nom.br.
+%      \item Faça \textit{login} no servidor \textit{servidor.example.com}.
 %      \item Crie a pasta \textit{atividades}.
 %      \item Dentro da pasta \textit{atividades}, crie o diretório \textit{atividade01}.
 %      \item Coloque o \textit{script} \textit{usuarios.sh} no diretório.
