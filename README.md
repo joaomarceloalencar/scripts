@@ -35,22 +35,43 @@ $ cd slides/01_introducao
 $ pdflatex -shell-escape introducao.tex
 ```
 
-### atividades/ - enunciados de atividades e exercícios
+### aulas/ - roteiros das aulas *hands-on*
 
-Cada pasta contém um `questoes.md` com o enunciado da atividade/exercício
-correspondente.
+**A fonte principal do curso.** Um arquivo por sessão do cronograma, com o roteiro
+prático da aula: etapas guiadas com *checkpoints*, perguntas de discussão e a
+entrega que vale nota. Veja o índice em [`aulas/README.md`](aulas/README.md).
+
+### atividades/ - índice de avaliação e questões de reserva
+
+Não há mais atividades para casa: os enunciados foram absorvidos pelas aulas, como
+entregas feitas em sala. A pasta mantém o índice que mapeia cada nota às aulas que a
+compõem e um banco de questões de reserva, para prova e segunda chamada.
 
 ## Avaliação
 
-Conforme apresentado no slide de introdução (`slides/01_introducao`):
-
-- A nota final é composta por **3 notas**, cada uma associada a um grupo de
-  atividades.
+- A nota final é composta por **3 notas**, cada uma associada a um bloco de aulas.
 - Nenhuma das 3 notas pode ser entregue vazia (zerada).
-- As atividades são **individuais** — cópia é proibida.
+- As entregas são **individuais** — cópia é proibida.
 - A nota final é a **média aritmética** das 3 notas.
 - A disciplina é presencial; a frequência é registrada pelo comparecimento
   às aulas.
+
+### Como a nota é composta
+
+Não há atividades para casa. Toda aula prática termina com uma **entrega**, feita
+em sala nos últimos 20 a 30 minutos, individualmente e sem passo a passo. A
+entrega é sempre uma *variação* do exercício guiado da própria aula.
+
+Cada nota vale **10,0 pontos**, distribuídos entre as aulas do bloco:
+
+| Nota | Conteúdo | Aulas | Pontos por aula | Total |
+|---|---|---|---|---|
+| **Nota 1** | Caps. 01–08 — terminal, regex, redirecionamento, variáveis, condicionais, iterações | 01–09 | 1,0 (a Aula 09 vale 2,0) | 10,0 |
+| **Nota 2** | Caps. 09–13 — processos, leitura/escrita, vetores, miscelânea, AWK | 10–16 | 1,25 (a Aula 16 vale 2,5) | 10,0 |
+| **Nota 3** | Caps. 14–21 — inicialização, cron, rede, Dialog, AWS, Terraform, Ansible | 17–30 | 0,7 (a Aula 30 vale 0,9) | 10,0 |
+
+Ao fechar cada nota, as **duas piores entregas do bloco são descartadas**. Isso
+absorve falta, atraso e dia ruim sem necessidade de segunda chamada.
 
 ## Cronograma 2026.2
 
@@ -75,41 +96,41 @@ não há aulas canceladas por feriado neste calendário):
 
 ### Distribuição das aulas (18 semanas, 36 aulas)
 
-As 3 notas correspondem a blocos de aproximadamente 12 aulas cada, seguindo a
-sequência dos capítulos em `slides/`.
+Os blocos seguem a sequência dos capítulos em `slides/`, e cada bloco fecha uma
+das 3 notas.
 
-#### Bloco 1 — Nota 1
-
-| Semana | Terça | Quarta | Conteúdo |
-|---|---|---|---|
-| 1 | 11/08 | 12/08 | 01. Introdução (+ SSH/SCP) / 02. Comandos básicos (parte 1) |
-| 2 | 18/08 | 19/08 | 02. Comandos básicos (parte 2) / 03. Expressões regulares |
-| 3 | 25/08 | 26/08 | 04. Redirecionamento de saída / 05. Comandos avançados |
-| 4 | 01/09 | 02/09 | 06. Variáveis e parâmetros / 07. Condicionais |
-| 5 | 08/09 | 09/09 | 08. Iterações / Orientação Atividade 01 |
-| 6 | 15/09 | 16/09 | 09. Gerência de processos / 10. Leitura e escrita |
-| 7 | 22/09 | 23/09 | 11. Variáveis e vetores / 12. Miscelânea |
-| 8 | 29/09 | 30/09 | 13. AWK (parte 1) / 13. AWK (parte 2) |
-| 9 | 06/10 | 07/10 | Revisão / Entrega e correção da Atividade 01 (fechamento Nota 1) |
-
-#### Bloco 2 — Nota 2
+#### Bloco 1 — Nota 1 (Aulas 01–09)
 
 | Semana | Terça | Quarta | Conteúdo |
 |---|---|---|---|
-| 10 | 13/10 | 14/10 | 14. Scripts de inicialização / 15. Execução programada (cron) |
-| 11 | 20/10 | 21/10 | 16. Compilação e configuração de programas / 17. Ferramentas de rede |
-| 12 | 27/10 | 28/10 | 18. Dialog / Orientação exercícios (04–07) |
-| 13 | 03/11 | 04/11 | Correção exercícios (08–11) / Entrega e correção (fechamento Nota 2) |
+| 1 | 11/08 | 12/08 | **Aula 01** 01. Introdução (+ SSH/SCP) / **Aula 02** 02. Comandos básicos (parte 1) |
+| 2 | 18/08 | 19/08 | **Aula 03** 02. Comandos básicos (parte 2) / **Aula 04** 03. Expressões regulares |
+| 3 | 25/08 | 26/08 | **Aula 05** 04. Redirecionamento de saída / **Aula 06** 05. Comandos avançados |
+| 4 | 01/09 | 02/09 | **Aula 07** 06. Variáveis e parâmetros / **Aula 08** 07. Condicionais |
+| 5 | 08/09 | 09/09 | **Aula 09** 08. Iterações / Correção das entregas (fechamento Nota 1) |
 
-#### Bloco 3 — Nota 3
+#### Bloco 2 — Nota 2 (Aulas 10–16)
 
 | Semana | Terça | Quarta | Conteúdo |
 |---|---|---|---|
-| 14 | 10/11 | 11/11 | 19. AWS (parte 1) / 19. AWS (parte 2) |
-| 15 | 17/11 | 18/11 | 20. Terraform (parte 1) / 20. Terraform (parte 2) |
-| 16 | 24/11 | 25/11 | 21. Ansible (parte 1) / 21. Ansible (parte 2) |
+| 6 | 15/09 | 16/09 | **Aula 10** 09. Gerência de processos / **Aula 11** 10. Leitura e escrita |
+| 7 | 22/09 | 23/09 | **Aula 12** 11. Variáveis e vetores / **Aula 13** 12. Miscelânea |
+| 8 | 29/09 | 30/09 | **Aula 14** 13. AWK (parte 1) / **Aula 15** 13. AWK (parte 2) |
+| 9 | 06/10 | 07/10 | **Aula 16** Integradora / Correção das entregas (fechamento Nota 2) |
+
+#### Bloco 3 — Nota 3 (Aulas 17–30)
+
+| Semana | Terça | Quarta | Conteúdo |
+|---|---|---|---|
+| 10 | 13/10 | 14/10 | **Aula 17** 14. Scripts de inicialização / **Aula 18** 15. Execução programada (cron) |
+| 11 | 20/10 | 21/10 | **Aula 19** 16. Compilação e configuração / **Aula 20** 17. Ferramentas de rede |
+| 12 | 27/10 | 28/10 | **Aula 21** 18. Dialog (parte 1) / **Aula 22** 18. Dialog (parte 2) |
+| 13 | 03/11 | 04/11 | **Aula 23** 19. AWS (parte 1) / **Aula 24** 19. AWS (parte 2) |
+| 14 | 10/11 | 11/11 | **Aula 25** 20. Terraform (parte 1) / **Aula 26** 20. Terraform (parte 2) |
+| 15 | 17/11 | 18/11 | **Aula 27** 21. Ansible (parte 1) / **Aula 28** 21. Ansible (parte 2) |
+| 16 | 24/11 | 25/11 | **Aula 29** Projeto integrador (parte 1) / **Aula 30** Projeto integrador (parte 2) |
 | 17 | 01/12 | 02/12 | Preparação de seminários / Apresentação de seminários (parte 1) |
-| 18 | 08/12 | 09/12 | Apresentação de seminários (parte 2) / Encerramento (fechamento Nota 3) |
+| 18 | 08/12 | 09/12 | Apresentação de seminários (parte 2) / Correção das entregas (fechamento Nota 3) |
 
 Total: **36 aulas** distribuídas em 18 semanas, cobrindo os 21 capítulos de
 `slides/` e os três blocos de atividades avaliativas descritos acima.

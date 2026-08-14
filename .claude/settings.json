@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"/Users/jmhal/Library/CloudStorage/OneDrive-Pessoal/Obsidian/Obsidian/Disciplinas/Programação de Scripts/2025.2\")",
+      "Read(//Users/jmhal/Library/CloudStorage/OneDrive-Pessoal/Obsidian/Obsidian/Disciplinas/Programação de Scripts/2025.2/**)",
+      "Bash(cd \"/Users/jmhal/Library/CloudStorage/OneDrive-Pessoal/Obsidian/Obsidian/Disciplinas/Programação de Scripts/2025.2\" && head -25 \"Atividade 02.md\"; echo \"-----\"; head -25 \"Atividade 09.md\")",
+      "Bash(cat)",
+      "Bash(cat >> *)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(python3 -)",
+      "Bash(git add *)",
+      "Bash(git rm *)",
+      "Bash(rm -rf atividades/atividade0* atividades/atividade1*)"
+    ],
+    "additionalDirectories": [
+      "/Users/jmhal/source/disciplinas/scripts/atividades/atividade10"
+    ]
+  }
+}
