@@ -357,6 +357,9 @@ Crie o *script* `~/scripts/aula07/saudacao.sh` que:
 4. Se **nenhum** parâmetro for passado, use o nome do usuário do sistema no lugar.
 5. Além de imprimir na tela, **acrescente** a saudação ao arquivo `saudacao.log`,
    sem apagar as saudações anteriores.
+6. Funcione também se o nome vier **sem aspas** e com várias palavras:
+   `./saudacao.sh João Marcelo` deve imprimir `Olá João Marcelo,`, igual ao
+   item 3 — sem usar `if` nem `for`.
 
 Exemplo:
 
@@ -365,31 +368,41 @@ $ ./saudacao.sh "João Marcelo"
 Olá João Marcelo,
 Hoje é dia 01, do mês 09 do ano de 2026.
 Você é o usuário aluno na máquina servidor.
+$ ./saudacao.sh João Marcelo
+Olá João Marcelo,
+...
 $ ./saudacao.sh
 Olá aluno,
 ...
 $ wc -l saudacao.log
-6 saudacao.log
+9 saudacao.log
 ```
 
 ### Critérios de correção
 
 | # | Critério | Valor |
 |---|---|---|
-| 1 | Usa `$1` e imprime as três linhas no formato pedido | 0,3 |
-| 2 | A data vem do `date`, com dia, mês e ano separados | 0,2 |
-| 3 | Funciona com nome entre aspas, sem quebrar em duas linhas | 0,2 |
+| 1 | Usa `$1` e imprime as três linhas no formato pedido | 0,25 |
+| 2 | A data vem do `date`, com dia, mês e ano separados | 0,15 |
+| 3 | Funciona com nome entre aspas, sem quebrar em duas linhas | 0,15 |
 | 4 | Sem parâmetro, cai no usuário do sistema | 0,15 |
 | 5 | O `saudacao.log` acumula em vez de sobrescrever | 0,15 |
+| 6 | Funciona sem aspas, com nome de várias palavras | 0,15 |
 
 Correção:
 
 ```bash
-cd ~/scripts/aula07 && rm -f saudacao.log && ./saudacao.sh "Maria Silva" && ./saudacao.sh && wc -l saudacao.log
+cd ~/scripts/aula07 && rm -f saudacao.log && ./saudacao.sh "Maria Silva" && ./saudacao.sh João Marcelo && ./saudacao.sh && wc -l saudacao.log
 ```
 
 > 💡 Para o item 4 você ainda não tem `if`. Existe uma expansão do *shell* que
 > resolve em uma linha: `${1:-valor_padrão}`. Investigue.
+
+> 💡 Para o item 6, lembre do `lista.sh` na Etapa 2, onde comparamos `"$@"` e
+> `"$*"`. Um deles junta todos os parâmetros numa única *string*, separados por
+> espaço. Combine isso com a mesma ideia do `${1:-valor_padrão}` do item 4 — a
+> solução inteira cabe numa linha, trocando **um caractere** na variável que
+> você já usa.
 
 ---
 

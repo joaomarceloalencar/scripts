@@ -314,7 +314,7 @@ Crie o arquivo `~/scripts/aula06/acessos.log` com o conteúdo abaixo, simulando 
 192.168.1.10, user_d, /usr, 10:09:10
 ```
 
-Escreva **três *scripts*** no mesmo diretório. Em nenhum deles é permitido usar
+Escreva **quatro *scripts*** no mesmo diretório. Em nenhum deles é permitido usar
 laços (`for`, `while`) — apenas *pipes* e os comandos desta aula.
 
 ### A) `usuarios_unicos.sh`
@@ -352,20 +352,34 @@ formato `<quantidade> <usuário>`.
 > os dois pode variar conforme o `sort`. Qualquer uma das duas ordens é aceita na
 > correção — mas pense em como você garantiria uma ordem previsível.
 
+### D) `media_acessos_por_usuario.sh`
+
+Imprime a média de acessos por usuário (total de linhas do log dividido pelo
+número de usuários únicos), com duas casas decimais.
+
+```
+2.25
+```
+
+> 💡 Você já tem o total de linhas (Etapa 0) e o número de usuários únicos
+> (item A). Falta só montar a divisão com `bc` — repare que `scale` precisa
+> vir antes da divisão para o resultado sair com casas decimais.
+
 ### Critérios de correção
 
 | # | Critério | Valor |
 |---|---|---|
 | 1 | O `acessos.log` existe com as 9 linhas | 0,1 |
-| 2 | `usuarios_unicos.sh` produz a saída exata | 0,3 |
-| 3 | `ip_mais_frequente.sh` imprime só o IP, sem contagem | 0,3 |
-| 4 | `acessos_por_usuario.sh` produz a saída ordenada | 0,2 |
-| 5 | Nenhum *script* usa `for` ou `while` | 0,1 |
+| 2 | `usuarios_unicos.sh` produz a saída exata | 0,25 |
+| 3 | `ip_mais_frequente.sh` imprime só o IP, sem contagem | 0,25 |
+| 4 | `acessos_por_usuario.sh` produz a saída ordenada | 0,15 |
+| 5 | `media_acessos_por_usuario.sh` imprime `2.25` | 0,15 |
+| 6 | Nenhum *script* usa `for` ou `while` | 0,1 |
 
 Correção:
 
 ```bash
-cd ~/scripts/aula06 && for s in usuarios_unicos ip_mais_frequente acessos_por_usuario; do echo "--- $s"; ./$s.sh; done
+cd ~/scripts/aula06 && for s in usuarios_unicos ip_mais_frequente acessos_por_usuario media_acessos_por_usuario; do echo "--- $s"; ./$s.sh; done
 ```
 
 > 💡 O item B é o C com mais um passo. Resolva o C primeiro e depois pense em como
@@ -377,7 +391,7 @@ cd ~/scripts/aula06 && for s in usuarios_unicos ip_mais_frequente acessos_por_us
 
 | # | Verificação | Comando |
 |---|---|---|
-| 1 | Os três *scripts* são executáveis | `ls -l ~/scripts/aula06/*.sh` |
+| 1 | Os quatro *scripts* são executáveis | `ls -l ~/scripts/aula06/*.sh` |
 | 2 | Nenhum usa laço | `grep -l -E "for \|while " ~/scripts/aula06/*.sh` |
 | 3 | Todos têm *shebang* | `head -1 ~/scripts/aula06/*.sh` |
 
