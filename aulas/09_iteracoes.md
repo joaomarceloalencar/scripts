@@ -334,12 +334,12 @@ nome `arquivo com espaco.txt` em três pedaços?
 
 ## 🏁 Entrega da Aula — 2,0 pontos (Nota 1)
 
-Individualmente, nos últimos 30 minutos. São **duas** questões, 1,0 ponto cada.
+Individualmente, nos últimos 30 minutos. São **quatro** questões, 0,5 ponto cada.
 
 Esta é a última entrega da Nota 1 e vale o dobro: ela combina laços com o que você
 viu nas aulas anteriores do bloco.
 
-### A) `~/scripts/aula09/cinco_diretorios.sh` — 1,0 ponto
+### A) `~/scripts/aula09/cinco_diretorios.sh` — 0,5 ponto
 
 Ao ser executado, o *script* deve:
 
@@ -366,7 +366,7 @@ $ wc -l cinco/dir3/*
 10 total
 ```
 
-### B) `~/scripts/aula09/ordenar_linhas.sh` — 1,0 ponto
+### B) `~/scripts/aula09/ordenar_linhas.sh` — 0,5 ponto
 
 Recebe como parâmetro o caminho de um diretório que contém arquivos de texto.
 Imprime a lista dos arquivos **em ordem crescente de quantidade de linhas**,
@@ -398,16 +398,109 @@ $ ./ordenar_linhas.sh testes_linhas
 7 c com espaco.txt
 ```
 
+### C) `~/scripts/aula09/linkar_scripts.sh` — 0,5 ponto
+
+Recebe como parâmetro o caminho de um diretório contendo arquivos `.sh`.
+
+1. Valide que foi passado exatamente um parâmetro e que ele é um diretório
+   existente. Se não for, imprima `Uso: ./linkar_scripts.sh <diretorio>` e
+   encerre com retorno `1`.
+2. Crie (se ainda não existir) o diretório `bin_links` no diretório onde o
+   *script* está sendo executado.
+3. Usando um laço `for` sobre o *glob* do diretório recebido (a forma correta
+   vista na Etapa 1 — **nunca** `$(ls)`), examine cada arquivo `.sh` e use uma
+   expressão regular estendida para verificar se a **primeira linha** é um
+   *shebang* que menciona `bash` (ex.: `#!/bin/bash` ou `#!/usr/bin/env bash`).
+4. Para cada *script* que passar nesse teste, crie dentro de `bin_links` uma
+   ligação simbólica com o mesmo nome, mas **sem** a extensão `.sh`, apontando
+   para o *script* original. A ligação deve usar **caminho relativo** (como na
+   Aula 03) e continuar válida se a pasta inteira for movida.
+5. Ao final, imprima em quantos *scripts* foram criados links, no formato
+   `N link(s) criado(s) em bin_links/`.
+
+> 💡 O `grep -E` com a âncora `^` resolve o teste do *shebang* em uma linha.
+
+Ambiente de teste — monte com os comandos abaixo:
+
+```bash
+mkdir -p scripts_exemplo
+printf '#!/bin/bash\necho rodando\n'            > scripts_exemplo/rodar.sh
+printf '# apenas um comentario\necho notas\n'   > scripts_exemplo/notas.sh
+printf '#!/usr/bin/env bash\necho deploy\n'     > scripts_exemplo/deploy.sh
+```
+
+Saída esperada:
+
+```
+$ ./linkar_scripts.sh scripts_exemplo
+2 link(s) criado(s) em bin_links/
+$ ls -l bin_links
+deploy -> ../scripts_exemplo/deploy.sh
+rodar -> ../scripts_exemplo/rodar.sh
+```
+
+`notas.sh` fica de fora porque sua primeira linha não é um *shebang* de `bash`.
+
+### D) `~/scripts/aula09/resumo_acessos.sh` — 0,5 ponto
+
+Recebe como parâmetro o caminho de um arquivo de *log* com linhas no formato
+`usuario:ip:data`.
+
+1. Valide que foi passado exatamente um parâmetro e que ele é um arquivo
+   comum existente. Se não for, imprima `Uso: ./resumo_acessos.sh <arquivo>`
+   e encerre com retorno `1`.
+2. Percorra o arquivo linha a linha com `while IFS=: read -r ...`, usando
+   **redirecionamento** (`done < arquivo`) — não *pipe* — para que as
+   contagens sobrevivam ao fim do laço.
+3. Para cada linha, valide o campo do IP com uma expressão regular
+   (`[0-9]{1,3}(\.[0-9]{1,3}){3}`). Se o IP for inválido, **não conte** essa
+   linha e imprima um aviso em `stderr` (`>&2`), no formato
+   `Linha ignorada (IP invalido): usuario:ip:data`.
+4. Para as linhas válidas, conte quantos acessos cada usuário teve e, ao
+   final, imprima o relatório em **ordem crescente** de quantidade, no
+   formato `N USUARIO`, com o nome do usuário em maiúsculas (use `tr`).
+
+> 💡 Uma forma simples: a cada linha válida, escreva o usuário em um arquivo
+> temporário; ao final, resolva a contagem e a ordenação com
+> `sort arquivo_tmp | uniq -c | sort -n`.
+
+Ambiente de teste — monte com o comando abaixo:
+
+```bash
+cat > acessos.log
+joao:192.168.1.10:2026-03-01
+maria:10.0.0.5:2026-03-01
+joao:192.168.1.10:2026-03-02
+carlos:XX.XX.XX.XX:2026-03-02
+maria:10.0.0.5:2026-03-03
+joao:192.168.1.10:2026-03-03
+```
+
+Ctrl+D. Saída esperada:
+
+```
+$ ./resumo_acessos.sh acessos.log
+Linha ignorada (IP invalido): carlos:XX.XX.XX.XX:2026-03-02
+2 MARIA
+3 JOAO
+```
+
 ### Critérios de correção
 
-| # | Critério | Valor |
-|---|---|---|
-| 1 | `cinco_diretorios.sh` cria a árvore completa | 0,4 |
-| 2 | O conteúdo dos arquivos tem a contagem de linhas certa | 0,3 |
-| 3 | Usa laços aninhados, sem repetir comandos | 0,3 |
-| 4 | `ordenar_linhas.sh` valida o parâmetro e retorna 1 | 0,2 |
-| 5 | Ordena corretamente por número de linhas | 0,5 |
-| 6 | Funciona com nome de arquivo contendo espaço | 0,3 |
+| # | Item | Critério | Valor |
+|---|---|---|---|
+| 1 | A | `cinco_diretorios.sh` cria a árvore completa | 0,2 |
+| 2 | A | O conteúdo dos arquivos tem a contagem de linhas certa | 0,15 |
+| 3 | A | Usa laços aninhados, sem repetir comandos | 0,15 |
+| 4 | B | `ordenar_linhas.sh` valida o parâmetro e retorna 1 | 0,1 |
+| 5 | B | Ordena corretamente por número de linhas | 0,25 |
+| 6 | B | Funciona com nome de arquivo contendo espaço | 0,15 |
+| 7 | C | `linkar_scripts.sh` valida o parâmetro e retorna 1 | 0,1 |
+| 8 | C | Usa `for` sobre o *glob*, sem `$(ls)`, e identifica o *shebang* certo via regex | 0,15 |
+| 9 | C | Cria os *links* relativos certos, com o nome e a contagem corretos | 0,25 |
+| 10 | D | `resumo_acessos.sh` valida o parâmetro e retorna 1 | 0,1 |
+| 11 | D | Lê com `while IFS=: read` por redirecionamento e ignora IPs inválidos (com aviso em `stderr`) | 0,2 |
+| 12 | D | Conta e ordena corretamente, com usuário em maiúsculas | 0,2 |
 
 Correção:
 
@@ -416,6 +509,10 @@ cd ~/scripts/aula09
 rm -rf cinco && ./cinco_diretorios.sh && wc -l cinco/dir3/*
 ./ordenar_linhas.sh; echo "retorno=$?"
 ./ordenar_linhas.sh testes_linhas
+./linkar_scripts.sh; echo "retorno=$?"
+./linkar_scripts.sh scripts_exemplo && ls -l bin_links
+./resumo_acessos.sh; echo "retorno=$?"
+./resumo_acessos.sh acessos.log
 ```
 
 ---
@@ -429,6 +526,8 @@ rm -rf cinco && ./cinco_diretorios.sh && wc -l cinco/dir3/*
 | 3 | O ordenador valida parâmetro | `./ordenar_linhas.sh; echo $?` |
 | 4 | O ordenador aguenta espaço no nome | `./ordenar_linhas.sh testes_linhas` |
 | 5 | Nenhum laço usa `$(ls)` | `grep -c 'in \$(ls' *.sh` |
+| 6 | Os *links* apontam para o *script* certo, com caminho relativo | `ls -l bin_links` |
+| 7 | O resumo de acessos ignora IPs inválidos e ordena certo | `./resumo_acessos.sh acessos.log` |
 
 O item 1 deve responder `20`. O item 5 deve responder `0` para todos os arquivos.
 

@@ -26,7 +26,7 @@ Ao fechar cada nota, as **duas piores entregas do bloco são descartadas**.
 | [06](../aulas/06_comandos_avancados.md) | `cut`, `tr`, `sed`, `uniq` | três *scripts* sobre `acessos.log` | 1,0 |
 | [07](../aulas/07_variaveis_e_parametros.md) | Variáveis e parâmetros | `saudacao.sh` | 1,0 |
 | [08](../aulas/08_condicionais.md) | Condicionais | `valida_dir.sh`, `classifica_num.sh` | 1,0 |
-| [09](../aulas/09_iteracoes.md) | Iterações | `cinco_diretorios.sh`, `ordenar_linhas.sh` | 2,0 |
+| [09](../aulas/09_iteracoes.md) | Iterações | `cinco_diretorios.sh`, `ordenar_linhas.sh`, `linkar_scripts.sh`, `resumo_acessos.sh` | 2,0 |
 
 ### Nota 2 — Caps. 09 a 13
 
