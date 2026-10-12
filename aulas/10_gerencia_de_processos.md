@@ -353,10 +353,11 @@ de uma sessão `tmux`?
 
 ## 🏁 Entrega da Aula — 1,25 pontos (Nota 2)
 
-Individualmente, nos últimos 25 minutos.
+Individualmente, nos últimos 25 minutos. São **dois** *scripts*.
 
-Crie o *script* `~/scripts/aula10/varredura.sh`, que verifica quais endereços de
-uma sub-rede /24 estão ativos.
+### A) `~/scripts/aula10/varredura.sh` — 0,80 ponto
+
+Verifica quais endereços de uma sub-rede /24 estão ativos.
 
 1. Recebe como parâmetro os **três primeiros octetos** da rede, com o ponto final.
    Exemplo: `./varredura.sh 192.168.0.`
@@ -392,15 +393,58 @@ uma sub-rede /24 estão ativos.
 > 💡 Testar 254 endereços em sequência demora. Não tente paralelizar hoje; o que
 > importa é o terminal voltar na hora e o arquivo ir sendo preenchido.
 
+### B) `~/scripts/aula10/monitora_rede.sh` — 0,45 ponto
+
+Recebe o mesmo parâmetro de rede do `varredura.sh` e abre, **usando `tmux`**,
+um painel de acompanhamento — sem prender o terminal e sem exigir que o
+usuário monte nada na mão.
+
+1. Monte o nome da sessão a partir do parâmetro, trocando pontos por
+   *underscore*: para `192.168.0.`, a sessão se chama `monitor_192_168_0_`.
+2. Usando `tmux has-session`, verifique se essa sessão **já existe**. Se
+   existir, apenas imprima `Sessão já existe: tmux attach -t <nome>` e
+   encerre — **não** crie uma segunda sessão com o mesmo propósito.
+3. Se não existir, crie-a **detached** (`-d`), já rodando
+   `tail -f <rede>txt` no painel 0 (crie o arquivo vazio com `touch` antes,
+   se ele ainda não existir, para o `tail -f` não falhar).
+4. Divida a sessão com `tmux split-window`, criando um painel 1 que roda
+   `watch -n 2 "ps aux | grep -c '[p]ing'"` — mostra quantos `ping`s estão em
+   andamento.
+5. Imprima `Sessão disponível. Para ver: tmux attach -t <nome>` e devolva o
+   terminal — a sessão continua rodando em segundo plano.
+
+```
+$ ./monitora_rede.sh 192.168.0.
+Sessão disponível. Para ver: tmux attach -t monitor_192_168_0_
+$ ./monitora_rede.sh 192.168.0.
+Sessão já existe: tmux attach -t monitor_192_168_0_
+$ tmux attach -t monitor_192_168_0_
+```
+
+> 💡 `tmux new-session -d -s nome 'comando'` cria a sessão **já rodando um
+> comando**, sem precisar digitar nada depois — é o `-d` que faz o `new` não
+> prender o terminal, diferente do `tmux new -s aula10` interativo da
+> Etapa 4.
+>
+> 💡 `tmux split-window -t nome 'comando'` faz o mesmo que o `Ctrl+B %` da
+> Etapa 4, mas direto da linha de comando, já com o comando do painel novo.
+>
+> 💡 `tmux has-session -t nome 2> /dev/null` não imprime nada — ele só
+> **devolve um código de saída**: `0` se a sessão existe, outro valor se não.
+> Dá para usar direto num `if`.
+
 ### Critérios de correção
 
 | # | Critério | Valor |
 |---|---|---|
-| 1 | Valida o parâmetro e retorna 1 quando ausente | 0,15 |
-| 2 | Imprime as duas linhas e **devolve o terminal na hora** | 0,35 |
-| 3 | O arquivo é criado com o nome derivado do parâmetro | 0,20 |
-| 4 | Contém `INICIO` no começo e `FIM` no fim | 0,25 |
-| 5 | Lista apenas endereços que responderam, um por linha | 0,30 |
+| 1 | `varredura.sh` valida o parâmetro e retorna 1 quando ausente | 0,10 |
+| 2 | `varredura.sh` imprime as duas linhas e **devolve o terminal na hora** | 0,20 |
+| 3 | `varredura.sh` cria o arquivo com o nome derivado do parâmetro | 0,15 |
+| 4 | `varredura.sh` contém `INICIO` no começo e `FIM` no fim | 0,15 |
+| 5 | `varredura.sh` lista apenas endereços que responderam, um por linha | 0,20 |
+| 6 | `monitora_rede.sh` cria a sessão `tmux` **detached**, sem travar o terminal | 0,15 |
+| 7 | A sessão tem dois painéis, um deles com `tail -f` acompanhando o arquivo | 0,15 |
+| 8 | `monitora_rede.sh` não recria a sessão se ela já existir | 0,15 |
 
 Correção:
 
@@ -410,9 +454,17 @@ cd ~/scripts/aula10
 time ./varredura.sh 127.0.0.       # deve voltar em menos de 1 segundo
 head -3 127.0.0.txt
 sleep 20 && tail -2 127.0.0.txt
+
+time ./monitora_rede.sh 127.0.0.   # deve voltar em menos de 1 segundo
+tmux list-panes -t monitor_127_0_0_ | wc -l      # deve ser 2
+tmux capture-pane -t monitor_127_0_0_:0.0 -p | tail -3
+./monitora_rede.sh 127.0.0.        # roda de novo: não deve duplicar a sessão
+tmux ls | grep -c monitor_127_0_0_ # deve continuar 1
+tmux kill-session -t monitor_127_0_0_
 ```
 
-O `time` é o critério 2: se o *script* travar o terminal, ele falha.
+O `time` nos dois *scripts* é o critério de "devolver o terminal na hora": se
+travar, falha.
 
 ---
 
@@ -420,11 +472,13 @@ O `time` é o critério 2: se o *script* travar o terminal, ele falha.
 
 | # | Verificação | Comando |
 |---|---|---|
-| 1 | O *script* devolve o terminal na hora | `time ./varredura.sh 127.0.0.` |
+| 1 | O `varredura.sh` devolve o terminal na hora | `time ./varredura.sh 127.0.0.` |
 | 2 | O arquivo começa com `INICIO` | `head -1 127.0.0.txt` |
 | 3 | O arquivo termina com `FIM` | `tail -1 127.0.0.txt` |
-| 4 | Não sobrou processo rodando | `ps aux \| grep varredura` |
-| 5 | Nenhuma sessão `tmux` esquecida | `tmux ls` |
+| 4 | Não sobrou processo de `ping` rodando | `ps aux \| grep varredura` |
+| 5 | O `monitora_rede.sh` devolve o terminal na hora | `time ./monitora_rede.sh 127.0.0.` |
+| 6 | A sessão `tmux` tem dois painéis | `tmux list-panes -t monitor_127_0_0_ \| wc -l` |
+| 7 | Nenhuma sessão `tmux` esquecida ao final | `tmux ls` |
 
 ---
 

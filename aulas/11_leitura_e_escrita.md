@@ -362,9 +362,11 @@ comando? Teste.
 
 ## 🏁 Entrega da Aula — 1,25 pontos (Nota 2)
 
-Individualmente, nos últimos 20 minutos.
+Individualmente, nos últimos 20 minutos. São **dois** *scripts*.
 
-Crie o *script* `~/scripts/aula11/sistema.sh`, um monitor de desempenho interativo.
+### A) `~/scripts/aula11/sistema.sh` — 0,80 ponto
+
+Monitor de desempenho interativo.
 
 1. Deve começar limpando a tela e exibindo um menu **dentro de uma função**
    chamada `menu`.
@@ -385,26 +387,81 @@ Crie o *script* `~/scripts/aula11/sistema.sh`, um monitor de desempenho interati
 | 5 | `df -h` |
 | 6 | Sair |
 
+> 💡 Se `dmesg` der `Operation not permitted`, use `dmesg 2>/dev/null | tail -n 10`
+> ou substitua por `sudo dmesg | tail -n 10`, conforme o servidor permitir.
+
+### B) `~/scripts/aula11/login.sh` — 0,45 ponto
+
+Tela de login centralizada, com senha mascarada e tempo limite — usa partes da
+Etapa 0 e da Etapa 3 que o `sistema.sh` não cobre.
+
+1. Usando `tput lines`/`tput cols` (como no `centralizado.sh` da Etapa 3),
+   calcule o centro da tela e posicione o formulário ali com `tput cup`.
+2. Antes de desenhar a tela, esconda o cursor com `tput civis`. Antes de pedir
+   a senha, mostre-o de volta com `tput cnorm` — o cursor deve aparecer
+   enquanto o usuário digita.
+3. Peça o usuário com `read -p` normal.
+4. Peça a senha com `read -s` (sem eco na tela) e **tempo limite de 10
+   segundos** (`-t 10`). Se o tempo esgotar, imprima (em uma nova linha)
+   `Tempo esgotado.` e encerre com `exit 1`.
+5. Valide usuário `admin` e senha `1234` (fixos, só para o exercício):
+   - Acerto → `tput setaf 2` (verde) e `Acesso permitido.`
+   - Erro → `tput setaf 1` (vermelho) e `Acesso negado.`
+6. Restaure o terminal com `tput sgr0` antes de encerrar, em qualquer um dos
+   casos.
+
+```
+$ ./login.sh
+Usuário: admin
+Senha:
+Acesso permitido.
+$ ./login.sh
+Usuário: admin
+Senha:
+Acesso negado.
+$ ./login.sh
+Usuário: admin
+Senha:
+Tempo esgotado.
+```
+
+> 💡 `read -rs -t 10 -p "Senha: " SENHA` já junta tudo: sem eco, com prazo e
+> com texto de convite — igual você fez separadamente na Etapa 0.
+>
+> 💡 O `read -t` devolve código de retorno diferente de zero quando o tempo
+> esgota. Combine com `||` para tratar o `Tempo esgotado.` numa linha, sem
+> precisar de `if`.
+
 ### Critérios de correção
 
 | # | Critério | Valor |
 |---|---|---|
-| 1 | Existe a função `menu` e ela é chamada no laço | 0,25 |
-| 2 | As cinco opções executam o comando correto | 0,35 |
-| 3 | A opção 6 encerra e restaura o terminal | 0,20 |
-| 4 | Usa `printf` para alinhar as opções | 0,20 |
-| 5 | Opção inválida é tratada sem quebrar o laço | 0,25 |
+| 1 | `sistema.sh`: existe a função `menu` e ela é chamada no laço | 0,15 |
+| 2 | `sistema.sh`: as cinco opções executam o comando correto | 0,20 |
+| 3 | `sistema.sh`: a opção 6 encerra e restaura o terminal | 0,15 |
+| 4 | `sistema.sh`: usa `printf` para alinhar as opções | 0,15 |
+| 5 | `sistema.sh`: opção inválida é tratada sem quebrar o laço | 0,15 |
+| 6 | `login.sh`: centraliza o formulário com `tput cup` calculado por `lines`/`cols` | 0,15 |
+| 7 | `login.sh`: lê a senha com `read -s` e trata o tempo esgotado (`-t 10`) | 0,15 |
+| 8 | `login.sh`: esconde/mostra o cursor corretamente e valida usuário/senha com as cores certas | 0,15 |
 
-Correção: o professor navega pelas opções, testa uma entrada inválida e sai pela
-opção 6. Depois confere se o terminal ficou limpo:
+Correção: o professor navega pelas opções do `sistema.sh`, testa uma entrada
+inválida e sai pela opção 6, conferindo se o terminal ficou limpo. Em seguida,
+testa o `login.sh` três vezes — acerto, erro e tempo esgotado — conferindo se
+o formulário aparece centralizado, a senha não ecoa na tela e as cores saem
+certas:
 
 ```bash
-cd ~/scripts/aula11 && ./sistema.sh
-grep -c "^menu()" sistema.sh      # deve responder 1
-```
+cd ~/scripts/aula11
+./sistema.sh
+grep -c "^menu()" sistema.sh         # deve responder 1
 
-> 💡 Se `dmesg` der `Operation not permitted`, use `dmesg 2>/dev/null | tail -n 10`
-> ou substitua por `sudo dmesg | tail -n 10`, conforme o servidor permitir.
+./login.sh        # admin / 1234 -> Acesso permitido (verde)
+./login.sh        # senha errada -> Acesso negado (vermelho)
+./login.sh        # não digite nada na senha, espere 10s -> Tempo esgotado.
+grep -c "tput cup" login.sh
+grep -cE "read -rs|read -sr" login.sh
+```
 
 ---
 
@@ -412,11 +469,13 @@ grep -c "^menu()" sistema.sh      # deve responder 1
 
 | # | Verificação | Comando |
 |---|---|---|
-| 1 | O *script* é executável | `ls -l ~/scripts/aula11/sistema.sh` |
-| 2 | Tem a função `menu` | `grep -c "^menu()" sistema.sh` |
-| 3 | Usa `printf` | `grep -c printf sistema.sh` |
-| 4 | Restaura o terminal | `grep -c "sgr0" sistema.sh` |
-| 5 | O terminal está normal depois de sair | `tput sgr0; echo teste` |
+| 1 | Os dois *scripts* são executáveis | `ls -l ~/scripts/aula11/*.sh` |
+| 2 | `sistema.sh` tem a função `menu` | `grep -c "^menu()" sistema.sh` |
+| 3 | `sistema.sh` usa `printf` | `grep -c printf sistema.sh` |
+| 4 | `sistema.sh` restaura o terminal | `grep -c "sgr0" sistema.sh` |
+| 5 | `login.sh` lê a senha sem eco | `grep -cE "read -rs|read -sr" login.sh` |
+| 6 | `login.sh` usa `tput cup` para centralizar | `grep -c "tput cup" login.sh` |
+| 7 | O terminal está normal depois de sair de qualquer um dos dois | `tput sgr0; echo teste` |
 
 ---
 
